@@ -1,0 +1,10 @@
+{
+  "indexEntries": [
+    "src/pods/hello/web/index.js",
+    "src/pods/user/web/index.js"
+  ],
+  "srcEntries": [
+    "src/pods/hello/web",
+    "src/pods/user/web"
+  ]
+}

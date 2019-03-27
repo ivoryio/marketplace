@@ -1,0 +1,13 @@
+{
+  "signUpData": {
+  "email": "@mailinator.com",
+  "password": "!.Abcd1234",
+  "firstName": "Ivory",
+  "lastName": "Guest",
+  "city": "City"
+  },
+  "signIn": {
+    "email": "@mailinator.com",
+    "password": "!.Abcd1234"
+  }
+}

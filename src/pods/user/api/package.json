@@ -1,0 +1,11 @@
+{
+  "name": "user",
+  "version": "1.0.0",
+  "author": "Thinslices",
+  "license": "ISC",
+  "description": "Provides user management functionalities: registration, authentication, profile management",
+  "scripts": {
+    "build": "yarn && mkdir -p build && aws cloudformation package --template-file infrastructure.yaml --output-template-file build/infrastructure.packaged.yaml",
+    "deploy": "aws cloudformation deploy --template-file build/infrastructure.packaged.yaml --capabilities CAPABILITY_IAM"
+  }
+}

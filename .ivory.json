@@ -1,0 +1,11 @@
+{
+    "name": "marketplace",
+    "credentials": {
+        "region": "us-east-1",
+        "profile": "marketplace"
+    },
+    "buildArtifactsBucket": {
+        "name": "ivory-marketplace-build-artifacts",
+        "location": "/ivory-marketplace-build-artifacts"
+    }
+}
