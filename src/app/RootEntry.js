@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
-
-import 'assets/animations.css'
-import fsm from './services/StateMachine'
-import { Auth, Home } from './screens'
-import { Header } from './components'
 import { Flex } from '@ivoryio/kogaio'
+
+import { Header } from './components'
+import fsm from './services/StateMachine'
+import { Cart, Landing, Profile } from './screens'
 import useWindowSize from './services/useWindowSize'
 
 const RootEntry = () => {
-  const { innerWidth, innerHeight } = useWindowSize()
   const [currentState, setCurrentState] = useState(fsm.state)
-  const [user, setUser] = useState(fsm.user)
-
+  const { innerWidth, innerHeight } = useWindowSize()
   useEffect(() => {
     fsm.listen().subscribe({
       next: newState => _handleStateUpdated(newState),
@@ -21,39 +18,43 @@ const RootEntry = () => {
     })
   }, [])
 
-  const _handleStateUpdated = newState => {
-    const { currentState, user } = newState
-    setUser(user)
+  const _handleStateUpdated = payload => {
+    const { currentState } = payload
     setCurrentState(currentState)
+  }
+
+  const transitionToState = targetState => () => {
+    const transitionEvent = new CustomEvent('transition', {
+      detail: { targetState }
+    })
+    window.dispatchEvent(transitionEvent)
   }
 
   const CurrentScreen = (() => {
     switch (currentState) {
-      case 'unauthed':
-        return <Auth />
+      case 'profile':
+        return <Profile />
+      case 'cart':
+        return <Cart />
       default:
-        return <Home user={user} />
+        return <Landing />
     }
   })()
   return (
-    <Flex flexDirection='column'>
-      <Header user={user} />
-      <Body flexDirection='column' height={innerHeight} width={innerWidth}>
-        {CurrentScreen}
-      </Body>
-    </Flex>
+    <Container flexDirection='column' width={innerWidth} height={innerHeight}>
+      <Header transitionToState={transitionToState} user={fsm.user} />
+      {CurrentScreen}
+    </Container>
   )
 }
 
-const screenSize = css`
-  ${props => `
-    width: ${props.width}px;
-    height: calc(${props.height}px);
-  `}
+const windowSize = ({ width, height }) => css`
+  min-width: ${width}px;
+  min-height: ${height}px;
 `
 
-const Body = styled(Flex)`
-  ${screenSize}
+const Container = styled(Flex)`
+  ${windowSize}
 `
 
 export default RootEntry

@@ -4,52 +4,55 @@ import StateMachineHistory from 'javascript-state-machine/lib/history'
 
 StateMachine.prototype.listen = function () {
   return Observable.create(function (observer) {
-    window.addEventListener('authed', handleEvent)
-    window.addEventListener('signout', handleEvent)
+    // #region add event listeners
+    window.addEventListener('transition', handleEvent)
+    // #endregion
 
+    // #region handle events
     function handleEvent (ev) {
-      const currentState = fsm.state
-      switch (currentState) {
-        case 'unauthed':
-          if (ev.type === 'authed') {
-            fsm.auth(ev.detail.user)
-          }
-          break
-        case 'authed':
-          if (ev.type === 'signout') {
-            fsm.signout()
-          }
-          break
-        default:
-          break
+      const { user } = fsm
+      const { targetState } = ev.detail
+      if (ev.type === 'transition') {
+        fsm[targetState]()
       }
-      observer.next({ currentState: fsm.state, user: fsm.user })
+      observer.next({ currentState: fsm.state, user })
     }
+    // #endregion
   })
 }
 
 const fsm = new StateMachine({
-  init: 'unauthed',
+  init: 'landing',
   data: {
-    user: {}
+    user: null
   },
   transitions: [
-    { name: 'auth', from: 'unauthed', to: 'authed' },
-    { name: 'signout', from: 'authed', to: 'unauthed' }
-  ],
+    {
+      name: 'landing',
+      from: ['landing', 'cart', 'profile'],
+      to: 'landing'
+    },
+    {
+      name: 'cart',
+      from: ['cart', 'landing', 'profile'],
+      to: 'cart'
+    },
+    {
+      name: 'profile',
+      from: ['profile', 'landing', 'cart'],
+      to: 'profile'
+    },
+    {
+      name: 'signout',
+      from: ['landing', 'cart', 'profile'],
+      to: 'landing'
+    }
+  ], // Pattern: { name: '', from: '', to: '' }
   plugins: [
     new StateMachineHistory({ max: 100 }) //  <-- plugin enabled here
   ],
   methods: {
-    onTransition: function (lifecycle, data) {
-      if (lifecycle.to === 'authed') {
-        this.user = data
-      }
-
-      if (lifecycle.to === 'unauthed') {
-        this.user = {}
-      }
-    }
+    onTransition: function (lifecycle, data) {}
   }
 })
 

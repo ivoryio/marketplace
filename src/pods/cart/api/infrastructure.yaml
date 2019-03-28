@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: AWS resources for the Hello microservice
+Description: AWS resources for the Cart microservice
 
 Parameters:
   StageName:
@@ -14,7 +14,7 @@ Parameters:
     Default: "dev"
 
 Resources:
-  HelloApi:
+  CartApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
@@ -26,7 +26,7 @@ Resources:
             UserPoolArn: !Ref UserPoolARN
             IdentitySource: "method.request.header.Authorization"
 
-  HelloApiController:
+  CartApiController:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/apiController.handler
@@ -40,13 +40,13 @@ Resources:
         ProxyGet:
           Type: Api
           Properties:
-            RestApiId: !Ref HelloApi
+            RestApiId: !Ref CartApi
             Path: /{proxy+}
             Method: GET
         ProxyOptions:
           Type: Api
           Properties:
-            RestApiId: !Ref HelloApi
+            RestApiId: !Ref CartApi
             Path: /{proxy+}
             Method: OPTIONS
             Auth:
@@ -55,4 +55,4 @@ Resources:
 Outputs:
   ApiUrl:
     Description: Gateway API URL
-    Value: !Sub https://${HelloApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/
+    Value: !Sub https://${CartApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/

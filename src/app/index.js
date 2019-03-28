@@ -4,6 +4,7 @@ import { themeFactory } from '@ivoryio/kogaio'
 import { ThemeProvider } from 'styled-components'
 
 import RootEntry from './RootEntry'
+import { GlobalStyle } from '../assets/GlobalStyle'
 
 export default createApp({
   name: 'Root',
@@ -13,7 +14,10 @@ export default createApp({
       useFactory () {
         return () => (
           <ThemeProvider theme={themeFactory()}>
-            <RootEntry />
+            <>
+              <GlobalStyle />
+              <RootEntry />
+            </>
           </ThemeProvider>
         )
       }
