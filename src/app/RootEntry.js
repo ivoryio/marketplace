@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { Flex } from '@ivoryio/kogaio'
 
-import { Header } from './components'
+import { Header, NavMenu } from './components'
 import fsm from './services/StateMachine'
 import { Cart, Landing, Profile } from './screens'
 import useWindowSize from './services/useWindowSize'
@@ -43,6 +43,7 @@ const RootEntry = () => {
   return (
     <Container flexDirection='column' width={innerWidth} height={innerHeight}>
       <Header transitionToState={transitionToState} user={fsm.user} />
+      <NavMenu />
       {CurrentScreen}
     </Container>
   )
