@@ -1,4 +1,6 @@
 import React from 'react'
-const Landing = () => <div>Landing screen</div>
+import { HeroBanner } from '../components'
+
+const Landing = () => <HeroBanner />
 
 export default Landing

@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ivoryio/ivory-react-scripts": "0.7.10",
-    "@ivoryio/kogaio": "^0.3.2",
+    "@ivoryio/kogaio": "^0.3.8",
     "aws-amplify": "^1.1.22",
     "aws-amplify-react": "^2.3.2",
     "formik": "^1.5.1",

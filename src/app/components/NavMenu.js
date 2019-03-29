@@ -5,23 +5,25 @@ import Typography from '@ivoryio/kogaio/Typography'
 import { Flex, Space } from '@ivoryio/kogaio/Responsive'
 
 const NavMenu = () => (
-    <Space px={3} py={4}>
-      <Flex width={1} justifyContent='space-around'>
-        <Category onClick={() => {}} />
-        <Category onClick={() => {}} />
-        <Category onClick={() => {}} />
-        <Category onClick={() => {}} />
-      </Flex>
-    </Space>
-  )
+  <Space p={3}>
+    <Flex width={1} justifyContent='space-around'>
+      {['New Arrivals', 'Mens Watches', 'Ladies Watches', 'Sale'].map(
+        cat => (
+          <Category key={cat} name={cat} onClick={() => {}} />
+        )
+      )}
+    </Flex>
+  </Space>
+)
 
-const Category = ({ onClick }) => (
+const Category = ({ name, onClick }) => (
   <Touchable effect='opacity' onClick={onClick}>
-    <Typography textStyle='list'>Category</Typography>
+    <Typography textStyle='list'>{name}</Typography>
   </Touchable>
 )
 
 Category.propTypes = {
+  name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired
 }
 
