@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
 
-const Auth = () => <AuthScreen name='auth' />
+const Auth = () => <AuthScreen name='watch-list' />
 
 const AuthScreen = styled(Region)`
   width: 100%;

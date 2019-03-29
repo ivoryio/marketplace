@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@brainhubeu/react-carousel": "^1.10.17",
     "@ivoryio/ivory-react-scripts": "0.7.10",
-    "@ivoryio/kogaio": "^0.3.0",
+    "@ivoryio/kogaio": "^0.3.5",
+    "@rehooks/component-size": "^1.0.2",
     "aws-amplify": "^1.1.22",
     "aws-amplify-react": "^2.3.2",
     "formik": "^1.5.1",
@@ -12,6 +14,7 @@
     "frint-react": "^5.7.2",
     "javascript-state-machine": "^3.1.0",
     "moment": "^2.24.0",
+    "pure-react-carousel": "^1.19.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "styled-components": "^4.2.0"
