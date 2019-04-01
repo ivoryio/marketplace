@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Carousel, { Dots } from '@brainhubeu/react-carousel'
 import styled from 'styled-components'
+import useWindowSize from '../../../../app/services/useWindowSize'
 
-import { Box, Icon, Space } from '@ivoryio/kogaio'
+import { Box, Flex, Icon, Space } from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
 import { CardWatch } from './components'
 
 const ArrowLeft = () => (
-  <Space mr={3}>
-    <Icon
+  <Space mb={5} mr={3}>
+    <StyledIcon
       alignSelf='center'
       color='pastel-blue'
       name='arrow_back'
@@ -19,8 +20,8 @@ const ArrowLeft = () => (
 )
 
 const ArrowRight = () => (
-  <Space ml={3}>
-    <Icon
+  <Space mb={5} ml={3}>
+    <StyledIcon
       alignSelf='center'
       color='pastel-blue'
       name='arrow_forward'
@@ -71,19 +72,51 @@ const watches = [
 ]
 
 const WatchListEntry = props => {
-  const [carouselValue, setCarouselValue] = useState(0)
+  const onSizeChange = width => {
+    if (width > 720) {
+      setCarouselValues({
+        offset: 24,
+        dots: 0
+      })
+      return
+    }
+    if (width <= 720 && width >= 463) {
+      setCarouselValues({
+        offset: 16,
+        dots: 3
+      })
+    } else {
+      setCarouselValues({
+        ...carouselValues,
+        dots: 2
+      })
+    }
+  }
+
+  const [activeElement, setActiveElement] = useState(0)
+  const [carouselValues, setCarouselValues] = useState({ offset: 24, dots: 0 })
+  const { innerWidth } = useWindowSize()
+
+  useEffect(() => {
+    onSizeChange(innerWidth)
+  }, [innerWidth])
+  const { offset, dots }  = carouselValues
   return (
-    <Container>
-      <CarouselWrapper id='My Booox' width={{ xs: 1, md: 3 / 4 }}>
+    <Flex
+      flexDirection='row'
+      justifyContent='center'
+      alignItems='center'
+    >
+      <CarouselWrapper  width={{ xs: 1, md: 3 / 4, lg: 0.72 }}>
         <StyledCarousel
           arrowLeft={<ArrowLeft />}
           arrowRight={<ArrowRight />}
           addArrowClickHandler
-          offset={24}
+          offset={offset}
           infinite
           itemWidth={212}
-          value={carouselValue}
-          onChange={setCarouselValue}
+          value={activeElement}
+          onChange={setActiveElement}
           slidesPerPage={4}
           slidesPerScroll={1}
           breakpoints={{
@@ -145,24 +178,21 @@ const WatchListEntry = props => {
             )
           })}
         </StyledCarousel>
-        <Dots value={carouselValue} onChange={setCarouselValue} number={4} />
+        <Dots value={activeElement} onChange={setActiveElement} number={dots} />
       </CarouselWrapper>
-    </Container>
+    </Flex>
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`
 const StyledCarousel = styled(Carousel)`
   width: 100%;
 
   .BrainhubCarouselItem div {
     margin-bottom: 4px;
   }
+`
+const StyledIcon = styled(Icon)`
+  cursor: pointer;
 `
 const CarouselWrapper = styled(Box)`
   display: flex;

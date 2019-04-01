@@ -32,11 +32,11 @@ const CardWatch = ({ title, description, imgSrc, buttonLabel, onClick }) => (
       <Space mt={4}>
         <Button
           colors='button-outline-alt'
-          fontSize='0.75em'
+          fontSize={0}
           onClick={onClick}
           title={buttonLabel}
           variant='outline'
-          width={{ xs: 1, md: 3 / 4 }}
+          width={3 / 4}
         />
       </Space>
     </Card>
