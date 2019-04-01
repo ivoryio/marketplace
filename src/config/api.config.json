@@ -1,1 +1,6 @@
-[]
+[
+    {
+        "name": "catalog",
+        "endpoint": "https://0odr70cfkk.execute-api.us-east-1.amazonaws.com/dev/"
+    }
+]

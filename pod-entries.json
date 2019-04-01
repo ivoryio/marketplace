@@ -1,10 +1,1 @@
-{
-  "indexEntries": [
-    "src/pods/hello/web/index.js",
-    "src/pods/user/web/index.js"
-  ],
-  "srcEntries": [
-    "src/pods/hello/web",
-    "src/pods/user/web"
-  ]
-}
+{"indexEntries":["src/pods/hello/web/index.js","src/pods/user/web/index.js","src/pods/catalog/web/index.js"],"srcEntries":["src/pods/hello/web","src/pods/user/web","src/pods/catalog/web"]}
