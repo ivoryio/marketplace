@@ -19,7 +19,7 @@ Parameters:
     Default: "dev"
 
 Resources:
-  ProductsTabel:
+  ProductsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: !Sub ${TableName}_${StageName}
@@ -41,7 +41,7 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
       GlobalSecondaryIndexes:
-        - IndexName: !Sub ${TableName}_${StageName}_gsi
+        - IndexName: !Sub ${TableName}_${StageName}_gsi_category
           KeySchema:
             - AttributeName: brand
               KeyType: HASH
@@ -53,17 +53,12 @@ Resources:
             ReadCapacityUnits: 5
             WriteCapacityUnits: 5
 
+
   CatalogApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
       Cors: "'*'"
-      Auth:
-        DefaultAuthorizer: CognitoAuthorizer
-        Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn: !Ref UserPoolARN
-            IdentitySource: "method.request.header.Authorization"
 
   CatalogApiController:
     Type: AWS::Serverless::Function
@@ -75,6 +70,10 @@ Resources:
       Environment:
         Variables:
           REGION: !Sub ${AWS::Region}
+          TABLE_NAME: !Ref ProductsTable
+          CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
+          FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
+      Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:
           Type: Api
@@ -88,8 +87,6 @@ Resources:
             RestApiId: !Ref CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-            Auth:
-              Authorizer: NONE
 
 Outputs:
   ApiUrl:

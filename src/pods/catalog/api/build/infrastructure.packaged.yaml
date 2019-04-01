@@ -15,7 +15,7 @@ Parameters:
     Description: The ARN of the user pool that provides authentication
     Default: dev
 Resources:
-  ProductsTabel:
+  ProductsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName:
@@ -39,12 +39,22 @@ Resources:
         WriteCapacityUnits: 5
       GlobalSecondaryIndexes:
       - IndexName:
-          Fn::Sub: ${TableName}_${StageName}_gsi
+          Fn::Sub: ${TableName}_${StageName}_gsi_category
         KeySchema:
         - AttributeName: brand
           KeyType: HASH
         - AttributeName: model
           KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+      - IndexName:
+          Fn::Sub: ${TableName}_${StageName}_gsi_filter
+        KeySchema:
+        - AttributeName: createdAt
+          KeyType: HASH
         Projection:
           ProjectionType: ALL
         ProvisionedThroughput:
@@ -56,13 +66,6 @@ Resources:
       StageName:
         Ref: StageName
       Cors: '''*'''
-      Auth:
-        DefaultAuthorizer: CognitoAuthorizer
-        Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn:
-              Ref: UserPoolARN
-            IdentitySource: method.request.header.Authorization
   CatalogApiController:
     Type: AWS::Serverless::Function
     Properties:
@@ -74,6 +77,13 @@ Resources:
         Variables:
           REGION:
             Fn::Sub: ${AWS::Region}
+          TABLE_NAME:
+            Ref: ProductsTable
+          CATEGORY_INDEX_NAME:
+            Fn::Sub: ${TableName}_${StageName}_gsi_category
+          FILTER_INDEX_NAME:
+            Fn::Sub: ${TableName}_${StageName}_gsi_filter
+      Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:
           Type: Api
@@ -89,9 +99,7 @@ Resources:
               Ref: CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-            Auth:
-              Authorizer: NONE
-      CodeUri: s3://ivory-marketplace-build-artifacts/06b3478dae7e4a3e11347305cce72a81
+      CodeUri: s3://ivory-marketplace-build-artifacts/2f2850197244457c15bfde5f789325b6
 Outputs:
   ApiUrl:
     Description: Gateway API URL
