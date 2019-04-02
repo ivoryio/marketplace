@@ -6,7 +6,7 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 
 const productRepo = require('./repository/product')
 
-const searchProducts = require('./usecases/searchProducts')
+const searchProducts = require('./usecases/browseProducts')
 
 const app = express()
 const router = express.Router()
