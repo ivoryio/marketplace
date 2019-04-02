@@ -6,8 +6,7 @@ function Product () {
 
   const searchByNewest = async () => {
     const params = {
-      TableName,
-      Limit: 20
+      TableName
     }
 
     try {

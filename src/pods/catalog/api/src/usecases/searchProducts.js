@@ -10,7 +10,7 @@ module.exports = repo => async searchParams => {
   } else if (searchParams.filter) {
     let result = await repo.searchByNewest()
 
-    result = _.orderBy(result, ['createdAt'], ['desc'])
+    result = (_.orderBy(result, ['createdAt'], ['desc'])).slice(0, 20)
     return result
   }
   throw new Error('No usecase found')

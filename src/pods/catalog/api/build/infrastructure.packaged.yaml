@@ -50,16 +50,6 @@ Resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-      - IndexName:
-          Fn::Sub: ${TableName}_${StageName}_gsi_filter
-        KeySchema:
-        - AttributeName: createdAt
-          KeyType: HASH
-        Projection:
-          ProjectionType: ALL
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
   CatalogApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -99,7 +89,7 @@ Resources:
               Ref: CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-      CodeUri: s3://ivory-marketplace-build-artifacts/2f2850197244457c15bfde5f789325b6
+      CodeUri: s3://ivory-marketplace-build-artifacts/46e743b64e1f5d3526d5e64cc822a0fc
 Outputs:
   ApiUrl:
     Description: Gateway API URL
