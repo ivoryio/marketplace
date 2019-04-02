@@ -53,7 +53,6 @@ Resources:
             ReadCapacityUnits: 5
             WriteCapacityUnits: 5
 
-
   CatalogApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -72,7 +71,6 @@ Resources:
           REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
           CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
-          FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
       Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:

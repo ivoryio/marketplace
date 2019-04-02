@@ -71,8 +71,6 @@ Resources:
             Ref: ProductsTable
           CATEGORY_INDEX_NAME:
             Fn::Sub: ${TableName}_${StageName}_gsi_category
-          FILTER_INDEX_NAME:
-            Fn::Sub: ${TableName}_${StageName}_gsi_filter
       Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:
@@ -89,7 +87,7 @@ Resources:
               Ref: CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-      CodeUri: s3://ivory-marketplace-build-artifacts/46e743b64e1f5d3526d5e64cc822a0fc
+      CodeUri: s3://ivory-marketplace-build-artifacts/ccdb2f0987881c3a610ae60f28e9a586
 Outputs:
   ApiUrl:
     Description: Gateway API URL
