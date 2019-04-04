@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import styled, { css } from 'styled-components'
 import { Flex } from '@ivoryio/kogaio'
 
-import { Header, NavMenu } from './components'
 import fsm from './services/StateMachine'
+import { Header, NavMenu } from './components'
 import { Cart, Landing, Profile } from './screens'
-import useWindowSize from './services/useWindowSize'
 
 const RootEntry = () => {
   const [currentState, setCurrentState] = useState(fsm.state)
-  const { innerWidth, innerHeight } = useWindowSize()
   useEffect(() => {
     fsm.listen().subscribe({
       next: newState => _handleStateUpdated(newState),
@@ -23,9 +20,9 @@ const RootEntry = () => {
     setCurrentState(currentState)
   }
 
-  const transitionToState = targetState => () => {
+  const transitionToState = nextState => () => {
     const transitionEvent = new CustomEvent('transition', {
-      detail: { targetState }
+      detail: { nextState }
     })
     window.dispatchEvent(transitionEvent)
   }
@@ -33,29 +30,20 @@ const RootEntry = () => {
   const CurrentScreen = (() => {
     switch (currentState) {
       case 'profile':
-        return <Profile />
+        return Profile
       case 'cart':
-        return <Cart />
+        return Cart
       default:
-        return <Landing />
+        return Landing
     }
   })()
   return (
-    <Container flexDirection='column' width={innerWidth} height={innerHeight}>
+    <Flex flexDirection='column'>
       <Header transitionToState={transitionToState} user={fsm.user} />
-      <NavMenu />
-      {CurrentScreen}
-    </Container>
+      {currentState.includes('landing') ? <NavMenu /> : null}
+      <CurrentScreen />
+    </Flex>
   )
 }
-
-const windowSize = ({ width, height }) => css`
-  min-width: ${width}px;
-  min-height: ${height}px;
-`
-
-const Container = styled(Flex)`
-  ${windowSize}
-`
 
 export default RootEntry

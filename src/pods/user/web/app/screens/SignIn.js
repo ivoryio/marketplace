@@ -105,7 +105,7 @@ const SignIn = ({ authState, onStateChange }) => {
                       </Typography>
                     )}
                   </Space>
-                  <Space mt={3}>
+                  <Space mt={4}>
                     <Button
                       data-testid='signin-button'
                       disabled={isSubmitting}
@@ -118,7 +118,7 @@ const SignIn = ({ authState, onStateChange }) => {
               )}
             />
           </Box>
-          <Space mt={3}>
+          <Space mt={4}>
             <Touchable
               data-testid='anchor-to-signup'
               effect='opacity'

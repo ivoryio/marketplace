@@ -90,7 +90,7 @@ const SignUp = ({ authState, onStateChange }) => {
           >
             Sign Up Below!
           </Typography>
-          <Space mt={3}>
+          <Space mt={4}>
             <Formik
               initialValues={{
                 email: '',
@@ -201,7 +201,7 @@ const SignUp = ({ authState, onStateChange }) => {
                         )}
                       </Box>
                     </Space>
-                    <Space mt={3}>
+                    <Space mt={4}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 3 / 7 }}>
                         <Button
                           data-testid='signup-button'
@@ -218,7 +218,7 @@ const SignUp = ({ authState, onStateChange }) => {
               )}
             />
           </Space>
-          <Space mt={3}>
+          <Space mt={4}>
             <Touchable
               data-testid='anchor-to-signin'
               effect='opacity'

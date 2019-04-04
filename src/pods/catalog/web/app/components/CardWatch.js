@@ -43,7 +43,7 @@ const CardWatch = ({ type, title, description, descriptionFontStyle, description
           </StyledDescription>
         </Flex>
       </Space>
-      <Space mt={4}>
+      <Space mt={9}>
         <Button
           colors='button-outline-alt'
           fontSize={0}

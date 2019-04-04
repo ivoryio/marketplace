@@ -2,52 +2,63 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import icons from 'assets/icons'
+import Icon from '@ivoryio/kogaio/Icon'
 import Image from '@ivoryio/kogaio/Image'
 import TopBar from '@ivoryio/kogaio/TopBar'
 import Touchable from '@ivoryio/kogaio/Touchable'
-import IconButton from '@ivoryio/kogaio/IconButton'
-import { Flex, Space } from '@ivoryio/kogaio/Responsive'
+import Typography from '@ivoryio/kogaio/Typography'
+import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
 const Header = ({ transitionToState, user }) => (
-  <TopBar as='header' icSize='1.5em' alignItems='center' px={0} py={2}>
-    <Flex
-      justifyContent='space-between'
-      px={{ xs: '5%', md: '7.5%', lg: '10%' }}
-    >
-      <Touchable onClick={transitionToState('landing')}>
-        <Image
-          alt='Market placeholder'
-          dimensions={[96, 'auto']}
-          objectFit='contain'
-          src={icons.logoLarge}
-        />
-      </Touchable>
-      <Flex justifyContent='space-between'>
-        <NavButton icName='shopping_cart' onClick={transitionToState('cart')} />
-        <NavButton
-          icName='account_circle'
-          onClick={transitionToState('profile')}
-        />
-
-        {user ? (
-          <NavButton
-            icName='exit_to_app'
-            onClick={transitionToState('signout')}
-          />
-        ) : null}
-      </Flex>
-    </Flex>
-  </TopBar>
+  <Space py={2}>
+    <TopBar as='header' icSize='1.5em' alignItems='center'>
+      <Space px={{ xs: '2.5%', sm: '5%', md: '7.5%' }}>
+        <Flex justifyContent='space-between' height='56px'>
+          <Touchable onClick={transitionToState('landing')}>
+            <Image
+              alt='Logo placeholder'
+              dimensions={[96, 'auto']}
+              objectFit='contain'
+              src={icons.logoLarge}
+            />
+          </Touchable>
+          <Flex justifyContent='space-between'>
+            <NavButton
+              icName='shopping_cart'
+              label='Your Cart'
+              onClick={transitionToState('cart')}
+            />
+            <NavButton
+              icName='account_circle'
+              label='Sign Up'
+              onClick={transitionToState('profile')}
+            />
+            <NavButton
+              icName='exit_to_app'
+              label='Sign In'
+              onClick={transitionToState('profile')}
+            />
+          </Flex>
+        </Flex>
+      </Space>
+    </TopBar>
+  </Space>
 )
 
-const NavButton = ({ icName, onClick }) => (
-  <Space px={3} py={2}>
-    <IconButton
-      color='pastel-blue'
-      fontSize={4}
-      name={icName}
-      onClick={onClick}
-    />
+const NavButton = ({ icName, label, onClick }) => (
+  <Space px={4}>
+    <Touchable effect='opacity' onClick={onClick}>
+      <Flex alignItems='center'>
+        <Icon color='pastel-blue' fontSize={4} name={icName} />
+        <Hide xs sm md>
+          <Space ml={2}>
+            <Typography color='pastel-blue' textStyle='list'>
+              {label}
+            </Typography>
+          </Space>
+        </Hide>
+      </Flex>
+    </Touchable>
   </Space>
 )
 
@@ -58,6 +69,7 @@ Header.propTypes = {
 
 NavButton.propTypes = {
   icName: PropTypes.string.isRequired,
+  label: PropTypes.string,
   onClick: PropTypes.func.isRequired
 }
 
