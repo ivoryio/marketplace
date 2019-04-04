@@ -129,7 +129,7 @@ const SpotlightWatchesEntry = () => {
     return <Typography
       textAlign='center'
       textStyle='h2'
-      >Loading Newest Watches...</Typography>
+      >Loading Spotlight Watches...</Typography>
   }
   return (
     <Flex
