@@ -11,9 +11,9 @@ StateMachine.prototype.listen = function () {
     // #region handle events
     function handleEvent (ev) {
       const { user } = fsm
-      const { targetState } = ev.detail
+      const { nextState } = ev.detail
       if (ev.type === 'transition') {
-        fsm[targetState]()
+        fsm.transitionTo(nextState)
       }
       observer.next({ currentState: fsm.state, user })
     }
@@ -29,23 +29,15 @@ const fsm = new StateMachine({
   transitions: [
     {
       name: 'landing',
-      from: ['landing', 'cart', 'profile'],
+      from: '*',
       to: 'landing'
     },
     {
-      name: 'cart',
-      from: ['cart', 'landing', 'profile'],
-      to: 'cart'
-    },
-    {
-      name: 'profile',
-      from: ['profile', 'landing', 'cart'],
-      to: 'profile'
-    },
-    {
-      name: 'signout',
-      from: ['landing', 'cart', 'profile'],
-      to: 'landing'
+      name: 'transitionTo',
+      from: '*',
+      to: function (nextState) {
+        return nextState
+      }
     }
   ], // Pattern: { name: '', from: '', to: '' }
   plugins: [

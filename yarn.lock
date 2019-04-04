@@ -934,7 +934,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2":
+"@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2":
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.2.tgz#f5ab6897320f16decd855eed70b705908a313fe8"
   integrity sha512-7Bl2rALb7HpvXFL7TETNzKSAeBVCPHELzc0C//9FCxN8nsiueWSJBqaF+2oIJScyILStASR/Cx5WMkXGYTiJFA==
@@ -1083,12 +1083,13 @@
   optionalDependencies:
     fsevents "1.2.7"
 
-"@ivoryio/kogaio@^0.3.8":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.3.8.tgz#1137ea91521c43973a233f6bfe824d72400a61e0"
-  integrity sha512-7fvZ2mWfisz/WIpKFSrn8eIwf43Mx/9Z/6YGOMhOapDTeUDNT/0WSz4PQ0Cr72Ra34WuEzO0kPBFvMgPshNxRQ==
+"@ivoryio/kogaio@^0.3.15":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.3.15.tgz#560956d9b259aaa718867c6ad6823b6592e9c42d"
+  integrity sha512-YvGQGtmJVP4ilhYQhsOa+PmqGLu6I6Ym50ioJDc/ZEoOZKMxe4HxR8yXWWSfXw9kbMb6AC0nYJoCnoWhjdr+6g==
   dependencies:
-    styled-system "^3.2.1"
+    styled-components "4.2.0"
+    styled-system "^4.1.0"
 
 "@jest/console@^24.3.0":
   version "24.3.0"
@@ -10262,7 +10263,7 @@ style-loader@0.23.1:
     loader-utils "^1.1.0"
     schema-utils "^1.0.0"
 
-styled-components@^4.2.0:
+styled-components@4.2.0, styled-components@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-4.2.0.tgz#811fbbec4d64c7189f6c7482b9eb6fefa7fefef7"
   integrity sha512-L/LzkL3ZbBhqIVHdR7DbYujy4tqvTNRfc+4JWDCYyhTatI+8CRRQUmdaR0+ARl03DWsfKLhjewll5uNLrqrl4A==
@@ -10279,13 +10280,13 @@ styled-components@^4.2.0:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-styled-system@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-3.2.1.tgz#491e1e6f88d7ee021f6f49376f12852cde8007cb"
-  integrity sha512-ag0Yp7UeVHHc3t+1uM3jvlljaZYzwqpbJ8hMrFvpaKfUd8xsB9JeQXLwMpEsz8iLx8Lz/+9j0coWFZjmw8MogQ==
+styled-system@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-4.1.0.tgz#e5a58be23b89cf8fb7b181c8e425ab107b166693"
+  integrity sha512-ioIAJ029tRr6eJhiUrE3VZeahN+GBuJHv/jmckkfikY4ej8BaxvIKAaavmjFoqzNsIzr+x5HCpry1ybQYpchtQ==
   dependencies:
-    "@babel/runtime" "^7.1.2"
-    prop-types "^15.6.2"
+    "@babel/runtime" "^7.4.2"
+    prop-types "^15.7.2"
 
 stylehacks@^4.0.0:
   version "4.0.3"

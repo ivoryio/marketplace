@@ -14,12 +14,12 @@ const CardWatch = ({ title, description, imgSrc, buttonLabel, onClick }) => (
         src={imgSrc}
         dimensions={["100%", 140]}
       />
-      <Space mt={4} px={3}>
+      <Space mt={6} px={4}>
         <Typography color='gunmetal' fontSize={0} fontWeight={8}>
           {title}
         </Typography>
       </Space>
-      <Space mt={1} px={3}>
+      <Space mt={1} px={4}>
         <Typography
           color='gunmetal'
           fontSize={0}
@@ -29,7 +29,7 @@ const CardWatch = ({ title, description, imgSrc, buttonLabel, onClick }) => (
           {description}
         </Typography>
       </Space>
-      <Space mt={4}>
+      <Space mt={9}>
         <Button
           colors='button-outline-alt'
           fontSize='0.75em'
