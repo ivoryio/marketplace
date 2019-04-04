@@ -3,10 +3,12 @@ import { RegionService } from 'frint-react'
 
 import Entry from './app/Entry'
 import WatchListEntry from './app/WatchListEntry'
+import SpotlightWatchesEntry from './app/SpotlightWatchesEntry'
 
 const entries = [
   { name: 'Catalog', Component: Entry, regions: ['catalog'] },
-  { name: 'WatchList', Component: WatchListEntry, regions: ['watch-list'] }
+  { name: 'WatchList', Component: WatchListEntry, regions: ['watch-list'] },
+  { name: 'SpotlightWatches', Component: SpotlightWatchesEntry, regions: ['spotlight-watches'] }
 ]
 
 entries.forEach(entry => {

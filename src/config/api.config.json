@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "name": "watches",
+    "endpoint": "https://jkfcuwc4ob.execute-api.us-east-1.amazonaws.com/dev/"
+  }
+]

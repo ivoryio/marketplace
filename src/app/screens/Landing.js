@@ -9,6 +9,9 @@ const Landing = () => (
     <Space my={6}>
       <Region name='watch-list' />
     </Space>
+    <Space my={6}>
+      <Region name='spotlight-watches' />
+    </Space>
   </Fragment>
 )
 
