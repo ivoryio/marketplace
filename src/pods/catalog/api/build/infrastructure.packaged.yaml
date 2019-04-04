@@ -29,6 +29,8 @@ Resources:
         AttributeType: S
       - AttributeName: model
         AttributeType: S
+      - AttributeName: isSpotlight
+        AttributeType: S
       KeySchema:
       - AttributeName: id
         KeyType: HASH
@@ -45,6 +47,16 @@ Resources:
           KeyType: HASH
         - AttributeName: model
           KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+      - IndexName:
+          Fn::Sub: ${TableName}_${StageName}_gsi_filter
+        KeySchema:
+        - AttributeName: isSpotlight
+          KeyType: HASH
         Projection:
           ProjectionType: ALL
         ProvisionedThroughput:
@@ -71,6 +83,8 @@ Resources:
             Ref: ProductsTable
           CATEGORY_INDEX_NAME:
             Fn::Sub: ${TableName}_${StageName}_gsi_category
+          FILTER_INDEX_NAME:
+            Fn::Sub: ${TableName}_${StageName}_gsi_filter
       Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:
@@ -87,7 +101,7 @@ Resources:
               Ref: CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-      CodeUri: s3://ivory-marketplace-build-artifacts/3a5856e3b025996e21a323789317f92a
+      CodeUri: s3://ivory-marketplace-build-artifacts/a7582fe75ea86f843eaaa98306e74ad1
 Outputs:
   ApiUrl:
     Description: Gateway API URL

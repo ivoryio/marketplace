@@ -32,6 +32,8 @@ Resources:
           AttributeType: S
         - AttributeName: model
           AttributeType: S
+        - AttributeName: isSpotlight
+          AttributeType: S
       KeySchema:
         - AttributeName: id
           KeyType: HASH
@@ -47,6 +49,15 @@ Resources:
               KeyType: HASH
             - AttributeName: model
               KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+        - IndexName: !Sub ${TableName}_${StageName}_gsi_filter
+          KeySchema:
+            - AttributeName: isSpotlight
+              KeyType: HASH
           Projection:
             ProjectionType: ALL
           ProvisionedThroughput:
@@ -71,6 +82,7 @@ Resources:
           REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
           CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
+          FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
       Policies: AmazonDynamoDBFullAccess
       Events:
         ProxyGet:

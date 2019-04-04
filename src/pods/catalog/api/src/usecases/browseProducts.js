@@ -18,7 +18,7 @@ module.exports = repo => async searchParams => {
     } catch (err) {
       throw err
     }
-  } else if (searchParams.filter) {
+  } else if (searchParams.filter === 'newest') {
     try {
       let result = await repo.filterNewest()
 
@@ -27,6 +27,15 @@ module.exports = repo => async searchParams => {
     } catch (err) {
       throw err
     }
+  } else if (searchParams.filter === 'spotlight') {
+    try {
+      const result = await repo.filterSpotlight()
+
+      return result
+    } catch (err) {
+      throw err
+    }
   }
+
   throw new Error('No usecase found')
 }
