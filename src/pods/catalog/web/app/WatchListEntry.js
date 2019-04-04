@@ -63,7 +63,7 @@ const WatchListEntry = props => {
       flexDirection='column'
       alignItems='center'
     >
-        <Typography textStyle='h5' color='gunmetal'>Section Title</Typography>
+        <Typography textStyle='h5' color='gunmetal'>Newest Watches Section</Typography>
       <Space mt={1}>
         <Typography textStyle='h5' color='manatee'>Subtitle with a call to action label goes here</Typography>
       </Space>

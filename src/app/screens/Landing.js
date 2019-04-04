@@ -12,6 +12,7 @@ const Landing = () => (
     <Space my={6}>
       <Region name='spotlight-watches' />
     </Space>
+    <Region name='spotlight-categories' />
   </Fragment>
 )
 

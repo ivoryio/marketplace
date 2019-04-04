@@ -53,8 +53,8 @@ const mapGroupsToSlides = arr =>
   arr.map((group, index) => {
     const [first, second, third] = group
     return (
-      <Flex key={`carousel-slide-${index}`} width={1} flexDirection='row' flexWrap='wrap' justifyContent='center'>
-        <Space pb={7} px={{xs: 2, lg: 3}}>
+      <Flex key={`carousel-spotlight-${index}`} width={1} flexDirection='row' flexWrap='wrap' justifyContent='center'>
+        <Space mt={3} px={{xs: 2, lg: 3}}>
           <Box width={{xs: 1, md: 6 / 10, lg: 1 / 2 }}>
             <CardWatch
               borderRadius={3}
@@ -70,7 +70,7 @@ const mapGroupsToSlides = arr =>
             />
           </Box>
         </Space>
-        <Space pb={7} px={{xs: 2, lg: 3}}>
+        <Space mt={3} px={{xs: 2, lg: 3}}>
           <Box width={{xs: 1 / 2, md: 4 / 10, lg: 1 / 4}}>
             <CardWatch
               borderRadius={3}
@@ -85,7 +85,7 @@ const mapGroupsToSlides = arr =>
           </Box>
         </Space>
         <Hide md>
-          <Space pb={7} px={{xs: 2, lg: 3}}>
+          <Space mt={3} px={{xs: 2, lg: 3}}>
             <Box width={{xs: 1 / 2, md: 1 / 2, lg: 1 / 4 }}>
               <CardWatch
                 borderRadius={3}
@@ -136,7 +136,7 @@ const SpotlightWatchesEntry = () => {
       flexDirection='column'
       alignItems='center'
     >
-        <Typography textStyle='h5' color='gunmetal'>Section Title</Typography>
+        <Typography textStyle='h5' color='gunmetal'>Spotlight Section</Typography>
       <Space mt={1}>
         <Typography textStyle='h5' color='manatee'>Subtitle with a call to action label goes here</Typography>
       </Space>
