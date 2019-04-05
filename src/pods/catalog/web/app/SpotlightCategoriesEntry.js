@@ -1,13 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
 import {
-  Box,
   Flex,
-  Image,
   Space,
   Typography
 } from '@ivoryio/kogaio'
 
+import { CategoryCard } from './components'
 const categories = [
   {
     id: 'category1',
@@ -59,9 +57,23 @@ const SpotlightCategoriesEntry = () => (
     pb={7}
     pt={9}
   >
-    <Typography textStyle='h5' color='gunmetal'>Spotlight Categories Section</Typography>
-    <Space mt={1}>
-    <Typography textStyle='h5' color='manatee'>Subtitle With A Call To Action Goes Here</Typography>
+    <Space px={4}>
+      <Typography
+        color='gunmetal'
+        textAlign='center'
+        textStyle='h5'
+      >
+        Spotlight Categories Section
+      </Typography>
+    </Space>
+    <Space mt={1} px={4}>
+      <Typography
+        color='manatee'
+        textAlign='center'
+        textStyle='h5'
+      >
+        Subtitle With A Call To Action Goes Here
+      </Typography>
     </Space>
     <Space mt={4} px={{ xs: 2, sm: 5, md: 8, lg: 13 }}>
       <Flex
@@ -72,34 +84,18 @@ const SpotlightCategoriesEntry = () => (
         {
           categories.map(category => {
             const { id, imgSrc, description } = category
-            return <Space key={id} mb={5} px={{xs: 2, md: 3, lg: 6}}>
-              <Box width={{ xs: 1 / 2, md: 3 / 10, lg: 1 / 4 }}>
-                <Image src={imgSrc} dimensions={['100%', 120]} />
-                <Space mt={2}>
-                  <Flex alignItems='center' height='34px'>
-                    <StyledDescription
-                      color='gunmetal'
-                      textStyle='h6'
-                      textAlign='center'
-                    >
-                      {description}
-                    </StyledDescription>
-                  </Flex>
-                </Space>
-              </Box>
-            </Space>
+            return (
+              <CategoryCard
+                key={id}
+                imgSrc={imgSrc}
+                description={description}
+              />
+            )
           })
         }
       </Flex>
     </Space>
   </Flex>
 )
-
-const StyledDescription = styled(Typography)`
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-`
 
 export default SpotlightCategoriesEntry

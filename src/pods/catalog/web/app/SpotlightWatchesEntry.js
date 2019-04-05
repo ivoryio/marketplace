@@ -6,35 +6,12 @@ import {
   Box,
   Flex,
   Hide,
-  Icon,
   Space,
   Typography
 } from '@ivoryio/kogaio'
 
+import { ArrowLeft, ArrowRight, CardWatch } from './components'
 import '@brainhubeu/react-carousel/lib/style.css'
-import { CardWatch } from './components'
-
-const ArrowLeft = () => (
-  <Space mb={5} mr={3}>
-    <StyledIcon
-      alignSelf='center'
-      color='pastel-blue'
-      name='arrow_back'
-      fontSize={5}
-    />
-  </Space>
-)
-
-const ArrowRight = () => (
-  <Space mb={5} ml={3}>
-    <StyledIcon
-      alignSelf='center'
-      color='pastel-blue'
-      name='arrow_forward'
-      fontSize={5}
-    />
-  </Space>
-)
 
 const HideArrow = () => <div style={{ display: 'none' }} />
 
@@ -53,7 +30,12 @@ const mapGroupsToSlides = arr =>
   arr.map((group, index) => {
     const [first, second, third] = group
     return (
-      <Flex key={`carousel-spotlight-${index}`} width={1} flexDirection='row' flexWrap='wrap' justifyContent='center'>
+      <Flex
+        key={`carousel-spotlight-${index}`}
+        width={1} flexDirection='row'
+        flexWrap='wrap'
+        justifyContent='center'
+        >
         <Space mt={3} px={{xs: 2, lg: 3}}>
           <Box width={{xs: 1, md: 6 / 10, lg: 1 / 2 }}>
             <CardWatch
@@ -135,10 +117,24 @@ const SpotlightWatchesEntry = () => {
     <Flex
       flexDirection='column'
       alignItems='center'
-    >
-        <Typography textStyle='h5' color='gunmetal'>Spotlight Section</Typography>
-      <Space mt={1}>
-        <Typography textStyle='h5' color='manatee'>Subtitle with a call to action label goes here</Typography>
+    > 
+      <Space px={4}>
+        <Typography
+          color='gunmetal'
+          textAlign='center'
+          textStyle='h5'
+        >
+          Spotlight Section
+        </Typography>
+      </Space>
+      <Space mt={1} px={4}>
+        <Typography
+          color='manatee'
+          textAlign='center'
+          textStyle='h5'
+        >
+          Subtitle with a call to action label goes here
+        </Typography>
       </Space>
       <Space px={2} mt={5}>
         <CarouselWrapper width={{ xs: 1, md: 3 / 4, lg: 3 / 4 }}>
@@ -190,9 +186,6 @@ const SpotlightWatchesEntry = () => {
   )
 }
 
-const StyledIcon = styled(Icon)`
-  cursor: pointer;
-`
 const CarouselWrapper = styled(Box)`
   display: flex;
   justify-content: center;

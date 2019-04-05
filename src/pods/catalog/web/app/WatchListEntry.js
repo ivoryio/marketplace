@@ -3,32 +3,15 @@ import { API } from 'aws-amplify'
 import Carousel from '@brainhubeu/react-carousel'
 import styled from 'styled-components'
 
-import { Box, Flex, Icon, Space, Typography } from '@ivoryio/kogaio'
+import {
+  Box,
+  Flex,
+  Space,
+  Typography
+} from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
-import { CardWatch } from './components'
-
-const ArrowLeft = () => (
-  <Space mb={5} mr={3}>
-    <StyledIcon
-      alignSelf='center'
-      color='pastel-blue'
-      name='arrow_back'
-      fontSize={5}
-    />
-  </Space>
-)
-
-const ArrowRight = () => (
-  <Space mb={5} ml={3}>
-    <StyledIcon
-      alignSelf='center'
-      color='pastel-blue'
-      name='arrow_forward'
-      fontSize={5}
-    />
-  </Space>
-)
+import { ArrowLeft, ArrowRight, CardWatch } from './components'
 
 const HideArrow = () => <div style={{ display: 'none' }} />
 const WatchListEntry = props => {
@@ -53,22 +36,40 @@ const WatchListEntry = props => {
   }, [])
 
   if (isFetching) {
-    return <Typography
-      textAlign='center'
-      textStyle='h2'
-      >Loading Newest Watches...</Typography>
+    return (
+      <Typography
+        textAlign='center'
+        textStyle='h2'
+      >
+        Loading Newest Watches...
+      </Typography>
+    )
   }
   return (
     <Flex
       flexDirection='column'
       alignItems='center'
     >
-        <Typography textStyle='h5' color='gunmetal'>Newest Watches Section</Typography>
-      <Space mt={1}>
-        <Typography textStyle='h5' color='manatee'>Subtitle with a call to action label goes here</Typography>
+      <Space px={4}>
+        <Typography
+          color='gunmetal'
+          textAlign='center'
+          textStyle='h5'
+        >
+          Newest Watches Section
+        </Typography>
+      </Space>
+      <Space mt={1} px={4}>
+        <Typography
+          color='manatee'
+          textAlign='center'
+          textStyle='h5'
+        >
+          Subtitle with a call to action label goes here
+        </Typography>
       </Space>
       <Space px={2} mt={5}>
-        <CarouselWrapper  width={{ xs: 1, md: 3 / 4, lg: 3 / 4 }}>
+        <CarouselWrapper  width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}>
           <StyledCarousel
             arrowLeft={<ArrowLeft />}
             arrowRight={<ArrowRight />}
@@ -155,9 +156,6 @@ const StyledCarousel = styled(Carousel)`
   .BrainhubCarouselItem div {
     margin-bottom: 4px;
   }
-`
-const StyledIcon = styled(Icon)`
-  cursor: pointer;
 `
 const CarouselWrapper = styled(Box)`
   display: flex;
