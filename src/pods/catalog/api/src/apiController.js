@@ -5,8 +5,9 @@ const awsServerlessExpress = require('aws-serverless-express')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 const productRepo = require('./repository/product')
+const searchService = require('./services/searchService')
 
-const searchProducts = require('./usecases/browseProducts')
+const browseProducts = require('./usecases/browseProducts')
 
 const app = express()
 const router = express.Router()
@@ -19,7 +20,7 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 router.get('/products', async (req, res) => {
   try {
     let searchParams = req.query
-    const result = await searchProducts(productRepo)(searchParams)
+    const result = await browseProducts(productRepo, searchService)(searchParams)
 
     res.status(200).json(result)
   } catch (err) {

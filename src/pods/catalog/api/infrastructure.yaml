@@ -83,7 +83,12 @@ Resources:
           TABLE_NAME: !Ref ProductsTable
           CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
           FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
-      Policies: AmazonDynamoDBFullAccess
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Statement:
+            - Effect: Allow
+              Action: cloudsearch:search
+              Resource: "*"
       Events:
         ProxyGet:
           Type: Api

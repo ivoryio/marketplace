@@ -1,24 +1,7 @@
 const _ = require('lodash')
 
-module.exports = repo => async searchParams => {
-  if (searchParams.filter && searchParams.brand && searchParams.model) {
-    try {
-      let result = await repo.searchByBrandAndModel(searchParams.brand, searchParams.model)
-
-      result = (_.orderBy(result, ['createdAt'], ['desc']))
-      return result
-    } catch (err) {
-      throw err
-    }
-  } else if (searchParams.brand && searchParams.model) {
-    try {
-      const result = await repo.searchByBrandAndModel(searchParams.brand, searchParams.model)
-
-      return result
-    } catch (err) {
-      throw err
-    }
-  } else if (searchParams.filter === 'newest') {
+module.exports = (repo, searchService) => async searchParams => {
+  if (searchParams.filter === 'newest') {
     try {
       let result = await repo.filterNewest()
 
@@ -31,6 +14,17 @@ module.exports = repo => async searchParams => {
     try {
       const result = await repo.filterSpotlight()
 
+      return result
+    } catch (err) {
+      throw err
+    }
+  } else if (searchParams.query) {
+    try {
+      let searchResult = await searchService.search(searchParams.query)
+      let ids = searchResult.hits.hit.map(item => item.fields.id[0])
+      if (ids.length === 0) return []
+
+      let result = await repo.queryByIds(ids)
       return result
     } catch (err) {
       throw err

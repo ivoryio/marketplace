@@ -64,10 +64,29 @@ function Product () {
     }
   }
 
+  const queryByIds = async ids => {
+    let params = {
+      TableName,
+      ScanFilter: {
+        'id': {
+          ComparisonOperator: 'IN',
+          AttributeValueList: ids
+        }
+      }
+    }
+    try {
+      let result = await dynamo.scan(params).promise()
+      return result.Items
+    } catch (err) {
+      throw err
+    }
+  }
+
   return {
     filterNewest,
     filterSpotlight,
-    searchByBrandAndModel
+    searchByBrandAndModel,
+    queryByIds
   }
 }
 
