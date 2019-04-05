@@ -10,12 +10,11 @@ StateMachine.prototype.listen = function () {
 
     // #region handle events
     function handleEvent (ev) {
-      const { user } = fsm
-      const { nextState } = ev.detail
+      const { nextState, ...payload } = ev.detail
       if (ev.type === 'transition') {
         fsm.transitionTo(nextState)
       }
-      observer.next({ currentState: fsm.state, user })
+      observer.next({ state: fsm.state, payload })
     }
     // #endregion
   })
