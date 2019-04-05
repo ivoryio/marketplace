@@ -2024,7 +2024,7 @@ autoprefixer@^9.4.9:
     postcss "^7.0.14"
     postcss-value-parser "^3.3.1"
 
-aws-amplify-react@^2.3.2:
+aws-amplify-react@^2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/aws-amplify-react/-/aws-amplify-react-2.3.4.tgz#d1d95ce6721b0aa16e3426f2ba8ef2de2f488fae"
   integrity sha512-GL0oktQsTeJJL+EBtprpXf9MxBzNoNmgyDTHi4Ru2NFs6wvkOiXW6EeYPBJPeuFGz9TeFlEku/fDJAAVFgwekg==
@@ -2032,7 +2032,7 @@ aws-amplify-react@^2.3.2:
     qrcode.react "^0.8.0"
     regenerator-runtime "^0.11.1"
 
-aws-amplify@^1.1.22:
+aws-amplify@^1.1.24:
   version "1.1.24"
   resolved "https://registry.yarnpkg.com/aws-amplify/-/aws-amplify-1.1.24.tgz#df84aa5d7010e19775f92ed1d2c3ae4d20f924c6"
   integrity sha512-F2bUrTOVzJgcV+lyCj0ET8KTFFmEy4ph5869h3cdsyW/u42hr9/iqQL+fkYLMIV6BUcEwghtonac8Usjk6chrQ==
@@ -4699,7 +4699,7 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-formik@^1.5.1:
+formik@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/formik/-/formik-1.5.2.tgz#bb46853f10433f6f0a83415122c2a8e7e2e285fc"
   integrity sha512-gVrNN4OmxvtwV4IvoyQJk797D3ptl3X8C1lJjbOBX48EFxxFTzchtUX5XiDSmhMIhtsg2rahT41VEbZPpgM6lQ==
@@ -9158,7 +9158,7 @@ react-test-renderer@^16.8.5:
     react-is "^16.8.6"
     scheduler "^0.13.6"
 
-react-testing-library@^6.0.3:
+react-testing-library@^6.0.4:
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-6.0.4.tgz#18aec01bcb8505df5da612c68cf0be134e0f44ae"
   integrity sha512-7D6/hIvyOr8c51UHgH9CL2ZlzYPFI2Jmjm9hMuUvKR9mIiOEaWr5A7CZ9r7zO9tCK5D15r4uj71BHfJ7Zus3qw==
