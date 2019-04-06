@@ -75,7 +75,7 @@ const SpotlightCategoriesEntry = () => (
         Subtitle With A Call To Action Goes Here
       </Typography>
     </Space>
-    <Space mt={4} px={{ xs: 2, sm: 5, md: 8, lg: 13 }}>
+    <Space mt={4} px={{ xs: 2, sm: 5, md: 8, lg: 152 }}>
       <Flex
         flexWrap='wrap'
         justifyContent='center'
