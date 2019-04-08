@@ -10,13 +10,13 @@ const { concatMap } = require('rxjs/operators')
 let DomainName = 'catalog-search'
 let indexNames = ['brand', 'model', 'description', 'id']
 
-module.exports = () => chekIfExist().pipe(
+module.exports = () => checkIfExist().pipe(
   concatMap(() => createDomain()),
   concatMap(() => defineIndex()),
   concatMap(() => updateIndex())
 )
 
-const chekIfExist = () => Observable.create(observer => {
+const checkIfExist = () => Observable.create(observer => {
   let params = {
     DomainNames: [DomainName]
   }
