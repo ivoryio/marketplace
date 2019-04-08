@@ -19,8 +19,7 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 
 router.get('/products', async (req, res) => {
   try {
-    let searchParams = req.query
-    const result = await browseProducts(productRepo, searchService)(searchParams)
+    const result = await browseProducts(productRepo, searchService)(req.query)
 
     res.status(200).json(result)
   } catch (err) {
