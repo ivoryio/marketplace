@@ -4,7 +4,7 @@ import { RegionService } from 'frint-react'
 import Entry from './app/Entry'
 
 const app = createApp({
-  name: 'hello',
+  name: 'cart',
   providers: [
     {
       name: 'component',
@@ -20,6 +20,6 @@ const app = createApp({
 (window.app = window.app || []).push([
   app,
   {
-    regions: ['hello']
+    regions: ['cart']
   }
 ])

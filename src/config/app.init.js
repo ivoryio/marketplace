@@ -1,8 +1,8 @@
 import Root from '../app'
 
 const apps = window.app || []
-const rootApp = (window.app = new Root())
-rootApp.push = options => rootApp.registerApp(...options)
-apps.forEach(rootApp.push)
+const RootApp = (window.app = new Root())
+RootApp.push = options => RootApp.registerApp(...options)
+apps.forEach(RootApp.push)
 
-export default rootApp
+export default RootApp

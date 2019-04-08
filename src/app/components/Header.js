@@ -1,61 +1,76 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Region } from 'frint-react'
 
-import { Header, themeGet, Typography } from '@ivoryio/kogaio'
-import { Box, Space } from '@ivoryio/kogaio/Responsive'
+import icons from 'assets/icons'
+import Icon from '@ivoryio/kogaio/Icon'
+import Image from '@ivoryio/kogaio/Image'
+import TopBar from '@ivoryio/kogaio/TopBar'
+import Touchable from '@ivoryio/kogaio/Touchable'
+import Typography from '@ivoryio/kogaio/Typography'
+import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
-const HeaderCmp = ({ user }) => {
-  const hasUser = Object.keys(user).length !== 0
-  const Left = () => (
-    <LeftSection>
-      <Space ml={3}>
-        <Typography
-          color='white'
-          data-testid='dashboard-title'
-          fontSize={3}
-        >
-          Dashboard
-        </Typography>
+const Header = ({ transitionToState, user }) => (
+  <Space py={2}>
+    <TopBar as='header' icSize='1.5em' alignItems='center'>
+      <Space px={{ xs: '2.5%', sm: '5%', md: '7.5%' }}>
+        <Flex justifyContent='space-between' height='56px' width={1}>
+          <Touchable onClick={transitionToState('landing')}>
+            <Image
+              alt='Logo placeholder'
+              dimensions={[96, 'auto']}
+              objectFit='contain'
+              src={icons.logoLarge}
+            />
+          </Touchable>
+          <Flex justifyContent='space-between'>
+            <NavButton
+              icName='shopping_cart'
+              label='Your Cart'
+              onClick={transitionToState('cart')}
+            />
+            <NavButton
+              icName='account_circle'
+              label='Sign Up'
+              onClick={transitionToState('profile')}
+            />
+            <NavButton
+              icName='exit_to_app'
+              label='Sign In'
+              onClick={transitionToState('profile')}
+            />
+          </Flex>
+        </Flex>
       </Space>
-    </LeftSection>
-  )
-  const Right = () => (
-    <RightSection width={1}>
-      <Region name='user-menu' data={{ user }} />
-    </RightSection>
-  )
-  return (
-    <Space>
-      {hasUser ? (
-        <StyledHeader left={<Left />} right={<Right user={user} />} />
-      ) : null}
-    </Space>
-  )
+    </TopBar>
+  </Space>
+)
+
+const NavButton = ({ icName, label, onClick }) => (
+  <Space px={4}>
+    <Touchable effect='opacity' onClick={onClick}>
+      <Flex alignItems='center'>
+        <Icon color='pastel-blue' fontSize={4} name={icName} />
+        <Hide xs sm md>
+          <Space ml={2}>
+            <Typography color='pastel-blue' textStyle='list'>
+              {label}
+            </Typography>
+          </Space>
+        </Hide>
+      </Flex>
+    </Touchable>
+  </Space>
+)
+
+Header.propTypes = {
+  transitionToState: PropTypes.func.isRequired,
+  user: PropTypes.object
 }
 
-const LeftSection = styled(Box)`
-  display: flex
-  flex-direction: row;
-  align-items: center;
-`
-const RightSection = styled(Box)`
-  display: flex
-  flex-direction: row;
-  justify-content: flex-end;
-  position: relative;
-`
-const StyledHeader = styled(Header)`
-  background-color: ${themeGet('colors.brand.primary')};
-`
-
-HeaderCmp.propTypes = {
-  user: PropTypes.object.isRequired
+NavButton.propTypes = {
+  icName: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  onClick: PropTypes.func.isRequired
 }
 
-HeaderCmp.defaultProps = {
-  user: {}
-}
-
-export default HeaderCmp
+export default Header

@@ -1,5 +1,5 @@
 {
-  "name": "hello",
+  "name": "cart",
   "version": "0.1.0",
   "description": "POD_NAME microservice",
   "main": "app.js",
