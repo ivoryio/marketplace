@@ -33,19 +33,19 @@
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.10.17",
     "@ivoryio/ivory-react-scripts": "^0.8.4",
-    "@ivoryio/kogaio": "^0.3.23",
+    "@ivoryio/kogaio": "^0.3.24",
     "aws-amplify": "^1.1.24",
     "aws-amplify-react": "^2.3.4",
     "formik": "^1.5.2",
     "frint": "^5.7.2",
     "frint-react": "^5.7.2",
     "javascript-state-machine": "^3.1.0",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "styled-components": "^4.2.0",
     "rxjs": "^6.4.0",
-    "lodash": "^4.17.11"
+    "styled-components": "^4.2.0"
   },
   "husky": {
     "hooks": {

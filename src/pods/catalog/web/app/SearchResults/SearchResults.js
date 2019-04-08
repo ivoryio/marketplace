@@ -76,7 +76,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                     <Space py={2}>
                       <Card width={1} colors='card-white' textAlign='center'>
                         <Image
-                          dimensions={['100%']}
+                          dimensions={['100%', 240]}
                           src={item.imgSrc}
                           objectFit='contain'
                         />
@@ -85,9 +85,9 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                           <Typography textStyle='subtitle'>
                             {item.model}
                           </Typography>
-                          <Typography textStyle='caption'>
+                          <Description textStyle='caption'>
                             {item.description}
-                          </Typography>
+                          </Description>
                           <Typography textStyle='list'>
                             Market price: ${item.price}.00
                           </Typography>
@@ -109,6 +109,13 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
 
 const Title = styled(Typography)`
   flex-grow: 1;
+`
+
+const Description = styled(Typography)`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `
 
 const ObservedSearchResults = observe((app, props$) => {
