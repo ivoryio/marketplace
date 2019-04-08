@@ -24,7 +24,6 @@ const chekIfExist = () => Observable.create(observer => {
   try {
     cloudsearch.describeDomains(params, (err, data) => {
       if (err) observer.error(err)
-      console.log(data.DomainStatusList[0].SearchService)
       if (data.DomainStatusList.length === 0) {
         observer.next()
         observer.complete()
@@ -44,7 +43,6 @@ const createDomain = () => Observable.create(observer => {
   try {
     cloudsearch.createDomain(params, (err, data) => {
       if (err) observer.error(err)
-      console.log(data)
       observer.next()
       observer.complete()
     })
@@ -113,27 +111,3 @@ const updateIndex = () => Observable.create(observer => {
     observer.error(err)
   }
 })
-
-// const checkAvailability = Observable.create(observer => {
-//   const source = interval(1000)
-//   const task = source.pipe(takeUntil(describeAvailability))
-//   task.subscribe({
-//     error: (err) => observer.error(err),
-//     complete: () => observer.complete(),
-//     next: (param) => console.log(param)
-//   })
-// })
-
-// const describeAvailability = Observable.create(observer => {
-//   let params = {
-//     DomainName
-//   }
-//   cloudsearch.describeAvailabilityOptions(params, (err, data) => {
-//     if (err) observer.error(err)
-//     console.log('executa', data.AvailabilityOptions.Status.State === 'Active')
-//     if (data.AvailabilityOptions.Status.State === 'Active') {
-//       observer.next()
-//       observer.complete()
-//     }
-//   })
-// })
