@@ -2,10 +2,16 @@
     "name": "marketplace",
     "credentials": {
         "region": "us-east-1",
-        "profile": "marketplace"
+        "profile": "default"
     },
     "buildArtifactsBucket": {
         "name": "ivory-marketplace-build-artifacts",
         "location": "/ivory-marketplace-build-artifacts"
-    }
+    },
+    "pods": [
+        "catalog",
+        "hello",
+        "user"
+    ],
+    "userPoolARN": "arn:aws:cognito-idp:us-east-1:399198887006:userpool/us-east-1_qz5zx1W9g"
 }
