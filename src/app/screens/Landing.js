@@ -9,7 +9,14 @@ import { Footer } from '../components'
 const Landing = () => (
   <Flex flexDirection='column'>
     <Region name='hero-search' />
+    <Space my={6}>
+      <Region name='spotlight-watches' />
+    </Space>
     <PrimaryCTA />
+    <Space my={6}>
+      <Region name='watch-list' />
+    </Space>
+    <Region name='spotlight-categories' />
     <SecondaryCTA />
     <Footer />
   </Flex>
