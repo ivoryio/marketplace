@@ -13,7 +13,7 @@ const Header = ({ transitionToState, user }) => (
   <Space py={2}>
     <TopBar as='header' icSize='1.5em' alignItems='center'>
       <Space px={{ xs: '2.5%', sm: '5%', md: '7.5%' }}>
-        <Flex justifyContent='space-between' height='56px'>
+        <Flex justifyContent='space-between' height='56px' width={1}>
           <Touchable onClick={transitionToState('landing')}>
             <Image
               alt='Logo placeholder'

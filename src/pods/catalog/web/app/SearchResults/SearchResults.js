@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
 
@@ -46,20 +47,19 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   const { isFetching, data: products } = results
   return (
     <Space py={4}>
-      <Flex alignItems='center' justifyContent='center' width={1}>
+      <Flex alignItems='center' width={1}>
         <Space px={3}>
           <IconButton
             color='gunmetal'
-            display='flex'
             effect='opacity'
             fontSize={4}
             name='arrow_back'
             onClick={_goBack}
           />
         </Space>
-        <Typography textAlign='center' textStyle='h3'>
+        <Title textAlign='center' textStyle='h3'>
           You sought for <Typography as='span'>{`"${searchTerm}"`}</Typography>
-        </Typography>
+        </Title>
       </Flex>
       <Flex alignItems='center' flexDirection='column' width={1}>
         {isFetching ? (
@@ -106,6 +106,10 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
     </Space>
   )
 }
+
+const Title = styled(Typography)`
+  flex-grow: 1;
+`
 
 const ObservedSearchResults = observe((app, props$) => {
   const region = app.get('region')
