@@ -11,7 +11,7 @@ import {
 } from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
-import { ArrowLeft, ArrowRight, CardWatch } from './components'
+import { Arrow, CardWatch } from './components'
 
 const HideArrow = () => <div style={{ display: 'none' }} />
 const WatchListEntry = props => {
@@ -71,8 +71,8 @@ const WatchListEntry = props => {
       <Space px={2} mt={5}>
         <CarouselWrapper  width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}>
           <StyledCarousel
-            arrowLeft={<ArrowLeft />}
-            arrowRight={<ArrowRight />}
+            arrowLeft={<Arrow direction='left' />}
+            arrowRight={<Arrow direction='right' />}
             addArrowClickHandler
             infinite
             value={activeElement}
@@ -84,8 +84,7 @@ const WatchListEntry = props => {
                 slidesPerPage: 4,
                 slidesPerScroll: 1,
                 clickToChange: false,
-                centered: false,
-                infinite: true
+                animationSpeed: 2000
               },
               768: {
                 arrowLeft: <HideArrow />,
@@ -93,8 +92,6 @@ const WatchListEntry = props => {
                 slidesPerPage: 3,
                 slidesPerScroll: 1,
                 clickToChange: false,
-                centered: false,
-                infinite: true,
                 animationSpeed: 2000
               },
               480: {
@@ -103,8 +100,6 @@ const WatchListEntry = props => {
                 slidesPerPage: 2,
                 slidesPerScroll: 1,
                 clickToChange: false,
-                centered: false,
-                infinite: true,
                 animationSpeed: 2000
               },
               360: {

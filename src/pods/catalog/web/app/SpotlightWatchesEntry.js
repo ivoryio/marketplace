@@ -4,7 +4,7 @@ import { API } from 'aws-amplify'
 import Carousel from '@brainhubeu/react-carousel'
 import { Box, Flex, Hide, Space, Typography } from '@ivoryio/kogaio'
 
-import { ArrowLeft, ArrowRight, CardWatch } from './components'
+import { Arrow, CardWatch } from './components'
 import '@brainhubeu/react-carousel/lib/style.css'
 
 const HideArrow = () => <div style={{ display: 'none' }} />
@@ -131,10 +131,10 @@ const SpotlightWatchesEntry = () => {
       <Space px={2} mt={5}>
         <CarouselWrapper width={{ xs: 1, md: 1, lg: 3 / 4 }}>
           <StyledCarousel
-            arrowLeft={<ArrowLeft />}
-            arrowRight={<ArrowRight />}
+            arrowLeft={<Arrow direction='left' />}
+            arrowRight={<Arrow direction='right' />}
             addArrowClickHandler
-            infinite
+            infinite={false}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={1}
@@ -142,7 +142,7 @@ const SpotlightWatchesEntry = () => {
             breakpoints={{
               1279: {
                 centered: false,
-                infinite: true,
+                infinite: false,
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />
               },
@@ -164,6 +164,7 @@ const SpotlightWatchesEntry = () => {
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />,
                 clickToChange: false,
+                infinite: false,
                 animationSpeed: 2000
               }
             }}
