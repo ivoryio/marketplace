@@ -22,7 +22,7 @@ const WatchListEntry = props => {
   const fetchWatches  = async () => {
     try {
       setIsFetching(true)
-      const response = await API.get('watches', 'products?filter=newest', {response: true})
+      const response = await API.get('catalog', 'products?filter=newest', {response: true})
       setNewestWatches(response.data)
     } catch (error) {
       console.error('Error caught while fetching the newest watches:', error)

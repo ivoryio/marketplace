@@ -93,7 +93,7 @@ const SpotlightWatchesEntry = () => {
   const fetchWatches  = async () => {
     try {
       setIsFetching(true)
-      const response = await API.get('watches', 'products?filter=spotlight', {response: true})
+      const response = await API.get('catalog', 'products?filter=spotlight', {response: true})
       const groups = groupCards(response.data)
       const slides = mapGroupsToSlides(groups)
       setSpotlightWatches(slides)
