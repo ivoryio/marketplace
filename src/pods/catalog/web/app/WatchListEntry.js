@@ -74,7 +74,7 @@ const WatchListEntry = props => {
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
             addArrowClickHandler
-            infinite={true}
+            infinite
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={4}
