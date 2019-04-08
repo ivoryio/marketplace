@@ -36,8 +36,7 @@ const NavContainer = styled(Flex)`
   flex-wrap: nowrap;
   justify-content: space-between;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   -webkit-overflow-scrolling: auto;
   -webkit-overflow-scrolling: touch;
 `
