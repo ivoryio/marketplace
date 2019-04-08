@@ -3,13 +3,10 @@ import { Flex } from '@ivoryio/kogaio'
 
 import fsm from './services/StateMachine'
 import { Header, NavMenu } from './components'
-import { Cart, Landing, NotFound, Profile, SearchResults } from './screens'
+import { Cart, Landing, Profile } from './screens'
 
 const RootEntry = () => {
-  const [currentState, setCurrentState] = useState({
-    name: fsm.state,
-    payload: {}
-  })
+  const [currentState, setCurrentState] = useState(fsm.state)
   useEffect(() => {
     fsm.listen().subscribe({
       next: newState => _handleStateUpdated(newState),
@@ -18,9 +15,9 @@ const RootEntry = () => {
     })
   }, [])
 
-  const _handleStateUpdated = nextState => {
-    const { state, payload } = nextState
-    setCurrentState({ name: state, payload })
+  const _handleStateUpdated = payload => {
+    const { currentState } = payload
+    setCurrentState(currentState)
   }
 
   const transitionToState = nextState => () => {
@@ -31,25 +28,20 @@ const RootEntry = () => {
   }
 
   const CurrentScreen = (() => {
-    const { name: stateName, payload } = currentState
-    switch (stateName) {
+    switch (currentState) {
       case 'profile':
-        return <Profile />
+        return Profile
       case 'cart':
-        return <Cart />
-      case 'search-results':
-        return <SearchResults searchTerm={payload.searchTerm} />
-      case 'landing':
-        return <Landing />
+        return Cart
       default:
-        return <NotFound />
+        return Landing
     }
   })()
   return (
     <Flex flexDirection='column'>
       <Header transitionToState={transitionToState} user={fsm.user} />
-      {currentState.name.includes('landing') ? <NavMenu /> : null}
-      {CurrentScreen}
+      {currentState.includes('landing') ? <NavMenu /> : null}
+      <CurrentScreen />
     </Flex>
   )
 }

@@ -1,6 +1,6 @@
 {
-    "identityPoolId": "us-east-1:df3000e6-ccd5-4c1e-a097-c50a44c1740d",
-    "region": "us-east-1",
-    "userPoolId": "us-east-1_qz5zx1W9g",
-    "userPoolWebClientId": "45qkod23ka8357dg81bve1lk44"
+    "identityPoolId": "",
+    "region": "",
+    "userPoolId": "",
+    "userPoolWebClientId": ""
 }
