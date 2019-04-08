@@ -106,7 +106,7 @@ Resources:
               Ref: CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-      CodeUri: s3://ivory-marketplace-build-artifacts/3045e5aba3fa8f0b3c5d3ee8c00bbaae
+      CodeUri: s3://ivory-marketplace-build-artifacts/874922850a3473feabc45e76c0ed344b
 Outputs:
   ApiUrl:
     Description: Gateway API URL
