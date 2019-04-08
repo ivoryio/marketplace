@@ -68,7 +68,7 @@ const mapGroupsToSlides = arr =>
         </Space>
         <Hide md>
           <Space mt={3} px={{xs: 2, lg: 3}}>
-            <Box width={{xs: 1 / 2, md: 1 / 2, lg: 1 / 4 }}>
+            <Box width={{xs: 1 / 2, lg: 1 / 4 }}>
               <CardWatch
                 borderRadius={3}
                 key={third.id}
@@ -115,6 +115,7 @@ const SpotlightWatchesEntry = () => {
   }
   return (
     <Flex
+      width={1}
       flexDirection='column'
       alignItems='center'
     > 
@@ -137,7 +138,7 @@ const SpotlightWatchesEntry = () => {
         </Typography>
       </Space>
       <Space px={2} mt={5}>
-        <CarouselWrapper width={{ xs: 1, md: 3 / 4, lg: 3 / 4 }}>
+        <CarouselWrapper width={{ xs: 1, md: 1, lg: 0.82 }}>
           <StyledCarousel
             arrowLeft={<ArrowLeft />}
             arrowRight={<ArrowRight />}
@@ -148,7 +149,7 @@ const SpotlightWatchesEntry = () => {
             slidesPerPage={1}
             slidesPerScroll={1}
             breakpoints={{
-              1280: {
+              1279: {
                 centered: false,
                 infinite: true,
                 arrowLeft: <HideArrow />,
@@ -171,14 +172,12 @@ const SpotlightWatchesEntry = () => {
               360: {
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />,
-                slidesPerPage: 1,
-                slidesPerScroll: 1,
                 clickToChange: false,
                 animationSpeed: 2000
               }
             }}
           >
-            {spotlightWatches.map(cardWithWathces => cardWithWathces)}
+            {spotlightWatches.map(cardWithWatches => cardWithWatches)}
           </StyledCarousel>
         </CarouselWrapper>
       </Space>

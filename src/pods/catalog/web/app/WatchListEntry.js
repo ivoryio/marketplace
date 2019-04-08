@@ -75,13 +75,12 @@ const WatchListEntry = props => {
             arrowRight={<ArrowRight />}
             addArrowClickHandler
             infinite
-            itemWidth={212}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={4}
             slidesPerScroll={1}
             breakpoints={{
-              1280: {
+              1279: {
                 slidesPerPage: 4,
                 slidesPerScroll: 1,
                 clickToChange: false,
@@ -111,7 +110,7 @@ const WatchListEntry = props => {
               360: {
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />,
-                slidesPerPage: 2,
+                slidesPerPage: 1.5,
                 slidesPerScroll: 1,
                 clickToChange: true,
                 animationSpeed: 2000
