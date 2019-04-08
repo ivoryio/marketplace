@@ -8,23 +8,67 @@ Parameters:
     Description: "API's stage name"
     Default: "dev"
 
+  TableName:
+    Type: String
+    Description: "Table's name"
+    Default: catalog
+
   UserPoolARN:
     Type: String
     Description: The ARN of the user pool that provides authentication
     Default: "dev"
 
 Resources:
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${TableName}_${StageName}
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: N
+        - AttributeName: brand
+          AttributeType: S
+        - AttributeName: model
+          AttributeType: S
+        - AttributeName: isSpotlight
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+        - AttributeName: createdAt
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      GlobalSecondaryIndexes:
+        - IndexName: !Sub ${TableName}_${StageName}_gsi_category
+          KeySchema:
+            - AttributeName: brand
+              KeyType: HASH
+            - AttributeName: model
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+        - IndexName: !Sub ${TableName}_${StageName}_gsi_filter
+          KeySchema:
+            - AttributeName: isSpotlight
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+
   CatalogApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
       Cors: "'*'"
-      Auth:
-        DefaultAuthorizer: CognitoAuthorizer
-        Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn: !Ref UserPoolARN
-            IdentitySource: "method.request.header.Authorization"
 
   CatalogApiController:
     Type: AWS::Serverless::Function
@@ -36,6 +80,15 @@ Resources:
       Environment:
         Variables:
           REGION: !Sub ${AWS::Region}
+          TABLE_NAME: !Ref ProductsTable
+          CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
+          FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Statement:
+            - Effect: Allow
+              Action: cloudsearch:search
+              Resource: "*"
       Events:
         ProxyGet:
           Type: Api
@@ -49,8 +102,6 @@ Resources:
             RestApiId: !Ref CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
-            Auth:
-              Authorizer: NONE
 
 Outputs:
   ApiUrl:
