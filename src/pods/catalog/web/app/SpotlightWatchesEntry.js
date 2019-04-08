@@ -10,14 +10,14 @@ import {
   Typography
 } from '@ivoryio/kogaio'
 
-import { ArrowLeft, ArrowRight, CardWatch } from './components'
+import { Arrow, CardWatch } from './components'
 import '@brainhubeu/react-carousel/lib/style.css'
 
 const HideArrow = () => <div style={{ display: 'none' }} />
 
 const groupCards = (arr) => {
 	const length = arr.length
-	let index=0
+	let index = 0
 	let newArr = []
 	while (index + 2 - length <= 0) {
 		newArr.push([arr[index], arr[index+1], arr[index+2]])
@@ -140,10 +140,10 @@ const SpotlightWatchesEntry = () => {
       <Space px={2} mt={5}>
         <CarouselWrapper width={{ xs: 1, md: 1, lg: 0.82 }}>
           <StyledCarousel
-            arrowLeft={<ArrowLeft />}
-            arrowRight={<ArrowRight />}
+            arrowLeft={<Arrow direction='left' />}
+            arrowRight={<Arrow direction='right' />}
             addArrowClickHandler
-            infinite
+            infinite={false}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={1}
@@ -151,7 +151,7 @@ const SpotlightWatchesEntry = () => {
             breakpoints={{
               1279: {
                 centered: false,
-                infinite: true,
+                infinite: false,
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />
               },
@@ -173,6 +173,7 @@ const SpotlightWatchesEntry = () => {
                 arrowLeft: <HideArrow />,
                 arrowRight: <HideArrow />,
                 clickToChange: false,
+                infinite: false,
                 animationSpeed: 2000
               }
             }}
