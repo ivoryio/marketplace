@@ -135,7 +135,7 @@ const WatchListEntry = props => {
                       type='newest'
                       description={description}
                       imgSrc={imgSrc}
-                      imgHeight={140}
+                      imgHeight='140px'
                       onClick={() => {}}
                     />
                   </Box>

@@ -40,12 +40,12 @@
     "frint": "^5.7.2",
     "frint-react": "^5.7.2",
     "javascript-state-machine": "^3.1.0",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "styled-components": "^4.2.0",
     "rxjs": "^6.4.0",
-    "lodash": "^4.17.11"
+    "styled-components": "^4.2.0"
   },
   "husky": {
     "hooks": {

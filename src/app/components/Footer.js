@@ -17,7 +17,7 @@ const Footer = () => {
     )
   }
   return (
-    <Space mt={6} mb={3}>
+    <Space my={6}>
       <Flex
         alignItems='center'
         flexWrap={{ xs: 'wrap-reverse', md: 'wrap' }}

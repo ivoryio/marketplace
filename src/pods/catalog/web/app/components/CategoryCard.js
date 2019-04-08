@@ -8,6 +8,7 @@ import {
     Space,
     Typography
 } from '@ivoryio/kogaio'
+
 const CategoryCard = ({ imgSrc, description }) => (
   <Space mb={5} px={{ xs: 2, md: 3, lg: 6 }}>
     <Box width={{ xs: 1 / 2, md: 3 / 10, lg: 1 / 4 }}>
