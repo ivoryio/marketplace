@@ -3,13 +3,12 @@ import { createApp } from 'frint'
 import { RegionService } from 'frint-react'
 import { ThemeConsumer } from 'styled-components'
 
-import 'user-assets/animations.css'
-import AuthEntry from './app/AuthEntry'
-import UserMenuEntry from './app/UserMenuEntry'
+import Auth from './apps/Auth'
+import UserMenu from './apps/UserMenu'
 
 const entries = [
-  { name: 'Auth', Component: AuthEntry, regions: ['auth'] },
-  { name: 'UserMenu', Component: UserMenuEntry, regions: ['user-menu'] }
+  { name: 'Auth', Component: Auth, regions: ['auth'] },
+  { name: 'UserMenu', Component: UserMenu, regions: ['user-menu'] }
 ]
 
 entries.forEach(entry => {
@@ -34,6 +33,6 @@ entries.forEach(entry => {
         useClass: RegionService // `useClass` because `RegionService` will be instantiated
       }
     ]
-  });
-  (window.app = window.app || []).push([App, { regions: entry.regions }])
+  })
+  ;(window.app = window.app || []).push([App, { regions: entry.regions }])
 })
