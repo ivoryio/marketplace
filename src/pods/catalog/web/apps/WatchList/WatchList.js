@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { API } from 'aws-amplify'
 import Carousel from '@brainhubeu/react-carousel'
 import styled from 'styled-components'
 
 import {
+  ActivityIndicator,
   Box,
   Flex,
   Space,
@@ -11,65 +11,57 @@ import {
 } from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
-import { Arrow, CardWatch } from './components'
+import { Arrow, CardWatch } from '../../components'
+import api from '../../services/catalog.dataservice'
 
-const HideArrow = () => <div style={{ display: 'none' }} />
-const WatchListEntry = props => {
+const WatchList = () => {
   const [activeElement, setActiveElement] = useState(0)
-  const [isFetching, setIsFetching] = useState(false)
-  const [newestWatches, setNewestWatches] = useState([])
-
-  const fetchWatches  = async () => {
-    try {
-      setIsFetching(true)
-      const response = await API.get('catalog', 'products?filter=newest', {response: true})
-      setNewestWatches(response.data)
-    } catch (error) {
-      console.error('Error caught while fetching the newest watches:', error)
-    } finally {
-      setIsFetching(false)
-    }
-  }
-
+  const [watches, setNewestWatches] = useState({
+    data: [],
+    isFetching: true,
+    error: null
+  })
   useEffect(() => {
     fetchWatches()
   }, [])
 
-  if (isFetching) {
-    return (
-      <Typography
-        textAlign='center'
-        textStyle='h2'
-      >
-        Loading Newest Watches...
-      </Typography>
-    )
+  const fetchWatches = async () => {
+    try {
+      const response = await api.getNewestProducts()
+      if (response.status === 200) {
+        setNewestWatches({ data: response.data, isFetching: false })
+      } else {
+        setNewestWatches({
+          ...watches,
+          isFetching: false,
+          error: '* Error caught while retrieving newest watches'
+        })
+      }
+    } catch (error) {
+      console.error('Error caught while fetching the newest watches:', error)
+      setNewestWatches({ data: [], isFetching: false, error })
+    }
   }
+
+  const { data, isFetching } = watches
   return (
-    <Flex
-      flexDirection='column'
-      alignItems='center'
-    >
+    <Flex flexDirection='column' alignItems='center'>
       <Space px={4}>
-        <Typography
-          color='gunmetal'
-          textAlign='center'
-          textStyle='h5'
-        >
+        <Typography color='gunmetal' textAlign='center' textStyle='h5'>
           Newest Watches Section
         </Typography>
       </Space>
       <Space mt={1} px={4}>
-        <Typography
-          color='manatee'
-          textAlign='center'
-          textStyle='h5'
-        >
+        <Typography color='manatee' textAlign='center' textStyle='h5'>
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
       <Space px={2} mt={5}>
-        <CarouselWrapper  width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}>
+        <Flex
+          alignItems='center'
+          flexDirection='column'
+          width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}
+        >
           <StyledCarousel
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
@@ -87,24 +79,24 @@ const WatchListEntry = props => {
                 animationSpeed: 2000
               },
               768: {
-                arrowLeft: <HideArrow />,
-                arrowRight: <HideArrow />,
+                arrowLeft: null,
+                arrowRight: null,
                 slidesPerPage: 3,
                 slidesPerScroll: 1,
                 clickToChange: false,
                 animationSpeed: 2000
               },
               480: {
-                arrowLeft: <HideArrow />,
-                arrowRight: <HideArrow />,
+                arrowLeft: null,
+                arrowRight: null,
                 slidesPerPage: 2,
                 slidesPerScroll: 1,
                 clickToChange: false,
                 animationSpeed: 2000
               },
               360: {
-                arrowLeft: <HideArrow />,
-                arrowRight: <HideArrow />,
+                arrowLeft: null,
+                arrowRight: null,
                 slidesPerPage: 1.5,
                 slidesPerScroll: 1,
                 clickToChange: true,
@@ -112,16 +104,14 @@ const WatchListEntry = props => {
               }
             }}
           >
-            {newestWatches.map(watch => {
-              const {
-                id,
-                brand,
-                model,
-                description,
-                imgSrc
-              } = watch
-              return (
-                <Space key={id} px={{xs: 2, lg: 3}}>
+            {isFetching ? (
+              <ActivityIndicator
+                colors={{ background: 'white', primary: 'gunmetal' }}
+                size='32px'
+              />
+            ) : (
+              data.map(({ id, brand, model, description, imgSrc }) => (
+                <Space key={id} px={{ xs: 2, lg: 3 }}>
                   <Box>
                     <CardWatch
                       animated={isFetching}
@@ -135,10 +125,10 @@ const WatchListEntry = props => {
                     />
                   </Box>
                 </Space>
-              )
-            })}
+              ))
+            )}
           </StyledCarousel>
-        </CarouselWrapper>
+        </Flex>
       </Space>
     </Flex>
   )
@@ -151,9 +141,5 @@ const StyledCarousel = styled(Carousel)`
     margin-bottom: 4px;
   }
 `
-const CarouselWrapper = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-export default WatchListEntry
+
+export default WatchList

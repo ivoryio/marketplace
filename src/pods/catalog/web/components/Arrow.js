@@ -4,11 +4,7 @@ import styled from 'styled-components'
 import { Icon, Space } from '@ivoryio/kogaio'
 
 const Arrow = ({ direction }) => (
-  <Space
-    mb={5} 
-    ml={direction === 'right' ? 3 : 0}
-    mr={direction === 'left' ? 3 : 0}
-  >
+  <Space px={3}>
     <StyledIcon
       alignSelf='center'
       color='pastel-blue'
@@ -22,7 +18,7 @@ const StyledIcon = styled(Icon)`
   cursor: pointer;
 `
 
-Arrow.propTypes={
+Arrow.propTypes = {
   direction: PropTypes.string
 }
 
