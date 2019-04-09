@@ -6,8 +6,8 @@ import { Icon, Space } from '@ivoryio/kogaio'
 const Arrow = ({ direction }) => (
   <Space
     mb={5} 
-    ml={direction === 'left' ? 3 : 0}
-    mr={direction === 'right' ? 3 : 0}
+    ml={direction === 'right' ? 3 : 0}
+    mr={direction === 'left' ? 3 : 0}
   >
     <StyledIcon
       alignSelf='center'
