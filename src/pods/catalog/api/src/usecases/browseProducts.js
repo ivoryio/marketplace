@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
-module.exports = (repo, searchService) => async searchParams => {
-  if (searchParams.filter === 'newest') {
+module.exports = (repo, searchService) => async (searchText, filter) => {
+  if (filter === 'newest') {
     try {
       let result = await repo.filterNewest()
 
@@ -10,7 +10,7 @@ module.exports = (repo, searchService) => async searchParams => {
     } catch (err) {
       throw err
     }
-  } else if (searchParams.filter === 'spotlight') {
+  } else if (filter === 'spotlight') {
     try {
       const result = await repo.filterSpotlight()
 
@@ -18,9 +18,9 @@ module.exports = (repo, searchService) => async searchParams => {
     } catch (err) {
       throw err
     }
-  } else if (searchParams.query) {
+  } else if (searchText) {
     try {
-      const searchResult = await searchService.search(searchParams.query)
+      const searchResult = await searchService.search(searchText)
       const ids = searchResult.hits.hit.map(item => item.fields.id[0])
       if (ids.length === 0) return []
 
