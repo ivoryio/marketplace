@@ -20,7 +20,7 @@ module.exports = (repo, searchService) => async (searchText, filter) => {
     }
   } else if (searchText) {
     try {
-      const searchResult = await searchService.search(searchText)
+      const searchResult = await searchService.search(searchText, filter)
       const ids = searchResult.hits.hit.map(item => item.fields.id[0])
       if (ids.length === 0) return []
 

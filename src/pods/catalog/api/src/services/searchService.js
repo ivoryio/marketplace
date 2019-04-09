@@ -4,9 +4,9 @@ function CloudSearch () {
   const endpoint = 'search-catalog-search2-yphbjo3v7pzzjianrlkns2ldp4.us-east-1.cloudsearch.amazonaws.com'
   const cloudSearch = new AWS.CloudSearchDomain({ endpoint })
 
-  const search = async text => {
+  const search = async (searchText, filter) => {
     const params = {
-      query: text,
+      query: searchText,
       queryParser: 'simple',
       queryOptions: '{fields:["brand", "model", "description"]}'
     }
