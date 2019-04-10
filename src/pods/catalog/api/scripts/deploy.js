@@ -7,29 +7,29 @@ let cloudsearch = new AWS.CloudSearch({
 const { Observable, merge } = require('rxjs')
 const { concatMap } = require('rxjs/operators')
 
-let DomainName = 'catalog-search1'
-let indexNames = ['brand', 'model', 'description', 'id', 'isspotlight', 'createdat']
+let DomainName = 'catalog-search'
+let indexNames = ['id', 'brand', 'model', 'description', 'imgsrc', 'price', 'isspotlight', 'gender', 'createdat']
 
 const intIndex = IndexFieldName => ({
   DomainName,
-    IndexField: {
-      IndexFieldName,
-      IndexFieldType: 'int',
-      IntOptions: {
-        FacetEnabled: true,
-        ReturnEnabled: true,
-        SearchEnabled: true,
-        SortEnabled: true
-      }
+  IndexField: {
+    IndexFieldName,
+    IndexFieldType: 'int',
+    IntOptions: {
+      FacetEnabled: true,
+      ReturnEnabled: true,
+      SearchEnabled: true,
+      SortEnabled: true
+    }
   }
 })
 
-const doubleIndex = IndexFieldName => ({
+const dateIndex = IndexFieldName => ({
   DomainName,
   IndexField: {
     IndexFieldName,
-    IndexFieldType: 'double',
-    DoubleOptions: {
+    IndexFieldType: 'date',
+    DateOptions: {
       FacetEnabled: true,
       ReturnEnabled: true,
       SearchEnabled: true,
@@ -94,9 +94,10 @@ const createDomain = () => Observable.create(observer => {
 
 const defineIndex = () => Observable.create(observer => {
   let indexTasks = indexNames.map(indexName => Observable.create(observer => {
-    let params = indexName === 'id' 
-      ? intIndex(indexName) 
-      : indexName === 'createdat' ? doubleIndex(indexName) : textIndex(indexName)
+    let params = indexName === 'createdat' 
+      ? dateIndex(indexName) 
+      : indexName === 'price'
+        ? intIndex(indexName) : textIndex(indexName)
       
     cloudsearch.defineIndexField(params, (err, data) => {
       if (err) observer.error(err)
