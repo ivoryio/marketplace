@@ -23,11 +23,8 @@ const Landing = () => (
 )
 
 const PrimaryCTA = () => (
-  <Space mt={6}>
-    <CallToAction
-      background={icons.callToAction1}
-      py={{ xs: 8, md: 11, lg: 9 }}
-    >
+  <Space mt={6} py={{ xs: 8, md: 11, lg: 9 }}>
+    <CallToAction background={icons.callToAction1}>
       <Box width={{ xs: 1, md: 3 / 4 }}>
         <Typography
           textStyle='h2'
@@ -59,8 +56,8 @@ const PrimaryCTA = () => (
 )
 
 const SecondaryCTA = () => (
-  <Space mt={6}>
-    <CallToAction py={{ xs: 5, md: 6, lg: 3 }}>
+  <Space mt={6} py={{ xs: 5, md: 6, lg: 3 }}>
+    <CallToAction>
       <Flex alignItems='center' flexWrap='wrap' width={1}>
         <Box width={{ xs: 1, md: 2 / 3 }}>
           <Typography
