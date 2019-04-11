@@ -1,53 +1,76 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { map } from 'rxjs/operators'
-import { observe } from 'frint-react'
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+//import styled from "styled-components"
+import { map } from "rxjs/operators"
+import { observe } from "frint-react"
 
-import Card from '@ivoryio/kogaio/Card'
-import Image from '@ivoryio/kogaio/Image'
-import IconButton from '@ivoryio/kogaio/IconButton'
-import Typography from '@ivoryio/kogaio/Typography'
-import { Box, Flex, Space } from '@ivoryio/kogaio/Responsive'
-import ActivityIndicator from '@ivoryio/kogaio/ActivityIndicator'
+import { Box, Button, Flex, Hide, Icon, Input, Space } from "@ivoryio/kogaio"
+//import ActivityIndicator from "@ivoryio/kogaio/ActivityIndicator"
 
-import api from '../../services/catalog.dataservice'
+//import api from "../../services/catalog.dataservice"
 
 const SearchResults = ({ regionData: { searchTerm } }) => {
-  const [results, setResults] = useState({
-    data: [],
-    isFetching: false,
-    error: null
-  })
-  useEffect(() => {
-    _search()
-    return _resetSearchResults
-  }, [])
+  const [ searchValue, setSearchValue ] = useState('')
+  // const [results, setResults] = useState({
+  //   data: [],
+  //   isFetching: false,
+  //   error: null
+  // })
+  // useEffect(() => {
+  //   _search();
+  //   return _resetSearchResults;
+  // }, [])
 
-  const _search = async () => {
-    setResults({ ...results, isFetching: true })
-    try {
-      const response = await api.getSearchResults(searchTerm)
-      if (response.status === 200) {
-        setResults({ data: response.data, isFetching: false, error: null })
-      } else {
-        setResults({ ...results, isFetching: false, error: response.error })
-      }
-    } catch (err) {
-      console.error('* Error caught in _search', err)
-      setResults({ ...results.data, isFetching: false, error: err })
-    }
-  }
-  const _resetSearchResults = () =>
-    setResults({ data: [], isFetching: false, error: null })
-  const _goBack = () =>
-    window.dispatchEvent(
-      new CustomEvent('transition', { detail: { nextState: 'landing' } })
-    )
-  const { isFetching, data: products } = results
+  // const _search = async () => {
+  //   setResults({ ...results, isFetching: true })
+  //   try {
+  //     const response = await api.getSearchResults(searchTerm)
+  //     if (response.status === 200) {
+  //       setResults({ data: response.data, isFetching: false, error: null })
+  //     } else {
+  //       setResults({ ...results, isFetching: false, error: response.error })
+  //     }
+  //   } catch (err) {
+  //     console.error("* Error caught in _search", err)
+  //     setResults({ ...results.data, isFetching: false, error: err })
+  //   }
+  // }
+  // const _resetSearchResults = () =>
+  //   setResults({ data: [], isFetching: false, error: null })
+  // const _goBack = () =>
+  //   window.dispatchEvent(
+  //     new CustomEvent("transition", { detail: { nextState: "landing" } })
+  //   )
+  // const { isFetching, data: products } = results
   return (
-    <Space py={4}>
-      <Flex alignItems='center' width={1}>
+    <Space mt={3} px={{ xs: 4, lg: 14 }}>
+      <Flex bg='gunmetal' flexDirection='row' alignItems='center'>
+        <Space pt='7px' pb='2px' px={{ xs: 0, lg: 6 }}>
+          <Input
+            placeholder='Value'
+            onChange={setSearchValue}
+            label='Button Label'
+            name='search'
+            value={searchValue}
+          />
+        </Space>
+        <Hide sm md lg xlg>
+          <Box bg='brand' width='36px' height='36px'>
+            <Icon
+              fontSize='2em'
+              name='search'
+            />
+          </Box>
+        </Hide>
+        <Hide xs sm md>
+          <Button
+            onClick={() => {}}
+            variant='primary'
+            title='Button Label'
+          />
+        </Hide>
+      </Flex>
+      {/* <Flex alignItems='center' width={1}>
         <Space px={3}>
           <IconButton
             color='gunmetal'
@@ -102,24 +125,24 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
             )}
           </Flex>
         )}
-      </Flex>
+      </Flex> */}
     </Space>
   )
 }
 
-const Title = styled(Typography)`
-  flex-grow: 1;
-`
+// const Title = styled(Typography)`
+//   flex-grow: 1;
+// `
 
-const Description = styled(Typography)`
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-`
+// const Description = styled(Typography)`
+//   overflow: hidden;
+//   display: -webkit-box;
+//   -webkit-line-clamp: 2;
+//   -webkit-box-orient: vertical;
+// `
 
 const ObservedSearchResults = observe((app, props$) => {
-  const region = app.get('region')
+  const region = app.get("region")
   const regionData$ = region
     .getData$()
     .pipe(map(regionData => ({ regionData })))
