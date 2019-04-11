@@ -1,6 +1,6 @@
 [
-  {
-    "name": "catalog",
-    "endpoint": "https://jkfcuwc4ob.execute-api.us-east-1.amazonaws.com/dev/"
-  }
+    {
+        "name": "catalog",
+        "endpoint": "https://afq3da8azg.execute-api.us-east-1.amazonaws.com/dev/"
+    }
 ]

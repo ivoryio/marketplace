@@ -8,7 +8,48 @@ const { Observable, merge } = require('rxjs')
 const { concatMap } = require('rxjs/operators')
 
 let DomainName = 'catalog-search'
-let indexNames = ['brand', 'model', 'description', 'id']
+let indexNames = ['id', 'brand', 'model', 'description', 'imgsrc', 'price', 'isspotlight', 'gender', 'createdat']
+
+const intIndex = IndexFieldName => ({
+  DomainName,
+  IndexField: {
+    IndexFieldName,
+    IndexFieldType: 'int',
+    IntOptions: {
+      FacetEnabled: true,
+      ReturnEnabled: true,
+      SearchEnabled: true,
+      SortEnabled: true
+    }
+  }
+})
+
+const dateIndex = IndexFieldName => ({
+  DomainName,
+  IndexField: {
+    IndexFieldName,
+    IndexFieldType: 'date',
+    DateOptions: {
+      FacetEnabled: true,
+      ReturnEnabled: true,
+      SearchEnabled: true,
+      SortEnabled: true
+    }
+  }
+})
+
+const textIndex = IndexFieldName => ({
+  DomainName,
+  IndexField: {
+    IndexFieldName,
+    IndexFieldType: 'text',
+    TextOptions: {
+      HighlightEnabled: true,
+      ReturnEnabled: true,
+      SortEnabled: true
+    }
+  }
+})
 
 module.exports = () => checkIfExist().pipe(
   concatMap(() => createDomain()),
@@ -53,33 +94,11 @@ const createDomain = () => Observable.create(observer => {
 
 const defineIndex = () => Observable.create(observer => {
   let indexTasks = indexNames.map(indexName => Observable.create(observer => {
-    let params = indexName === 'id'
-      ? {
-        DomainName,
-        IndexField: {
-          IndexFieldName: indexName,
-          IndexFieldType: 'int',
-          IntOptions: {
-            FacetEnabled: true,
-            ReturnEnabled: true,
-            SearchEnabled: true,
-            SortEnabled: true
-          }
-        }
-      }
-      : {
-        DomainName,
-        IndexField: {
-          IndexFieldName: indexName,
-          IndexFieldType: indexName === 'id' ? 'int' : 'text',
-          TextOptions: {
-            HighlightEnabled: true,
-            ReturnEnabled: true,
-            SortEnabled: true
-          }
-        }
-      }
-
+    let params = indexName === 'createdat' 
+      ? dateIndex(indexName) 
+      : indexName === 'price'
+        ? intIndex(indexName) : textIndex(indexName)
+      
     cloudsearch.defineIndexField(params, (err, data) => {
       if (err) observer.error(err)
       observer.complete()
