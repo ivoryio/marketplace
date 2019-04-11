@@ -8,7 +8,12 @@ const getNewestProducts = () =>
 const getSearchResults = searchTerm =>
   API.get('catalog', `/products?query=${searchTerm}`, { response: true })
 
+const getSpotlightWatches = () =>
+  API.get('catalog', 'products?filter=spotlight', {
+    response: true
+  })
 export default {
   getNewestProducts,
-  getSearchResults
+  getSearchResults,
+  getSpotlightWatches
 }

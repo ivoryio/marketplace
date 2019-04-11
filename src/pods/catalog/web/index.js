@@ -1,17 +1,30 @@
 import { createApp } from 'frint'
 import { RegionService } from 'frint-react'
-import WatchListEntry from './app/WatchListEntry'
-import HeroSearch from './app/HeroSearch/HeroSearch'
-import SearchResults from './app/SearchResults'
-import SpotlightWatchesEntry from './app/SpotlightWatchesEntry'
-import SpotlightCategoriesEntry from './app/SpotlightCategoriesEntry'
+
+import WatchList from './apps/WatchList'
+import HeroSearch from './apps/HeroSearch'
+import SearchResults from './apps/SearchResults'
+import SpotlightWatches from './apps/SpotlightWatches'
+import SpotlightCategories from './apps/SpotlightCategories'
 
 const entries = [
+  { name: 'WatchList', Component: WatchList, regions: ['watch-list'] },
   { name: 'HeroSearch', Component: HeroSearch, regions: ['hero-search'] },
-  { name: 'WatchList', Component: WatchListEntry, regions: ['watch-list'] },
-  { name: 'SearchResults', Component: SearchResults, regions: ['search-results']},
-  { name: 'SpotlightWatches', Component: SpotlightWatchesEntry, regions: ['spotlight-watches'] },
-  { name: 'SpotlightCategories', Component: SpotlightCategoriesEntry, regions: ['spotlight-categories'] }
+  {
+    name: 'SearchResults',
+    Component: SearchResults,
+    regions: ['search-results']
+  },
+  {
+    name: 'SpotlightWatches',
+    Component: SpotlightWatches,
+    regions: ['spotlight-watches']
+  },
+  {
+    name: 'SpotlightCategories',
+    Component: SpotlightCategories,
+    regions: ['spotlight-categories']
+  }
 ]
 
 entries.forEach(entry => {

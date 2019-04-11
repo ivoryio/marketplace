@@ -11,7 +11,7 @@ import Typography from '@ivoryio/kogaio/Typography'
 import { Box, Flex, Space } from '@ivoryio/kogaio/Responsive'
 import ActivityIndicator from '@ivoryio/kogaio/ActivityIndicator'
 
-import api from '../services/catalog.dataservice'
+import api from '../../services/catalog.dataservice'
 
 const SearchResults = ({ regionData: { searchTerm } }) => {
   const [results, setResults] = useState({

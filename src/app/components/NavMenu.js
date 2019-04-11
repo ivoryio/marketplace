@@ -12,8 +12,7 @@ const categories = ['New Arrivals', 'Mens Watches', 'Ladies Watches', 'Sale']
 const NavMenu = props => (
   <NavContainer
     id='landing-nav-menu'
-    justifyContent={{ xs: 'space-between', md: 'space-around' }}
-    position='relative'
+    justifyContent={{ xs: 'space-evenly', md: 'space-between' }}
     {...props}
   >
     <NavArrow
@@ -24,8 +23,8 @@ const NavMenu = props => (
       textAlign='left'
     />
     <Space px={{ xs: '2.5%', sm: '5%', md: '7.5%' }}>
-      {categories.map(cat => (
-        <Category key={cat} name={cat} onClick={() => {}} />
+      {categories.map(category => (
+        <Category key={category} name={category} onClick={() => {}} />
       ))}
     </Space>
     <NavArrow
@@ -79,7 +78,8 @@ const NavContainer = styled(Flex)`
   height: 60px;
   flex-wrap: nowrap;
   width: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: auto;
   position: relative;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: auto;
@@ -93,7 +93,7 @@ const ArrowContainer = styled(Flex)`
   position: -webkit-sticky;
   position: sticky;
   right: 0;
-  z-index: 10;
+  z-index: 2;
 `
 
 Category.propTypes = {
