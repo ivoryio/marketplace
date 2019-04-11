@@ -77,7 +77,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                       <Card width={1} colors='card-white' textAlign='center'>
                         <Image
                           dimensions={['100%', 240]}
-                          src={item.imgSrc}
+                          src={item.imgsrc}
                           objectFit='contain'
                         />
                         <Space px={3}>
