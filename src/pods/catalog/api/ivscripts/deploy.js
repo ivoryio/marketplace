@@ -1,58 +1,6 @@
 const AWS = require('aws-sdk')
-
-const cloudsearch = new AWS.CloudSearch({
-  region: 'us-east-1'
-})
-const secretsmanager = new AWS.SecretsManager({
-  region: 'us-east-1'
-})
-
 const { Observable, merge } = require('rxjs')
 const { concatMap } = require('rxjs/operators')
-
-let DomainName = 'catalog-search'
-let indexNames = ['id', 'brand', 'model', 'description', 'imgsrc', 'price', 'isspotlight', 'gender', 'createdat']
-
-const intIndex = IndexFieldName => ({
-  DomainName,
-  IndexField: {
-    IndexFieldName,
-    IndexFieldType: 'int',
-    IntOptions: {
-      FacetEnabled: true,
-      ReturnEnabled: true,
-      SearchEnabled: true,
-      SortEnabled: true
-    }
-  }
-})
-
-const dateIndex = IndexFieldName => ({
-  DomainName,
-  IndexField: {
-    IndexFieldName,
-    IndexFieldType: 'date',
-    DateOptions: {
-      FacetEnabled: true,
-      ReturnEnabled: true,
-      SearchEnabled: true,
-      SortEnabled: true
-    }
-  }
-})
-
-const textIndex = IndexFieldName => ({
-  DomainName,
-  IndexField: {
-    IndexFieldName,
-    IndexFieldType: 'text',
-    TextOptions: {
-      HighlightEnabled: true,
-      ReturnEnabled: true,
-      SortEnabled: true
-    }
-  }
-})
 
 module.exports = () => checkIfExist().pipe(
   concatMap(createDomain),
@@ -62,6 +10,15 @@ module.exports = () => checkIfExist().pipe(
   concatMap(getCloudSearchEndpoints),
   concatMap(createSecretManager)
 )
+
+const cloudsearch = new AWS.CloudSearch({
+  region: 'us-east-1'
+})
+const secretsmanager = new AWS.SecretsManager({
+  region: 'us-east-1'
+})
+
+const DomainName = 'catalog-search1'
 
 const checkIfExist = () => Observable.create(observer => {
   getCloudSearchEndpoints().subscribe({
@@ -81,23 +38,18 @@ const createDomain = () => Observable.create(observer => {
   let params = {
     DomainName
   }
-  try {
-    cloudsearch.createDomain(params, (err, data) => {
+  cloudsearch.createDomain(params, (err, data) => {
       if (err) observer.error(err)
       observer.next()
       observer.complete()
     })
-  } catch (err) {
-    observer.error(err)
-  }
 })
 
 const defineIndex = () => Observable.create(observer => {
+  const indexNames = ['id', 'brand', 'model', 'description', 'imgsrc', 'price', 'isspotlight', 'gender', 'createdat']
+
   const indexTasks = indexNames.map(indexName => Observable.create(observer => {
-    const params = indexName === 'createdat' 
-      ? dateIndex(indexName) 
-      : indexName === 'price'
-        ? intIndex(indexName) : textIndex(indexName)
+    const params = getIndex(indexName)
       
     cloudsearch.defineIndexField(params, (err, data) => {
       if (err) observer.error(err)
@@ -105,6 +57,61 @@ const defineIndex = () => Observable.create(observer => {
     })
   }))
 
+  const getIndex = indexName => {
+    switch (indexName) {
+      case 'price': return intIndex(indexName)
+      case 'date': return dateIndex(indexName)
+      default: return textIndex(indexName)
+    }
+  }
+
+  function intIndex (IndexFieldName) {
+    return {
+      DomainName,
+      IndexField: {
+        IndexFieldName,
+        IndexFieldType: 'int',
+        IntOptions: {
+          FacetEnabled: true,
+          ReturnEnabled: true,
+          SearchEnabled: true,
+          SortEnabled: true
+        }
+      }
+    }
+  }
+  
+  function dateIndex (IndexFieldName) {
+    return {
+      DomainName,
+      IndexField: {
+        IndexFieldName,
+        IndexFieldType: 'date',
+        DateOptions: {
+          FacetEnabled: true,
+          ReturnEnabled: true,
+          SearchEnabled: true,
+          SortEnabled: true
+        }
+      }
+    }
+  }
+  
+  function textIndex (IndexFieldName) {
+    return {
+      DomainName,
+      IndexField: {
+        IndexFieldName,
+        IndexFieldType: 'text',
+        TextOptions: {
+          HighlightEnabled: true,
+          ReturnEnabled: true,
+          SortEnabled: true
+        }
+      }
+    }
+  }
+  
   merge(...indexTasks).subscribe({
     next: () => {},
     complete: () => {
@@ -120,15 +127,11 @@ const updateIndex = () => Observable.create(observer => {
     DomainName
   }
 
-  try {
-    cloudsearch.indexDocuments(params, (err, data) => {
-      if (err) observer.error(err)
-      observer.next()
-      observer.complete()
-    })
-  } catch (err) {
-    observer.error(err)
-  }
+  cloudsearch.indexDocuments(params, (err, data) => {
+    if (err) observer.error(err)
+    observer.next()
+    observer.complete()
+  })
 })
 
 const checkAvailability = () => Observable.create(observer => {
