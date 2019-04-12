@@ -1,14 +1,9 @@
 const AWS = require('aws-sdk')
-const { Observable, merge } = require('rxjs')
+const { Observable, merge, iif, empty } = require('rxjs')
 const { concatMap } = require('rxjs/operators')
 
-module.exports = () => checkIfExist().pipe(
-  concatMap(createDomain),
-  concatMap(defineIndex),
-  concatMap(updateIndex),
-  concatMap(checkAvailability),
-  concatMap(getCloudSearchEndpoints),
-  concatMap(createSecretManager)
+module.exports = () => getCloudSearchEndpoints().pipe(
+  concatMap(decideWthatToDo)
 )
 
 const cloudsearch = new AWS.CloudSearch({
@@ -18,21 +13,44 @@ const secretsmanager = new AWS.SecretsManager({
   region: 'us-east-1'
 })
 
-const DomainName = 'catalog-search1'
+const DomainName = 'catalog-search'
 
-const checkIfExist = () => Observable.create(observer => {
-  getCloudSearchEndpoints().subscribe({
-    next: endpoints => {
-      if(!endpoints) {
-        observer.next()
-        observer.complete()
-      } else {
-        observer.complete()
+const getCloudSearchEndpoints = () => Observable.create(observer => {
+  const params = {
+    DomainNames: [DomainName]
+  }
+
+  cloudsearch.describeDomains(params, (err, data) => {
+    if (err) observer.error(err)
+    if (data.DomainStatusList.length !== 0) {
+      const endpoints = {
+        searchEndpoint: data.DomainStatusList[0].SearchService.Endpoint,
+        docService: data.DomainStatusList[0].DocService.Endpoint
       }
-     },
-    error: err => observer.error(err)
+      observer.next(endpoints)
+      observer.complete()
+    } else {
+      observer.next()
+      observer.complete()
+    }
   })
 })
+
+const decideWthatToDo = endpoints => iif(
+  () => !endpoints,
+  createCSDomain(),
+  abort()
+)
+
+const createCSDomain = () => createDomain().pipe(
+  concatMap(defineIndex),
+  concatMap(updateIndex),
+  concatMap(checkAvailability),
+  concatMap(getCloudSearchEndpoints),
+  concatMap(createSecretManager)
+)
+
+const abort = () => empty()
 
 const createDomain = () => Observable.create(observer => {
   let params = {
@@ -147,27 +165,6 @@ const checkAvailability = () => Observable.create(observer => {
       }
     })
   }, 300000)
-})
-
-const getCloudSearchEndpoints = () => Observable.create(observer => {
-  const params = {
-    DomainNames: [DomainName]
-  }
-
-  cloudsearch.describeDomains(params, (err, data) => {
-    if (err) observer.error(err)
-    if (data.DomainStatusList.length !== 0) {
-      const endpoints = {
-        searchEndpoint: data.DomainStatusList[0].SearchService.Endpoint,
-        docService: data.DomainStatusList[0].DocService.Endpoint
-      }
-      observer.next(endpoints)
-      observer.complete()
-    } else {
-      observer.next()
-      observer.complete()
-    }
-  })
 })
 
 const createSecretManager = endpoints => Observable.create(observer => {
