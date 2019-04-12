@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk')
 
-let cloudsearch = new AWS.CloudSearch({
+const cloudsearch = new AWS.CloudSearch({
+  region: 'us-east-1'
+})
+const secretsmanager = new AWS.SecretsManager({
   region: 'us-east-1'
 })
 
@@ -52,13 +55,16 @@ const textIndex = IndexFieldName => ({
 })
 
 module.exports = () => checkIfExist().pipe(
-  concatMap(() => createDomain()),
-  concatMap(() => defineIndex()),
-  concatMap(() => updateIndex())
+  concatMap(createDomain),
+  concatMap(defineIndex),
+  concatMap(updateIndex),
+  concatMap(checkAvailability),
+  concatMap(getCloudSearchEndpoints),
+  concatMap(createSecretManager)
 )
 
 const checkIfExist = () => Observable.create(observer => {
-  let params = {
+  const params = {
     DomainNames: [DomainName]
   }
 
@@ -129,4 +135,50 @@ const updateIndex = () => Observable.create(observer => {
   } catch (err) {
     observer.error(err)
   }
+})
+
+const checkAvailability = () => Observable.create(observer => {
+  const interval = setInterval(() => {
+    const params = { DomainName }
+
+    cloudsearch.describeAvailabilityOptions(params, (err, data) => {
+      if (err) observer.error(err)
+      if (data.AvailabilityOptions.Status.State === 'Active') {
+        observer.next()
+        clearInterval(interval)
+        observer.complete()
+      }
+    })
+  }, 300000)
+})
+
+const getCloudSearchEndpoints = () => Observable.create(observer => {
+  const params = {
+    DomainNames: [DomainName]
+  }
+
+  cloudsearch.describeDomains(params, (err, data) => {
+    if (err) observer.error(err)
+    if (data.DomainStatusList.length !== 0) {
+      let endpoints = {
+        searchEndpoint: data.DomainStatusList[0].SearchService.Endpoint,
+        docService: data.DomainStatusList[0].DocService.Endpoint
+      }
+      observer.next(endpoints)
+      observer.complete()
+    }
+  })
+})
+
+const createSecretManager = (endpoints) => Observable.create(observer => {
+  let params = {
+    Name: 'CloudSearchh/Hostname',
+    Description: 'The CloudSearch hostname',
+    SecretString: JSON.stringify(endpoints)
+  }
+  secretsmanager.createSecret(params, (err, data) => {
+    if(err) observer.error(err)
+    observer.next()
+    observer.complete()
+  })
 })

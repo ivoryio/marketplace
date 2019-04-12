@@ -1,14 +1,16 @@
 const AWS = require('aws-sdk')
 
-function CloudSearch () {
-  const endpoint = 'search-catalog-search-jrxzovqvu6v6al7zuptwh27tiy.us-east-1.cloudsearch.amazonaws.com'
-  const cloudSearch = new AWS.CloudSearchDomain({ endpoint })
-  
+function CloudSearch (seacretService) {  
   return {
     search
   }
-   
+  
   async function search (searchText, filter, searchOptions) {
+    const endpoints = await seacretService.retrieve(process.env.SEARCH_HOSTNAME_SECRET)
+    let { searchEndpoint } = JSON.parse(endpoints)
+    const cloudSearch = new AWS.CloudSearchDomain({ endpoint: searchEndpoint })
+   
+
     const params = getParams(searchText, filter, searchOptions)
     let searchResult = await cloudSearch.search(params).promise()
   
@@ -51,4 +53,4 @@ function CloudSearch () {
  
 }
 
-module.exports = new CloudSearch()
+module.exports = CloudSearch
