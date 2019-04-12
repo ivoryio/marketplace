@@ -4,16 +4,46 @@ import PropTypes from "prop-types"
 import { map } from "rxjs/operators"
 import { observe } from "frint-react"
 
-import { Box, Button, Flex, Hide, Icon, Input, Space } from "@ivoryio/kogaio"
+import {
+  Box,
+  Button,
+  Dropdown,
+  Flex,
+  Hide,
+  Icon,
+  Input,
+  Space,
+  Typography
+} from "@ivoryio/kogaio"
+
+import { ProductCard } from './components'
+import { watches } from './data.mock'
 //import ActivityIndicator from "@ivoryio/kogaio/ActivityIndicator"
 
 //import api from "../../services/catalog.dataservice"
 
+const options = [
+  {
+    id: "option1",
+    name: "Option 1"
+  },
+  {
+    id: "option2",
+    name: "Option 2"
+  },
+  {
+    id: "option3",
+    name: "Option 3"
+  }
+]
+
 const SearchResults = ({ regionData: { searchTerm } }) => {
-  const [ searchValue, setSearchValue ] = useState('')
+  const [searchValue, setSearchValue] = useState("")
+  const [selectedPageResults, setSelectedPageResults] = useState(25)
+  const [selectedSort, setSelectedSort] = useState("Newest entries")
   // const [results, setResults] = useState({
   //   data: [],
-  //   isFetching: false,
+  //   isFetching: true,
   //   error: null
   // })
   // useEffect(() => {
@@ -22,7 +52,6 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   // }, [])
 
   // const _search = async () => {
-  //   setResults({ ...results, isFetching: true })
   //   try {
   //     const response = await api.getSearchResults(searchTerm)
   //     if (response.status === 200) {
@@ -43,32 +72,112 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   //   )
   // const { isFetching, data: products } = results
   return (
-    <Space mt={3} px={{ xs: 4, lg: 14 }}>
-      <Flex bg='gunmetal' flexDirection='row' alignItems='center'>
-        <Space pt='7px' pb='2px' px={{ xs: 0, lg: 6 }}>
-          <Input
-            placeholder='Value'
-            onChange={setSearchValue}
-            label='Button Label'
-            name='search'
-            value={searchValue}
-          />
-        </Space>
-        <Hide sm md lg xlg>
-          <Box bg='brand' width='36px' height='36px'>
-            <Icon
-              fontSize='2em'
-              name='search'
+    <Flex flexDirection='column'>
+      <Space mt={3} px={{ xs: 4, lg: 14 }}>
+        <Flex bg='gunmetal' flexDirection='row' alignItems='center'>
+          <Space pt='7px' pb='2px' pr={{ xs: 0, lg: 5 }}>
+            <Box width={{ xs: 9 / 10, sm: 1, lg: 3 / 4 }}>
+              <Input
+                placeholder='Value'
+                onChange={setSearchValue}
+                label='Button Label'
+                name='search'
+                value={searchValue}
+              />
+            </Box>
+          </Space>
+          <Hide sm md lg xlg>
+            <Flex
+              alignItems='center'
+              justifyContent='center'
+              bg='brand'
+              width='36px'
+              height='36px'
+            >
+              <Icon fontSize={3} name='search' />
+            </Flex>
+          </Hide>
+          <Hide xs sm md>
+            <Button
+              width={1 / 4}
+              fontSize={0}
+              onClick={() => {}}
+              variant='primary'
+              title='Button Label'
             />
-          </Box>
-        </Hide>
-        <Hide xs sm md>
-          <Button
-            onClick={() => {}}
-            variant='primary'
-            title='Button Label'
-          />
-        </Hide>
+          </Hide>
+        </Flex>
+      </Space>
+      <Flex width={1} flexDirection='row' flexWrap='wrap'>
+        <Space pl={{ xs: 4, lg: 14 }} pr={{ xs: 10, lg: 3 }} mt={{ xs: 5, lg: 6 }}>
+          <Flex
+            width={{ xs: 1 }}
+            flexDirection='row'
+            justifyContent='space-between'
+            alignItems='center'
+          >
+            <Typography alignSelf='center' color='gunmetal' fontSize={3}>
+              Browsing products for Rolex - 300 results
+            </Typography>
+            <Hide xs sm md>
+              <Flex width={4 / 10} flexDirection='row' alignItems='flex-end'>
+                <Space mx={3}>
+                  <Dropdown
+                    colors='dropdown-white'
+                    id='results-per-page'
+                    label='Results per page'
+                    onChangeOption={setSelectedPageResults}
+                    options={options}
+                    selectedOption={selectedPageResults}
+                    width={{ md: 1 / 3 }}
+                  />
+                </Space>
+                <Space mx={3}>
+                  <Dropdown
+                    colors='dropdown-white'
+                    id='sort-by'
+                    label='Sort by'
+                    onChangeOption={setSelectedSort}
+                    options={options}
+                    selectedOption={selectedSort}
+                    width={{ md: 2 / 3 }}
+                  />
+                </Space>
+              </Flex>
+            </Hide>
+          </Flex>
+        </Space>
+        <Space pl={{ xs: 0, lg: 4 }} pr={{ xs: 0, lg: 3 }}>
+          <Flex width={1} flexDirection='row' flexWrap='wrap'>
+            <Space mt={{xs: 0, lg: 5}}>
+              <Box
+                border='1px solid #b3c3d4'
+                bg='ghost-white'
+                width={{ xs: 1, lg: 1 / 6 }}
+              >
+              here will be the filteeer
+              </Box>
+            </Space>
+            <Space pl={{ xs: 2, lg: 4 }} pr={{ xs: 2, lg: 3 }}>
+              <Flex width={{ xs: 1, lg: 5 / 6 }} flexDirection='row' flexWrap='wrap' justifyContent='center'>
+                {watches.map(watch => {
+                  const { id, imgSrc, price, title } = watch
+                  return (
+                    <Space key={id} pt={{ xs: 4, lg: 5}} px={{ xs: 2, lg: 3 }}>
+                      <Box width={{ xs: 1 / 2, lg: 1 / 5}}>
+                        <ProductCard
+                          imgSrc={imgSrc}
+                          price={price}
+                          title={title}
+                        />
+                      </Box>
+                    </Space>
+                  )
+                })}
+              </Flex>
+            </Space>
+          </Flex>
+        </Space>
       </Flex>
       {/* <Flex alignItems='center' width={1}>
         <Space px={3}>
@@ -126,7 +235,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
           </Flex>
         )}
       </Flex> */}
-    </Space>
+    </Flex>
   )
 }
 
