@@ -47,11 +47,16 @@ Resources:
         Variables:
           REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
+          SEARCH_HOSTNAME_SECRET: "CloudSearch/Hostname"
       Policies: 
         - AmazonDynamoDBFullAccess
         - Statement:
             - Effect: Allow
               Action: cloudsearch:search
+              Resource: "*"
+        - Statement:
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
               Resource: "*"
       Events:
         ProxyGet:
