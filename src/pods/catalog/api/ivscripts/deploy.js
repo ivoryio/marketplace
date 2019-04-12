@@ -64,23 +64,17 @@ module.exports = () => checkIfExist().pipe(
 )
 
 const checkIfExist = () => Observable.create(observer => {
-  const params = {
-    DomainNames: [DomainName]
-  }
-
-  try {
-    cloudsearch.describeDomains(params, (err, data) => {
-      if (err) observer.error(err)
-      if (data.DomainStatusList.length === 0) {
+  getCloudSearchEndpoints().subscribe({
+    next: endpoints => {
+      if(!endpoints) {
         observer.next()
         observer.complete()
       } else {
         observer.complete()
       }
-    })
-  } catch (err) {
-    observer.error(err)
-  }
+     },
+    error: err => observer.error(err)
+  })
 })
 
 const createDomain = () => Observable.create(observer => {
@@ -99,8 +93,8 @@ const createDomain = () => Observable.create(observer => {
 })
 
 const defineIndex = () => Observable.create(observer => {
-  let indexTasks = indexNames.map(indexName => Observable.create(observer => {
-    let params = indexName === 'createdat' 
+  const indexTasks = indexNames.map(indexName => Observable.create(observer => {
+    const params = indexName === 'createdat' 
       ? dateIndex(indexName) 
       : indexName === 'price'
         ? intIndex(indexName) : textIndex(indexName)
@@ -122,7 +116,7 @@ const defineIndex = () => Observable.create(observer => {
 })
 
 const updateIndex = () => Observable.create(observer => {
-  let params = {
+  const params = {
     DomainName
   }
 
@@ -160,25 +154,32 @@ const getCloudSearchEndpoints = () => Observable.create(observer => {
   cloudsearch.describeDomains(params, (err, data) => {
     if (err) observer.error(err)
     if (data.DomainStatusList.length !== 0) {
-      let endpoints = {
+      const endpoints = {
         searchEndpoint: data.DomainStatusList[0].SearchService.Endpoint,
         docService: data.DomainStatusList[0].DocService.Endpoint
       }
       observer.next(endpoints)
       observer.complete()
+    } else {
+      observer.next()
+      observer.complete()
     }
   })
 })
 
-const createSecretManager = (endpoints) => Observable.create(observer => {
-  let params = {
-    Name: 'CloudSearchh/Hostname',
-    Description: 'The CloudSearch hostname',
-    SecretString: JSON.stringify(endpoints)
-  }
-  secretsmanager.createSecret(params, (err, data) => {
-    if(err) observer.error(err)
-    observer.next()
+const createSecretManager = endpoints => Observable.create(observer => {
+  if(endpoints) {
+    const params = {
+      Name: 'CloudSearch/Hostname',
+      Description: 'The CloudSearch hostname',
+      SecretString: JSON.stringify(endpoints)
+    }
+    secretsmanager.createSecret(params, (err, data) => {
+      if(err) observer.error(err)
+      observer.next()
+      observer.complete()
+    })
+  } else {
     observer.complete()
-  })
+  }
 })
