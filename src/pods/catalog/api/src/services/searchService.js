@@ -2,7 +2,8 @@ const AWS = require('aws-sdk')
 
 function CloudSearch (seacretService) {  
   return {
-    search
+    search,
+    translate
   }
   
   async function search (searchText, filter, searchOptions) {
@@ -51,6 +52,33 @@ function CloudSearch (seacretService) {
     }
   }
  
+  function translate (queryString) {
+    const query = queryString.q ? queryString.q : 'ivory|-ivory'
+    const size = queryString.limit ? queryString.limit : 100
+    const start = queryString.start ? queryString.start : 0
+    const sortBy = queryString.sortBy ? queryString.sortBy : 'createdat asc'
+
+
+    let options = []
+    const filters = ['brand', 'model', 'gender']
+
+    filters.forEach(filter => {
+      if(queryString.hasOwnProperty(filter)) {
+        options.push(`(and field='${filter}' '${queryString[filter]}')`)
+      }
+
+    })
+    const filterQuery = options.length > 0 ? `(and ${options.join('')})` : undefined
+    const sort = sortBy.split('.').join(' ')
+
+    return {
+      query,
+      filterQuery,
+      sort,
+      size,
+      start
+    }
+  }
 }
 
 module.exports = CloudSearch
