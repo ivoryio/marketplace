@@ -243,8 +243,9 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                   />
                 </Flex>
               </Space>
-              <Space mt={{xs: 5, md: 0}}>
-                <Typography color='pastel-blue' fontSize={1}>
+              <Flex alignItems='center' justifyContent='center' flexWrap='wrap'>
+              <Space mt={{xs: 5, md: 0}} mr={{ md: 5 }}>
+                <Typography alignSelf='center' color='pastel-blue' fontSize={1}>
                   Showing 25 of 300 results
                 </Typography>
               </Space>
@@ -256,6 +257,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                 <ResultsPagination currPage={currentPage} handleCurrentPage={handleCurrentPage} />
                 </PaginationWrapper>
               </Space>
+              </Flex>
             </Flex>
           </Space>
         </Flex>

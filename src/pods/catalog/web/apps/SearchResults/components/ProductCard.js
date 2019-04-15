@@ -23,7 +23,7 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
         <Image src={imgSrc} dimensions={['100%', 155]} objectFit='contain' />
       </Flex>
       <Space mt={3} px={{ xs: 4, lg: 5 }}>
-        <Flex height='34px'>
+        <Flex alignItems='center' height='34px'>
           <ProductTitle
             color='gunmetal'
             fontSize={1}
