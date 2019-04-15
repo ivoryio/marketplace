@@ -17,11 +17,13 @@ import {
   Typography
 } from "@ivoryio/kogaio"
 
-import { ProductCard, SquaredBox } from "./components"
+import { ActiveFilter, ProductCard, SquaredBox } from "./components"
 import { watches } from "./data.mock"
 //import ActivityIndicator from "@ivoryio/kogaio/ActivityIndicator"
 
 //import api from "../../services/catalog.dataservice"
+
+const activeFilters = ["Rolex", "Sports Watches", "Luxury Watches"]
 
 const options = [
   {
@@ -153,10 +155,35 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
       </Space>
       <Space mt={{ xs: 4, lg: 7 }} pl={{ xs: 4, lg: 5 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
-          <Space px={4}>
-            <Flex width={1} border='1px solid #b3c3d4' bg='ghost-white'>
-              here will be the filteeer
-            </Flex>
+          <Space p={4}>
+            <FilterSection width={1} bg='ghost-white' flexDirection='column'>
+              <Flex
+                width={1}
+                alignItems='center'
+                flexWrap='wrap'
+                justifyContent={{ xs: 'space-between', lg: 'flex-start'}}
+              >
+                <Flex width={{ xs: 1, md: 'auto' }} alignItems='center'>
+                  <Hide lg xlg>
+                    <Icon name='filter_list' fontSize={3} />
+                  </Hide>
+                  <Space ml={3}>
+                    <Typography color='gunmetal' fontSize={0} fontWeight={8}>
+                      FILTER RESULTS
+                    </Typography>
+                  </Space>
+                </Flex>
+                <Space>
+                  <ActiveFiltersWrapper flexWrap='wrap' mt={{ xs: 2, md: 0, lg: 3 }}>
+                    {activeFilters.map(item => (
+                      <Space my={1} key={item}>
+                        <ActiveFilter title={item} onClickIcon={() => {}} />
+                      </Space>
+                    ))}
+                  </ActiveFiltersWrapper>
+                </Space>
+              </Flex>
+            </FilterSection>
           </Space>
         </Box>
       </Space>
@@ -215,7 +242,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               })}
             </Flex>
           </Space>
-          <Space px={{ md: 4, lg: 5 }} mt={{ xs: 5, md: 4}}>
+          <Space px={{ md: 4, lg: 5 }} mt={{ xs: 5, md: 4 }}>
             <Flex
               width={1}
               flexDirection='row'
@@ -226,10 +253,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               <Space ml={{ md: 1, lg: 0 }}>
                 <Flex alignItems='center'>
                   <Space mr={{ xs: 2, md: 3 }}>
-                    <Typography
-                      color='gunmetal'
-                      fontSize={1}
-                    >
+                    <Typography color='gunmetal' fontSize={1}>
                       Results per page
                     </Typography>
                   </Space>
@@ -244,19 +268,26 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                 </Flex>
               </Space>
               <Flex alignItems='center' justifyContent='center' flexWrap='wrap'>
-              <Space mt={{xs: 5, md: 0}} mr={{ md: 5 }}>
-                <Typography alignSelf='center' color='pastel-blue' fontSize={1}>
-                  Showing 25 of 300 results
-                </Typography>
-              </Space>
-              <Space mt={{xs: 3, md: 0}}>
-                <PaginationWrapper
-                  width={{ xs: 1, sm: "auto" }}
-                  justifyContent={{ xs: "center", md: "flex-end" }}
-                >
-                <ResultsPagination currPage={currentPage} handleCurrentPage={handleCurrentPage} />
-                </PaginationWrapper>
-              </Space>
+                <Space mt={{ xs: 5, md: 0 }} mr={{ md: 5 }}>
+                  <Typography
+                    alignSelf='center'
+                    color='pastel-blue'
+                    fontSize={1}
+                  >
+                    Showing 25 of 300 results
+                  </Typography>
+                </Space>
+                <Space mt={{ xs: 3, md: 0 }}>
+                  <PaginationWrapper
+                    width={{ xs: 1, sm: "auto" }}
+                    justifyContent={{ xs: "center", md: "flex-end" }}
+                  >
+                    <ResultsPagination
+                      currPage={currentPage}
+                      handleCurrentPage={handleCurrentPage}
+                    />
+                  </PaginationWrapper>
+                </Space>
               </Flex>
             </Flex>
           </Space>
@@ -433,9 +464,19 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   )
 }
 
+const ActiveFiltersWrapper = styled(Flex)`
+  & div:not(:last-child) {
+    margin-right: ${themeGet("space.2")}px;
+  }
+`
+
+const FilterSection = styled(Flex)`
+  border: ${themeGet("borders.1")} ${themeGet("colors.pastel-blue")};
+`
+
 const PaginationWrapper = styled(Flex)`
   & button:not(:last-child) {
-    margin-right: ${themeGet('space.2')}px;
+    margin-right: ${themeGet("space.2")}px;
   }
 `
 
