@@ -11,7 +11,7 @@ import {
 } from '@ivoryio/kogaio'
 
 const ProductCard = ({ imgSrc, price, title, ...props }) => (
-  <Space pb={2}>
+  <Space pb={4}>
     <Card
       borderRadius={3}
       display='flex'
@@ -32,10 +32,10 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
           </ProductTitle>
         </Flex>
       </Space>
-      <Space mt={3} px={{ xs: 4, lg: 5 }}>
+      <Space mt={1} px={{ xs: 4, lg: 5 }}>
         <Typography
           color='gunmetal'
-          fontSize={0}
+          fontSize={4}
           fontWeight={8}
         >
           {price}

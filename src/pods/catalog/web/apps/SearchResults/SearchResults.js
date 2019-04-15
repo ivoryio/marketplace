@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { Fragment, useState } from "react"
 import PropTypes from "prop-types"
 //import styled from "styled-components"
 import { map } from "rxjs/operators"
@@ -16,8 +16,8 @@ import {
   Typography
 } from "@ivoryio/kogaio"
 
-import { ProductCard } from './components'
-import { watches } from './data.mock'
+import { ProductCard, SquaredBox } from "./components"
+import { watches } from "./data.mock"
 //import ActivityIndicator from "@ivoryio/kogaio/ActivityIndicator"
 
 //import api from "../../services/catalog.dataservice"
@@ -37,10 +37,48 @@ const options = [
   }
 ]
 
+const ResultsPagination = ({ currPage, handleCurrentPage }) => (
+  <Fragment>
+    <SquaredBox onClick={handleCurrentPage(currPage - 1)}>
+      <Icon color='pastel-blue' fontSize={1} name='arrow_back' />
+    </SquaredBox>
+    <SquaredBox bg='green'>
+      <Typography color='pastel-blue' fontSize={1}>
+        {currPage}
+      </Typography>
+    </SquaredBox>
+    <SquaredBox onClick={handleCurrentPage(currPage + 1)}>
+      <Typography color='pastel-blue' fontSize={1}>
+        {currPage + 1}
+      </Typography>
+    </SquaredBox>
+    <SquaredBox>
+      <Typography color='pastel-blue' fontSize={1}>
+        ...
+      </Typography>
+    </SquaredBox>
+    <SquaredBox>
+      <Typography color='pastel-blue' fontSize={1}>
+        50
+      </Typography>
+    </SquaredBox>
+    <SquaredBox onClick={handleCurrentPage(currPage + 1)}>
+      <Icon color='pastel-blue' fontSize={1} name='arrow_forward' />
+    </SquaredBox>
+  </Fragment>
+)
+
 const SearchResults = ({ regionData: { searchTerm } }) => {
+  const [currentPage, setCurrentPage] = useState(1)
   const [searchValue, setSearchValue] = useState("")
-  const [selectedPageResults, setSelectedPageResults] = useState(25)
+  const [selectedPageResults, setSelectedPageResults] = useState("25")
   const [selectedSort, setSelectedSort] = useState("Newest entries")
+
+  const handleCurrentPage = pageNumber => () => setCurrentPage(pageNumber)
+  const handleSearchValChange = ev => {
+    ev.preventDefault()
+    setSearchValue(ev.target.value)
+  }
   // const [results, setResults] = useState({
   //   data: [],
   //   isFetching: true,
@@ -72,21 +110,25 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   //   )
   // const { isFetching, data: products } = results
   return (
-    <Flex flexDirection='column'>
-      <Space mt={3} px={{ xs: 4, lg: 14 }}>
-        <Flex bg='gunmetal' flexDirection='row' alignItems='center'>
-          <Space pt='7px' pb='2px' pr={{ xs: 0, lg: 5 }}>
-            <Box width={{ xs: 9 / 10, sm: 1, lg: 3 / 4 }}>
+    <Flex flexDirection='row' flexWrap='wrap'>
+      <Space mt={3} px={{ xs: 4, lg: 378 }}>
+        <Flex
+          width={1}
+          bg='ghost-white'
+          alignItems='center'
+          justifyContent='center'
+        >
+          <Space pt={5} pb='2px' pr={{ xs: 0, lg: 2 }}>
+            <Box width={{ xs: 1, lg: 8 / 10 }}>
               <Input
                 placeholder='Value'
-                onChange={setSearchValue}
-                label='Button Label'
+                onChange={handleSearchValChange}
                 name='search'
                 value={searchValue}
               />
             </Box>
           </Space>
-          <Hide sm md lg xlg>
+          <Hide lg xlg>
             <Flex
               alignItems='center'
               justifyContent='center'
@@ -99,33 +141,122 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
           </Hide>
           <Hide xs sm md>
             <Button
-              width={1 / 4}
+              width={2 / 10}
               fontSize={0}
               onClick={() => {}}
               variant='primary'
-              title='Button Label'
+              title='Search'
             />
           </Hide>
         </Flex>
       </Space>
-      <Flex width={1} flexDirection='row' flexWrap='wrap'>
-        <Space pl={{ xs: 4, lg: 14 }} pr={{ xs: 10, lg: 3 }} mt={{ xs: 5, lg: 6 }}>
+      <Space mt={{ xs: 4, lg: 7 }} pl={{ xs: 4, lg: 5 }} pr={{ xs: 4, lg: 0 }}>
+        <Box width={{ xs: 1, lg: 1 / 4 }}>
+          <Space px={4}>
+            <Flex width={1} border='1px solid #b3c3d4' bg='ghost-white'>
+              here will be the filteeer
+            </Flex>
+          </Space>
+        </Box>
+      </Space>
+      <Space mt={{ lg: 7 }}>
+        <Flex width={{ xs: 1, lg: 3 / 4 }} flexWrap='wrap'>
+          <Space
+            mt={{ xs: 4, md: 5, lg: 0 }}
+            pl={{ xs: 4, lg: 5 }}
+            pr={{ xs: 4, md: 12, lg: 5 }}
+          >
+            <Typography color='gunmetal' textStyle='h1'>
+              Browsing products for Rolex - 300 results
+            </Typography>
+          </Space>
+          <Space mt={{ xs: 4, md: 5 }} px={{ xs: 2, lg: 5 }}>
+            <Flex pt={{ xs: 0, lg: 1 }} width={1}>
+              <Space ml={{ xs: 2, lg: 0 }} mr={{ xs: 2, lg: 4 }}>
+                <Dropdown
+                  colors='dropdown-white'
+                  id='sort-by'
+                  label='Sort by'
+                  onChangeOption={setSelectedSort}
+                  options={options}
+                  selectedOption={selectedSort}
+                  width={{ xs: 1 / 2, md: 149 }}
+                />
+              </Space>
+              <Space ml={{ xs: 2, lg: 0 }} mr={{ xs: 2, lg: 0 }}>
+                <Dropdown
+                  colors='dropdown-white'
+                  id='results-per-page'
+                  label='Results per page'
+                  onChangeOption={setSelectedPageResults}
+                  options={options}
+                  selectedOption={selectedPageResults}
+                  width={{ xs: 1 / 2, md: 149 }}
+                />
+              </Space>
+            </Flex>
+          </Space>
+          <Space mt={{ xs: 3, md: 5, lg: 4 }} px={{ xs: 2, lg: 3 }}>
+            <Flex width={1} flexWrap='wrap' justifyContent='center'>
+              {watches.map(watch => {
+                const { id, imgSrc, price, title } = watch
+                return (
+                  <Space key={id} pb={{ xs: 4, lg: 5 }} px={{ xs: 2, lg: 3 }}>
+                    <Box width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
+                      <ProductCard
+                        imgSrc={imgSrc}
+                        price={price}
+                        title={title}
+                      />
+                    </Box>
+                  </Space>
+                )
+              })}
+            </Flex>
+          </Space>
+          <Space mt={8} mr={{ xs: 4, lg: 5 }}>
+            <Flex
+              width={1}
+              flexDirection='row'
+              alignItems='center'
+              justifyContent={{ xs: "center", md: "space-between" }}
+              flexWrap='wrap'
+            >
+              <Typography color='pastel-blue' fontSize={1}>
+                Showing 25 of 300 results
+              </Typography>
+              <Flex
+                width={{ xs: 1, sm: "auto" }}
+                justifyContent={{ xs: "center", md: "flex-end" }}
+              >
+                <ResultsPagination currPage={currentPage} handleCurrentPage={handleCurrentPage} />
+              </Flex>
+            </Flex>
+          </Space>
+        </Flex>
+      </Space>
+      {/* <Flex width={1} flexDirection="row" flexWrap="wrap">
+        <Space
+          pl={{ xs: 4, lg: 14 }}
+          pr={{ xs: 10, lg: 3 }}
+          mt={{ xs: 5, lg: 6 }}
+        >
           <Flex
             width={{ xs: 1 }}
-            flexDirection='row'
-            justifyContent='space-between'
-            alignItems='center'
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            <Typography alignSelf='center' color='gunmetal' fontSize={3}>
+            <Typography alignSelf="center" color="gunmetal" fontSize={3}>
               Browsing products for Rolex - 300 results
             </Typography>
             <Hide xs sm md>
-              <Flex width={4 / 10} flexDirection='row' alignItems='flex-end'>
+              <Flex width={4 / 10} flexDirection="row" alignItems="flex-end">
                 <Space mx={3}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='results-per-page'
-                    label='Results per page'
+                    colors="dropdown-white"
+                    id="results-per-page"
+                    label="Results per page"
                     onChangeOption={setSelectedPageResults}
                     options={options}
                     selectedOption={selectedPageResults}
@@ -134,9 +265,9 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                 </Space>
                 <Space mx={3}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='sort-by'
-                    label='Sort by'
+                    colors="dropdown-white"
+                    id="sort-by"
+                    label="Sort by"
                     onChangeOption={setSelectedSort}
                     options={options}
                     selectedOption={selectedSort}
@@ -147,24 +278,20 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
             </Hide>
           </Flex>
         </Space>
-        <Space pl={{ xs: 0, lg: 4 }} pr={{ xs: 0, lg: 3 }}>
-          <Flex width={1} flexDirection='row' flexWrap='wrap'>
-            <Space mt={{xs: 0, lg: 5}}>
-              <Box
-                border='1px solid #b3c3d4'
-                bg='ghost-white'
-                width={{ xs: 1, lg: 1 / 6 }}
-              >
-              here will be the filteeer
-              </Box>
-            </Space>
+        <Space pl={{ xs: 0, lg: 4 }}>
+          <Flex width={1} flexDirection="row" flexWrap="wrap">
             <Space pl={{ xs: 2, lg: 4 }} pr={{ xs: 2, lg: 3 }}>
-              <Flex width={{ xs: 1, lg: 5 / 6 }} flexDirection='row' flexWrap='wrap' justifyContent='center'>
+              <Flex
+                width={{ xs: 1, lg: 5 / 6 }}
+                flexDirection="row"
+                flexWrap="wrap"
+                justifyContent="center"
+              >
                 {watches.map(watch => {
-                  const { id, imgSrc, price, title } = watch
+                  const { id, imgSrc, price, title } = watch;
                   return (
-                    <Space key={id} pt={{ xs: 4, lg: 5}} px={{ xs: 2, lg: 3 }}>
-                      <Box width={{ xs: 1 / 2, lg: 1 / 5}}>
+                    <Space key={id} pt={{ xs: 4, lg: 5 }} px={{ xs: 2, lg: 3 }}>
+                      <Box width={{ xs: 1 / 2, lg: 1 / 5 }}>
                         <ProductCard
                           imgSrc={imgSrc}
                           price={price}
@@ -172,13 +299,53 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                         />
                       </Box>
                     </Space>
-                  )
+                  );
                 })}
               </Flex>
             </Space>
           </Flex>
         </Space>
-      </Flex>
+      </Flex> */}
+      {/* <Space mt={8} mr={{ xs: 4, lg: 5 }}>
+        <Flex
+          alignSelf="flex-end"
+          width={{ xs: 2 / 3, lg: 1 / 3 }}
+          flexDirection="row"
+          alignItems="center"
+          justifyContent={{ xs: "flex-end", lg: "space-between" }}
+          flexWrap="wrap"
+        >
+          <Typography>Showing 25 of 300 results</Typography>
+          <Flex width={{ xs: 1, sm: "auto" }} justifyContent="flex-end">
+            <SquaredBox bg="green">
+              <Icon color="pastel-blue" fontSize={1} name="arrow_back" />
+            </SquaredBox>
+            <SquaredBox bg="green">
+              <Typography color="pastel-blue" fontSize={1}>
+                {currentPage}
+              </Typography>
+            </SquaredBox>
+            <SquaredBox bg="green">
+              <Typography color="pastel-blue" fontSize={1}>
+                {currentPage + 1}
+              </Typography>
+            </SquaredBox>
+            <SquaredBox bg="green">
+              <Typography color="pastel-blue" fontSize={1}>
+                ...
+              </Typography>
+            </SquaredBox>
+            <SquaredBox bg="green">
+              <Typography color="pastel-blue" fontSize={1}>
+                50
+              </Typography>
+            </SquaredBox>
+            <SquaredBox bg="green">
+              <Icon color="pastel-blue" fontSize={1} name="arrow_forward" />
+            </SquaredBox>
+          </Flex>
+        </Flex>
+      </Space> */}
       {/* <Flex alignItems='center' width={1}>
         <Space px={3}>
           <IconButton
@@ -257,6 +424,11 @@ const ObservedSearchResults = observe((app, props$) => {
     .pipe(map(regionData => ({ regionData })))
   return regionData$
 })(SearchResults)
+
+ResultsPagination.propTypes = {
+  currPage: PropTypes.number,
+  handleCurrentPage: PropTypes.func
+}
 
 SearchResults.propTypes = {
   regionData: PropTypes.object
