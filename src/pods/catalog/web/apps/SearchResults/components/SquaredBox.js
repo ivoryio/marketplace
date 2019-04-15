@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Space, themeGet, Touchable } from '@ivoryio/kogaio'
+import { themeGet, Touchable } from '@ivoryio/kogaio'
 
 const SquaredBox = ({ children, onClick, ...props }) => (
-  <Space mx={1}>
     <StyledTouchable
       borderRadius={1}
       justifyContent='center'
@@ -17,7 +16,6 @@ const SquaredBox = ({ children, onClick, ...props }) => (
     >
     { children }
     </StyledTouchable>
-  </Space>
 )
 
 SquaredBox.propTypes = {

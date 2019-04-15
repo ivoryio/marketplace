@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react"
 import PropTypes from "prop-types"
-//import styled from "styled-components"
+import styled from "styled-components"
 import { map } from "rxjs/operators"
 import { observe } from "frint-react"
 
@@ -13,6 +13,7 @@ import {
   Icon,
   Input,
   Space,
+  themeGet,
   Typography
 } from "@ivoryio/kogaio"
 
@@ -25,15 +26,15 @@ import { watches } from "./data.mock"
 const options = [
   {
     id: "option1",
-    name: "Option 1"
+    name: "25"
   },
   {
     id: "option2",
-    name: "Option 2"
+    name: "50"
   },
   {
     id: "option3",
-    name: "Option 3"
+    name: "100"
   }
 ]
 
@@ -214,7 +215,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               })}
             </Flex>
           </Space>
-          <Space mt={8} mr={{ xs: 4, lg: 5 }}>
+          <Space px={{ md: 4, lg: 5 }} mt={{ xs: 5, md: 4}}>
             <Flex
               width={1}
               flexDirection='row'
@@ -222,15 +223,39 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               justifyContent={{ xs: "center", md: "space-between" }}
               flexWrap='wrap'
             >
-              <Typography color='pastel-blue' fontSize={1}>
-                Showing 25 of 300 results
-              </Typography>
-              <Flex
-                width={{ xs: 1, sm: "auto" }}
-                justifyContent={{ xs: "center", md: "flex-end" }}
-              >
+              <Space ml={{ md: 1, lg: 0 }}>
+                <Flex alignItems='center'>
+                  <Space mr={{ xs: 2, md: 3 }}>
+                    <Typography
+                      color='gunmetal'
+                      fontSize={1}
+                    >
+                      Results per page
+                    </Typography>
+                  </Space>
+                  <Dropdown
+                    colors='dropdown-white'
+                    id='results-per-page1'
+                    onChangeOption={setSelectedPageResults}
+                    options={options}
+                    selectedOption={selectedPageResults}
+                    width='73px'
+                  />
+                </Flex>
+              </Space>
+              <Space mt={{xs: 5, md: 0}}>
+                <Typography color='pastel-blue' fontSize={1}>
+                  Showing 25 of 300 results
+                </Typography>
+              </Space>
+              <Space mt={{xs: 3, md: 0}}>
+                <PaginationWrapper
+                  width={{ xs: 1, sm: "auto" }}
+                  justifyContent={{ xs: "center", md: "flex-end" }}
+                >
                 <ResultsPagination currPage={currentPage} handleCurrentPage={handleCurrentPage} />
-              </Flex>
+                </PaginationWrapper>
+              </Space>
             </Flex>
           </Space>
         </Flex>
@@ -405,6 +430,12 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
     </Flex>
   )
 }
+
+const PaginationWrapper = styled(Flex)`
+  & button:not(:last-child) {
+    margin-right: ${themeGet('space.2')}px;
+  }
+`
 
 // const Title = styled(Typography)`
 //   flex-grow: 1;
