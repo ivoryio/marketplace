@@ -17,14 +17,13 @@ import {
   Typography
 } from "@ivoryio/kogaio"
 
-import { ActiveFilter, ProductCard, SquaredBox } from "./components"
+import { ActiveFilter, FilterCategory, ProductCard, SquaredBox } from "./components"
 import { watches } from "./data.mock"
 //import ActivityIndicator from "@ivoryio/kogaio/ActivityIndicator"
 
 //import api from "../../services/catalog.dataservice"
 
 const activeFilters = ["Rolex", "Sports Watches", "Luxury Watches"]
-
 const options = [
   {
     id: "option1",
@@ -72,10 +71,23 @@ const ResultsPagination = ({ currPage, handleCurrentPage }) => (
 )
 
 const SearchResults = ({ regionData: { searchTerm } }) => {
+  //group by filterValues and paginationValues
   const [currentPage, setCurrentPage] = useState(1)
   const [searchValue, setSearchValue] = useState("")
   const [selectedPageResults, setSelectedPageResults] = useState("25")
   const [selectedSort, setSelectedSort] = useState("Newest entries")
+  const [ activeFilterCategories, setActiveFilterCategories ] = useState({
+    brand: [],
+    model: [],
+    gender: []
+  })
+  
+  const handleActiveFilterCategories = (key, value) => () => {
+    setActiveFilterCategories({
+      ...activeFilterCategories,
+      [key]: [...activeFilterCategories[key], value]
+    })
+  }
 
   const handleCurrentPage = pageNumber => () => setCurrentPage(pageNumber)
   const handleSearchValChange = ev => {
@@ -112,6 +124,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   //     new CustomEvent("transition", { detail: { nextState: "landing" } })
   //   )
   // const { isFetching, data: products } = results
+
   return (
     <Flex flexDirection='row' flexWrap='wrap'>
       <Space mt={3} px={{ xs: 4, lg: 378 }}>
@@ -181,6 +194,15 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                       </Space>
                     ))}
                   </ActiveFiltersWrapper>
+                </Space>
+                <Space mt={{ xs: 4, md: 5 }}>
+                  <Flex width={1}>
+                    <FilterCategory
+                      options={[{ title: 'Rolex', numberOfProducts: 13 }, { title: 'Tissot', numberOfProducts: 8 }]}
+                      handleActiveFilterCategories={handleActiveFilterCategories}
+                      name='Brand'
+                    />
+                  </Flex>
                 </Space>
               </Flex>
             </FilterSection>
