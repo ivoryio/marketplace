@@ -58,11 +58,11 @@ Resources:
         - Statement:
             - Effect: Allow
               Action: cloudsearch:search
-              Resource: "*"
+              Resource: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search 
         - Statement:
             - Effect: Allow
               Action: secretsmanager:GetSecretValue
-              Resource: "*"
+              Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:CloudSearch/Hostname-*
       Events:
         ProxyGet:
           Type: Api
@@ -76,6 +76,33 @@ Resources:
             RestApiId: !Ref CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
+
+  DBStreamController:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/dbStreamController.handler
+      MemorySize: 1024
+      Timeout: 60
+      Runtime: nodejs8.10
+      Events:
+        DBStream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt ProductsTable.StreamArn
+            StartingPosition: LATEST
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeStream
+              - dynamodb:GetRecords
+              - dynamodb:GetShardIterator
+              - dynamodb:ListStreams
+            Resource: !GetAtt ProductsTable.Arn
+        - Statement:
+          - Effect: Allow
+            Action: cloudsearch:document
+            Resouce: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search
 
 Outputs:
   ApiUrl:
