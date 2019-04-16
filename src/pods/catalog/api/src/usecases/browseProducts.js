@@ -4,7 +4,10 @@ module.exports = (retrieveSecret) => async (query) => {
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { searchEndpoint } = JSON.parse(endpoints)
 
-  const cloudSearch = new AWS.CloudSearchDomain({ endpoint: searchEndpoint })
+  const cloudSearch = new AWS.CloudSearchDomain({ 
+    endpoint: searchEndpoint,
+    region: process.env.REGION
+  })
 
   const searchResults = await cloudSearch.search(query).promise()
 

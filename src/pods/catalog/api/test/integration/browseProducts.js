@@ -1,12 +1,9 @@
-const AWS = require('aws-sdk')
 const assert = require('assert')
 
 const queryTranslate = require('../../src/services/queryTranslate')
+const retrieveSecret = require('../../src/services/retrieveSecret')
+const browseProducts = require('../../src/usecases/browseProducts')
 
-const cloudSearch = new AWS.CloudSearchDomain({
-  endpoint: 'search-catalog-search-jrxzovqvu6v6al7zuptwh27tiy.us-east-1.cloudsearch.amazonaws.com',
-  region: 'us-east-1'
-})
 describe('Browse products', () => {
   it('should retrieve items from cloudsearch', async () => {
     const query = {
@@ -15,8 +12,8 @@ describe('Browse products', () => {
     }
 
     const searchQuery = queryTranslate(query)
-    const result = await cloudSearch.search(searchQuery).promise()
+    const result = await browseProducts(retrieveSecret)(searchQuery)
 
-    assert.equal(result.hits.hit.length > 0, true)
+    assert.equal(result.length > 0, true)
   })
 })
