@@ -1,5 +1,5 @@
 module.exports = (queryString) => {
-  
+
   return {
     query: queryString && queryString.q ? queryString.q : 'ivory|-ivory',
     size: queryString && queryString.limit ? queryString.limit : 10,
@@ -32,6 +32,5 @@ module.exports = (queryString) => {
         return query.join('')
       }
       return null
-      
   }
 }
