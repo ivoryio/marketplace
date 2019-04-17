@@ -40,10 +40,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   }
   const _resetSearchResults = () =>
     setResults({ data: [], isFetching: false, error: null })
-  const _goBack = () =>
-    window.dispatchEvent(
-      new CustomEvent('transition', { detail: { nextState: 'landing' } })
-    )
+  const _goBack = () => window.dispatchEvent(new Event('goBack'))
   const { isFetching, data: products } = results
   return (
     <Space py={4}>

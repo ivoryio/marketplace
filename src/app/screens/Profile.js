@@ -4,13 +4,12 @@ import { Region } from 'frint-react'
 import { Space } from '@ivoryio/kogaio'
 
 const Profile = () => (
-  <Space py={{ xs: 2, md: 0 }}>
+  <Space my={6}>
     <AuthRegion name='auth' />
   </Space>
 )
 
 const AuthRegion = styled(Region)`
-  margin: auto;
   width: 100%;
 `
 

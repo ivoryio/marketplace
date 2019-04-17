@@ -33,6 +33,6 @@ entries.forEach(entry => {
         useClass: RegionService // `useClass` because `RegionService` will be instantiated
       }
     ]
-  })
-  ;(window.app = window.app || []).push([App, { regions: entry.regions }])
+  });
+  (window.app = window.app || []).push([App, { regions: entry.regions }])
 })

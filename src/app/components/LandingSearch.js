@@ -8,7 +8,7 @@ const LandingSearch = () => {
   const _requestSearch = searchTerm =>
     window.dispatchEvent(
       new CustomEvent('transition', {
-        detail: { nextState: 'search-results', searchTerm }
+        detail: { destination: 'search-results', searchTerm }
       })
     )
 

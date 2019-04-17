@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import { Hub, Auth } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
 
@@ -7,7 +7,10 @@ import { SignIn, SignUp } from './screens'
 class AuthEntry extends PureComponent {
   constructor (props) {
     super(props)
-    Hub.listen('auth', this, 'authListener')
+
+    Hub.listen('auth', async () => {
+      await this._loadUser()
+    })
     this.state = {
       user: null
     }
@@ -17,45 +20,43 @@ class AuthEntry extends PureComponent {
     try {
       await this._loadUser() // The first check
     } catch (err) {
+      if (err.includes('not authenticated')) {
+        return console.warn('* User not authenticated')
+      }
       console.error('* Error caught on loading user in AuthEntry', err)
     }
   }
 
   _loadUser = async () => {
-    const currUser = await Auth.currentAuthenticatedUser()
+    const currUser = await Auth.currentAuthenticatedUser().catch(err =>
+      console.warn('* Failed to retrieve user. Reason:', err)
+    )
     try {
       if (currUser) {
-        this._transitionToAuthed(currUser)
+        _transitionToAuthed(currUser)
       }
     } catch (err) {
-      console.error('* Error caught in _loadUser() in AuthEntry', err)
+      console.error('* Error caught in loading user in AuthEntry', err)
+    }
+    function _transitionToAuthed (currUser) {
+      const authenticateEv = new CustomEvent('signIn', {
+        detail: { user: currUser }
+      })
+      window.dispatchEvent(authenticateEv)
     }
   };
-
-  _transitionToAuthed = currUser => {
-    const event = new CustomEvent('authed', { detail: { user: currUser } })
-    window.dispatchEvent(event)
-  };
-
-  async onHubCapsule (capsule) {
-    try {
-      await this._loadUser() // Triggered every time user sign in / out
-    } catch (err) {
-      console.error('* Error caught in hub capsule', err)
-    }
-  }
 
   render () {
     const { user } = this.state
     return (
-      <Fragment>
+      <>
         {!user ? (
           <Authenticator authState='signIn' hideDefault>
             <SignIn />
             <SignUp />
           </Authenticator>
         ) : null}
-      </Fragment>
+      </>
     )
   }
 }

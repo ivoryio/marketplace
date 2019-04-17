@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify'
 
 const getNewestProducts = () =>
-  API.get('catalog', '/products?sortBy=createdAt.desc', {
+  API.get('catalog', '/products?sortBy=createdat.desc', {
     response: true
   })
 
