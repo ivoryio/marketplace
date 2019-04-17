@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
 import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
@@ -40,7 +41,16 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   }
   const _resetSearchResults = () =>
     setResults({ data: [], isFetching: false, error: null })
-  const _goBack = () => window.dispatchEvent(new Event('goBack'))
+  const _goBack = () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'goBack',
+        data: {},
+        message: `Request to transition to goBack`
+      },
+      ''
+    )
   const { isFetching, data: products } = results
   return (
     <Space py={4}>
