@@ -1,10 +1,11 @@
 import React, { useState } from "react"
+import styled from 'styled-components'
 import PropTypes from "prop-types"
 import { Flex, Icon, Space, Touchable, Typography } from "@ivoryio/kogaio"
 
 const Row = ({ left, right }) => (
   <Space>
-    <Flex width={1} justifyContent='space-between'>
+    <Flex width={1} alignItems='center' justifyContent='space-between'>
       {left}
       {right}
     </Flex>
@@ -21,9 +22,9 @@ const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) =
   }
 
   return (
-    <Flex>
+    <Flex alignItems='center'>
       <Space mr={{ xs: 1, md: 2 }}>
-        <input
+        <Checkbox
           name={`checkbox-${title}`}
           value={title}
           type='checkbox'
@@ -83,7 +84,7 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
         { showOptions && (options ? options.map(option => {
           const {title, numberOfProducts } = option
           return (
-            <Space key={title}>
+            <Space mt={4} key={title}>
               <Row
                 left={<LeftOptionSide categoryName={name} handleActiveFilterCategories={handleActiveFilterCategories} title={title} />}
                 right={<RightOptionSide numberOfProducts={numberOfProducts} />}
@@ -95,6 +96,11 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
     </Space>
   )
 }
+
+const Checkbox = styled.input`
+  width: 16px;
+  height: 16px;
+`
 
 LeftOptionSide.propTypes = {
   categoryName: PropTypes.string,
