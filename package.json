@@ -33,7 +33,7 @@
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.10.17",
     "@ivoryio/ivory-react-scripts": "^0.8.8",
-    "@ivoryio/kogaio": "^0.3.25",
+    "@ivoryio/kogaio": "^0.3.26",
     "@ivoryio/mercury": "^0.0.3",
     "aws-amplify": "^1.1.26",
     "aws-amplify-react": "^2.3.6",

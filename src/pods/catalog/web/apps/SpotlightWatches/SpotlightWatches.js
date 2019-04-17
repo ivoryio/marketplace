@@ -41,7 +41,7 @@ const mapGroupsToSlides = arr =>
             key={first.id}
             description={first.description}
             descriptionFontStyle='h4'
-            descriptionPadding={{ xs: 6, md: 7 }}
+            descriptionPadding={{ xs: 8, md: 10 }}
             imgHeight='250px'
             imgSrc={first.imgsrc}
             onClick={() => {}}
