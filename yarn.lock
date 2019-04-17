@@ -1108,10 +1108,10 @@
   optionalDependencies:
     fsevents "1.2.7"
 
-"@ivoryio/kogaio@^0.3.24":
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.3.24.tgz#f80dd5bdb519f0e2602fdcf2fa650c410c05c474"
-  integrity sha512-0VBX4XhP0LgBhc3Uxil5iXWsqHaxoB+nqfhxHaUeqUDs0TAZsMX9ZGwUzZOqzrcnehSgpk2TRmUWix+darNXGQ==
+"@ivoryio/kogaio@^0.3.26":
+  version "0.3.26"
+  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.3.26.tgz#89c98ec2eab54d4e661dd6f7d0c6fa421e6a1521"
+  integrity sha512-/NWw05N3bQwQQwkMRB7A3LK/hAaszWr303ULfXi7dRbLoozPbeyw2vm8o9kKbntZnirlZPCmKuSmtHwJEX7mtg==
   dependencies:
     styled-components "4.2.0"
     styled-system "^4.1.0"

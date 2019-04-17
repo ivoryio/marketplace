@@ -9,11 +9,11 @@ import { Footer } from '../components'
 const Landing = () => (
   <Flex flexDirection='column'>
     <Region name='hero-search' />
-    <Space my={6}>
+    <Space my={8}>
       <Region name='spotlight-watches' />
     </Space>
     <PrimaryCTA />
-    <Space my={6}>
+    <Space my={8}>
       <Region name='watch-list' />
     </Space>
     <Region name='spotlight-categories' />
@@ -23,16 +23,16 @@ const Landing = () => (
 )
 
 const PrimaryCTA = () => (
-  <Space mt={6}>
+  <Space mt={8}>
     <CallToAction
       background={icons.callToAction1}
-      py={{ xs: 8, md: 11, lg: 9 }}
+      py={{ xs: 12, md: 21, lg: 16 }}
     >
       <Box width={{ xs: 1, md: 3 / 4 }}>
         <Typography
           textStyle='h2'
           fontSize={{ xs: '1.625em', md: '1.75em', lg: '2em' }}
-          fontWeight={2}
+          fontWeight={0}
           color='white'
           textAlign='center'
         >
@@ -42,7 +42,7 @@ const PrimaryCTA = () => (
           </Typography>
         </Typography>
       </Box>
-      <Space mt={{ xs: 6, sm: 5, lg: 8 }}>
+      <Space mt={{ xs: 8, sm: 6, lg: 12 }}>
         <Box width={1 / 2} textAlign='center'>
           <Button
             colors='button-outline-dark'
@@ -59,13 +59,13 @@ const PrimaryCTA = () => (
 )
 
 const SecondaryCTA = () => (
-  <Space mt={6}>
-    <CallToAction py={{ xs: 5, md: 6, lg: 3 }}>
+  <Space mt={8}>
+    <CallToAction py={{ xs: 6, md: 8, lg: 3 }}>
       <Flex alignItems='center' flexWrap='wrap' width={1}>
         <Box width={{ xs: 1, md: 2 / 3 }}>
           <Typography
             color='white'
-            fontWeight={2}
+            fontWeight={0}
             textAlign='center'
             textStyle='subtitle'
           >

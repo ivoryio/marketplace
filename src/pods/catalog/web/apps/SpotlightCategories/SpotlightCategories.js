@@ -9,8 +9,8 @@ const SpotlightCategories = () => (
     alignItems='center'
     bg='ghost-white'
     flexDirection='column'
-    pb={7}
-    pt={9}
+    pb={10}
+    pt={16}
   >
     <Space px={4}>
       <Typography color='gunmetal' textAlign='center' textStyle='h5'>
@@ -22,7 +22,7 @@ const SpotlightCategories = () => (
         Subtitle With A Call To Action Goes Here
       </Typography>
     </Space>
-    <Space mt={4} px={{ xs: 2, sm: 5, md: 8, lg: 152 }}>
+    <Space mt={4} px={{ xs: 2, sm: 5, md: 12, lg: 38 }}>
       <Flex flexWrap='wrap' justifyContent='center' width={1}>
         {categories.map(({ id, imgSrc, description }) => (
           <CategoryCard key={id} imgSrc={imgSrc} description={description} />

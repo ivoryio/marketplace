@@ -25,14 +25,14 @@ const HeroSearch = props => {
     )
   }
   return (
-    <Space px={6} py={{ xs: 9, md: 12, lg: 13 }} mt={0}>
+    <Space px={8} py={{ xs: 16, md: 24, lg: 32 }} mt={0}>
       <Flex position='relative' width={1} mt={4} {...props}>
         <Container {...props}>
           <Box width={{ xs: 1, md: 3 / 4 }}>
             <Typography
               color='white'
               fontSize={{ xs: '1.625em', md: '2em' }}
-              fontWeight={2}
+              fontWeight={0}
               textAlign='center'
               textStyle='h2'
             >
@@ -42,7 +42,7 @@ const HeroSearch = props => {
               </Typography>
             </Typography>
           </Box>
-          <Space mt={6}>
+          <Space mt={8}>
             <Flex
               flexWrap='wrap'
               justifyContent='center'
@@ -51,7 +51,7 @@ const HeroSearch = props => {
               <Box width={1}>
                 <Typography
                   color='white'
-                  fontWeight={2}
+                  fontWeight={0}
                   textAlign='center'
                   textStyle='h3'
                 >

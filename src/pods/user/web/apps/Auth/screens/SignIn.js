@@ -60,7 +60,7 @@ const SignIn = ({ authState, onStateChange }) => {
             <Typography
               data-testid='signin-title'
               color='dark-gunmetal'
-              fontWeight={8}
+              fontWeight={2}
               textAlign='center'
               textStyle='h2'
             >
