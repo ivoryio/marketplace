@@ -13,7 +13,7 @@ import {
 const ProductCard = ({ imgSrc, price, title, ...props }) => (
   <Space pb={4}>
     <Card
-      borderRadius={3}
+      borderRadius={4}
       display='flex'
       flexDirection='column'
       colors='card-white'
@@ -22,7 +22,7 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
       <Flex alignItems='center' justifyContent='center' width={1}>
         <Image src={imgSrc} dimensions={['100%', 155]} objectFit='contain' />
       </Flex>
-      <Space mt={3} px={{ xs: 4, lg: 5 }}>
+      <Space mt={3} px={{ xs: 4, lg: 6 }}>
         <Flex alignItems='center' height='34px'>
           <ProductTitle
             color='gunmetal'
@@ -32,11 +32,11 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
           </ProductTitle>
         </Flex>
       </Space>
-      <Space mt={1} px={{ xs: 4, lg: 5 }}>
+      <Space mt={1} px={{ xs: 4, lg: 6 }}>
         <Typography
           color='gunmetal'
           fontSize={4}
-          fontWeight={8}
+          fontWeight={2}
         >
           {price}
         </Typography>

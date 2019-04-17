@@ -12,12 +12,12 @@ const Footer = () => {
     }
     window.dispatchEvent(
       new CustomEvent('transition', {
-        detail: { nextState: path }
+        detail: { destination: path }
       })
     )
   }
   return (
-    <Space my={6}>
+    <Space my={8}>
       <Flex
         alignItems='center'
         flexWrap={{ xs: 'wrap-reverse', md: 'wrap' }}
@@ -35,7 +35,7 @@ const Footer = () => {
               <Flex flexDirection='column' alignItems='flex-start'>
                 <SectionHeader
                   color='pastel-blue'
-                  fontWeight={5}
+                  fontWeight={2}
                   textStyle='h6'
                 >
                   {section.title}
@@ -46,7 +46,7 @@ const Footer = () => {
                       effect='opacity'
                       onClick={_handleItemClick(item)}
                     >
-                      <Typography fontWeight={2} textStyle='caption'>
+                      <Typography fontWeight={0} textStyle='caption'>
                         {item.title}
                       </Typography>
                     </Touchable>
@@ -62,7 +62,7 @@ const Footer = () => {
 }
 
 const Copyright = () => (
-  <Space mt={{ xs: 5, md: 0 }}>
+  <Space mt={{ xs: 6, md: 0 }}>
     <Box alignSelf='flex-start' width={{ xs: 1, md: 1 / 3 }}>
       <Flex alignItems='center' justifyContent='center'>
         <Image dimensions={[24]} src={icons.logo} />

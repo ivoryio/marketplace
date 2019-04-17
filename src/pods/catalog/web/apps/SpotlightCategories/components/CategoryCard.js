@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Box, Flex, Image, Space, Typography } from '@ivoryio/kogaio'
 
 const CategoryCard = ({ imgSrc, description }) => (
-  <Space mb={5} px={{ xs: 2, md: 3, lg: 6 }}>
+  <Space mb={6} px={{ xs: 2, md: 3, lg: 8 }}>
     <Box width={{ xs: 1 / 2, md: 3 / 10, lg: 1 / 4 }}>
       <Image src={imgSrc} dimensions={['100%', 120]} />
       <Space mt={2}>

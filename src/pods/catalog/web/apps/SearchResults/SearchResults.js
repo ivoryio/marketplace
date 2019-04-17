@@ -134,7 +134,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
           alignItems='center'
           justifyContent='center'
         >
-          <Space pt={5} pb='2px' pr={{ xs: 0, lg: 2 }}>
+          <Space pt={6} pb='2px' pr={{ xs: 0, lg: 2 }}>
             <Box width={{ xs: 1, lg: 8 / 10 }}>
               <Input
                 placeholder='Value'
@@ -166,7 +166,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
           </Hide>
         </Flex>
       </Space>
-      <Space mt={{ xs: 4, lg: 7 }} pl={{ xs: 4, lg: 5 }} pr={{ xs: 4, lg: 0 }}>
+      <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
           <Space p={4}>
             <FilterSection width={1} bg='ghost-white' flexDirection='column'>
@@ -181,7 +181,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                     <Icon name='filter_list' fontSize={3} />
                   </Hide>
                   <Space ml={3}>
-                    <Typography color='gunmetal' fontSize={0} fontWeight={8}>
+                    <Typography color='gunmetal' fontSize={0} fontWeight={2}>
                       FILTER RESULTS
                     </Typography>
                   </Space>
@@ -195,7 +195,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                     ))}
                   </ActiveFiltersWrapper>
                 </Space>
-                <Space mt={{ xs: 4, md: 5 }}>
+                <Space mt={{ xs: 4, md: 6 }}>
                   <Flex width={1}>
                     <FilterCategory
                       options={[{ title: 'Rolex', numberOfProducts: 13 }, { title: 'Tissot', numberOfProducts: 8 }]}
@@ -209,18 +209,18 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
           </Space>
         </Box>
       </Space>
-      <Space mt={{ lg: 7 }}>
+      <Space mt={{ lg: 10 }}>
         <Flex width={{ xs: 1, lg: 3 / 4 }} flexWrap='wrap'>
           <Space
-            mt={{ xs: 4, md: 5, lg: 0 }}
-            pl={{ xs: 4, lg: 5 }}
-            pr={{ xs: 4, md: 12, lg: 5 }}
+            mt={{ xs: 4, md: 6, lg: 0 }}
+            pl={{ xs: 4, lg: 6 }}
+            pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' textStyle='h1'>
               Browsing products for Rolex - 300 results
             </Typography>
           </Space>
-          <Space mt={{ xs: 4, md: 5 }} px={{ xs: 2, lg: 5 }}>
+          <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
             <Flex pt={{ xs: 0, lg: 1 }} width={1}>
               <Space ml={{ xs: 2, lg: 0 }} mr={{ xs: 2, lg: 4 }}>
                 <Dropdown
@@ -246,12 +246,12 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               </Space>
             </Flex>
           </Space>
-          <Space mt={{ xs: 3, md: 5, lg: 4 }} px={{ xs: 2, lg: 3 }}>
+          <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Flex width={1} flexWrap='wrap' justifyContent='center'>
               {watches.map(watch => {
                 const { id, imgSrc, price, title } = watch
                 return (
-                  <Space key={id} pb={{ xs: 4, lg: 5 }} px={{ xs: 2, lg: 3 }}>
+                  <Space key={id} pb={{ xs: 4, lg: 6 }} px={{ xs: 2, lg: 3 }}>
                     <Box width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
                       <ProductCard
                         imgSrc={imgSrc}
@@ -264,7 +264,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
               })}
             </Flex>
           </Space>
-          <Space px={{ md: 4, lg: 5 }} mt={{ xs: 5, md: 4 }}>
+          <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
             <Flex
               width={1}
               flexDirection='row'
@@ -290,7 +290,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                 </Flex>
               </Space>
               <Flex alignItems='center' justifyContent='center' flexWrap='wrap'>
-                <Space mt={{ xs: 5, md: 0 }} mr={{ md: 5 }}>
+                <Space mt={{ xs: 6, md: 0 }} mr={{ md: 6 }}>
                   <Typography
                     alignSelf='center'
                     color='pastel-blue'
@@ -456,7 +456,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                       <Card width={1} colors='card-white' textAlign='center'>
                         <Image
                           dimensions={['100%', 240]}
-                          src={item.imgSrc}
+                          src={item.imgsrc}
                           objectFit='contain'
                         />
                         <Space px={3}>

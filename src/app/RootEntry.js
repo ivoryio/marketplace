@@ -19,13 +19,13 @@ const RootEntry = () => {
   }, [])
 
   const _handleStateUpdated = nextState => {
-    const { state, payload } = nextState
-    setCurrentState({ name: state, payload })
+    const { currentState, payload } = nextState
+    setCurrentState({ name: currentState, payload })
   }
 
-  const transitionToState = nextState => () => {
+  const transitionToState = destination => () => {
     const transitionEvent = new CustomEvent('transition', {
-      detail: { nextState }
+      detail: { destination }
     })
     window.dispatchEvent(transitionEvent)
   }

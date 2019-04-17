@@ -53,7 +53,7 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
   const handleShowOptions = () => setShowOptions(!showOptions)
 
   const LeftCategorySide = () => (
-    <Typography color='pastel-blue' fontSize={0} fontWeight={8}>
+    <Typography color='pastel-blue' fontSize={0} fontWeight={2}>
       {name}
     </Typography>
   )
@@ -66,7 +66,7 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
         height='22px'
         width='22px'
         bg='pastel-blue'
-        borderRadius={6}
+        borderRadius={5}
       >
         <Icon
           color='ghost-white'

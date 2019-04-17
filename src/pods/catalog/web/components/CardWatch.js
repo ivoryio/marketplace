@@ -42,7 +42,7 @@ const CardWatch = ({
         <ProductTitle
           color='gunmetal'
           fontSize={0}
-          fontWeight={8}
+          fontWeight={2}
           textAlign='center'
         >
           {title}
@@ -60,7 +60,7 @@ const CardWatch = ({
           </Description>
         </Flex>
       </Space>
-      <Space mt={6} mb={4}>
+      <Space mt={8} mb={4}>
         <Button
           colors='button-outline-alt'
           fontSize={0}
@@ -82,7 +82,7 @@ const CardWatch = ({
       <Flex alignItems='center' justifyContent='center' width={1}>
         <Image src={imgSrc} height={imgHeight} objectFit='contain' width={1} />
       </Flex>
-      <Space mt={4} px={descriptionPadding || { xs: 4, md: 5 }}>
+      <Space mt={4} px={descriptionPadding || { xs: 4, md: 6 }}>
         <Flex alignItems='center' height='44px'>
           <Description
             color='gunmetal'

@@ -10,31 +10,31 @@ import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
 const categories = ['New Arrivals', 'Mens Watches', 'Ladies Watches', 'Sale']
 const NavMenu = props => (
-  <NavContainer
-    id='landing-nav-menu'
-    justifyContent={{ xs: 'space-evenly', md: 'space-between' }}
-    {...props}
-  >
-    <NavArrow
-      direction='right'
-      id='nav-arrow-left'
-      name='arrow_left'
-      htmlFor='landing-nav-menu'
-      textAlign='left'
-    />
-    <Space px={{ xs: '2.5%', sm: '5%', md: '7.5%' }}>
+  <Space px={{ xs: 0, sm: '5%', md: '7.5%' }}>
+    <NavContainer
+      id='landing-nav-menu'
+      justifyContent='space-between'
+      width={1}
+      {...props}>
+      <NavArrow
+        direction='right'
+        id='nav-arrow-left'
+        name='arrow_left'
+        htmlFor='landing-nav-menu'
+        textAlign='left'
+      />
       {categories.map(category => (
         <Category key={category} name={category} onClick={() => {}} />
       ))}
-    </Space>
-    <NavArrow
-      direction='left'
-      id='nav-arrow-right'
-      name='arrow_right'
-      htmlFor='landing-nav-menu'
-      textAlign='right'
-    />
-  </NavContainer>
+      <NavArrow
+        direction='left'
+        id='nav-arrow-right'
+        name='arrow_right'
+        htmlFor='landing-nav-menu'
+        textAlign='right'
+      />
+    </NavContainer>
+  </Space>
 )
 
 const NavArrow = ({ direction, name, htmlFor, scrollValue, ...rest }) => {
@@ -47,7 +47,7 @@ const NavArrow = ({ direction, name, htmlFor, scrollValue, ...rest }) => {
   }
   return (
     <Hide md lg xlg>
-      <ArrowContainer>
+      <ArrowContainer alignment={name.split('_')[1]}>
         <IconButton
           color='pastel-blue'
           fontSize='2em'
@@ -65,8 +65,7 @@ const Category = ({ name, onClick }) => (
   <Flex
     alignItems='center'
     justifyContent='center'
-    minWidth={{ xs: '40%', sm: '25%', lg: '15%' }}
-  >
+    minWidth={{ xs: '33.3333%', lg: '15%' }}>
     <Touchable effect='opacity' onClick={onClick} width={1}>
       <Typography textStyle='list'>{name}</Typography>
     </Touchable>
@@ -75,7 +74,8 @@ const Category = ({ name, onClick }) => (
 
 const NavContainer = styled(Flex)`
   align-items: center;
-  height: 60px;
+  height: 100%;
+  min-height: 60px;
   flex-wrap: nowrap;
   width: 100%;
   overflow-y: hidden;
@@ -86,13 +86,13 @@ const NavContainer = styled(Flex)`
   -webkit-overflow-scrolling: touch;
 `
 
+const alignment = () => ({ alignment }) => `${alignment}: 0;`
 const ArrowContainer = styled(Flex)`
+  ${alignment}
   background-color: ${themeGet('colors.white')};
   height: 100%;
-  left: 0;
   position: -webkit-sticky;
   position: sticky;
-  right: 0;
   z-index: 2;
 `
 

@@ -4,9 +4,8 @@ const bodyParser = require('body-parser')
 const awsServerlessExpress = require('aws-serverless-express')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
-const productRepo = require('./repository/product')
-const searchService = require('./services/searchService')
-
+const retrieveSecret = require('./services/retrieveSecret')
+const queryTranslate = require('./services/queryTranslate')
 const browseProducts = require('./usecases/browseProducts')
 
 const app = express()
@@ -19,7 +18,8 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 
 router.get('/products', async (req, res) => {
   try {
-    const result = await browseProducts(productRepo, searchService)(req.query)
+    const searchQuery = queryTranslate(req.query)
+    const result = await browseProducts(retrieveSecret)(searchQuery)
 
     res.status(200).json(result)
   } catch (err) {

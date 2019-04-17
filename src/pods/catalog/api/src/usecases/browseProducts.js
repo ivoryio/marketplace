@@ -1,35 +1,21 @@
-const _ = require('lodash')
+const AWS = require('aws-sdk')
 
-module.exports = (repo, searchService) => async searchParams => {
-  if (searchParams.filter === 'newest') {
-    try {
-      let result = await repo.filterNewest()
+module.exports = (retrieveSecret) => async (query) => {
+  const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
+  const { searchEndpoint } = JSON.parse(endpoints)
 
-      result = (_.orderBy(result, ['createdAt'], ['desc'])).slice(0, 20)
-      return result
-    } catch (err) {
-      throw err
+  const cloudSearch = new AWS.CloudSearchDomain({ 
+    endpoint: searchEndpoint,
+    region: process.env.REGION
+  })
+
+  const searchResults = await cloudSearch.search(query).promise()
+
+  return searchResults.hits.hit.map(result => {
+    let object = {}
+    for(let i in result.fields) {
+      object[`${i}`] = result.fields[i][0]
     }
-  } else if (searchParams.filter === 'spotlight') {
-    try {
-      const result = await repo.filterSpotlight()
-
-      return result
-    } catch (err) {
-      throw err
-    }
-  } else if (searchParams.query) {
-    try {
-      const searchResult = await searchService.search(searchParams.query)
-      const ids = searchResult.hits.hit.map(item => item.fields.id[0])
-      if (ids.length === 0) return []
-
-      const result = await repo.queryByIds(ids)
-      return result
-    } catch (err) {
-      throw err
-    }
-  }
-
-  throw new Error('No usecase found')
+    return object
+  })
 }
