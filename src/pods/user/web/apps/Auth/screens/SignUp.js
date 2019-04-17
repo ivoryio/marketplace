@@ -77,7 +77,7 @@ const SignUp = ({ authState, onStateChange }) => {
   }
   return (
     <Flex alignItems='center' justifyContent='center'>
-      <Space mx={4} p={6}>
+      <Space mx={4} p={8}>
         <Card
           alignItems='center'
           colors='card-gray'
@@ -89,7 +89,7 @@ const SignUp = ({ authState, onStateChange }) => {
           <Typography
             data-testid='signup-title'
             color='dark-gunmetal'
-            fontWeight={8}
+            fontWeight={2}
             textAlign='center'
             textStyle='h2'
           >
