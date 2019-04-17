@@ -1036,7 +1036,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
   integrity sha512-4zAPlpDEh2VwXswwr/t8xGNDGg8RQiPxtxZ3qQEXyQsBV39ptTdESCjuBvGze1nLMVrxmTIKmnO/nAV8Tqjjzg==
 
-"@ivoryio/ivory-react-scripts@^0.8.8":
+"@ivoryio/ivory-react-scripts@^0.8.9":
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/@ivoryio/ivory-react-scripts/-/ivory-react-scripts-0.8.9.tgz#0faaa003793bbf2821bf875e1b31e46706af9c8c"
   integrity sha512-21VwpGbWDIv4fCD/hpnLY/YHh2roqWCgeOvQJBCMJHX4sBs4zmDzjyiRhFre3kHydFBBrs+DnwuV9wSOnyv4qA==

@@ -47,7 +47,7 @@ const SignIn = ({ authState, onStateChange, ...props }) => {
   }
   return (
     <Flex alignItems='center' justifyContent='center'>
-      <Space mx={4} p={6}>
+      <Space mx={4} p={8}>
         <Card
           alignItems='center'
           colors='card-gray'

@@ -51,7 +51,7 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
     <Touchable
       effect='opacity'
       bg='dark-gunmetal'
-      borderRadius={7}
+      borderRadius={5}
       data-testid='user-menu-toggler'
       p={3}
       my={2}
