@@ -40,10 +40,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
   }
   const _resetSearchResults = () =>
     setResults({ data: [], isFetching: false, error: null })
-  const _goBack = () =>
-    window.dispatchEvent(
-      new CustomEvent('transition', { detail: { nextState: 'landing' } })
-    )
+  const _goBack = () => window.dispatchEvent(new Event('goBack'))
   const { isFetching, data: products } = results
   return (
     <Space py={4}>
@@ -77,7 +74,7 @@ const SearchResults = ({ regionData: { searchTerm } }) => {
                       <Card width={1} colors='card-white' textAlign='center'>
                         <Image
                           dimensions={['100%', 240]}
-                          src={item.imgSrc}
+                          src={item.imgsrc}
                           objectFit='contain'
                         />
                         <Space px={3}>

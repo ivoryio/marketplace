@@ -1,17 +1,18 @@
 import { API } from 'aws-amplify'
 
 const getNewestProducts = () =>
-  API.get('catalog', '/products?filter=newest', {
+  API.get('catalog', '/products?sortBy=createdat.desc', {
     response: true
   })
 
 const getSearchResults = searchTerm =>
-  API.get('catalog', `/products?query=${searchTerm}`, { response: true })
+  API.get('catalog', `/products?q=${searchTerm}`, { response: true })
 
 const getSpotlightWatches = () =>
-  API.get('catalog', 'products?filter=spotlight', {
+  API.get('catalog', 'products?isspotlight=true', {
     response: true
   })
+
 export default {
   getNewestProducts,
   getSearchResults,

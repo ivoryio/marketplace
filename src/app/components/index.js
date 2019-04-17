@@ -1,4 +1,6 @@
-export { default as CallToAction } from './CallToAction'
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
+export { default as FooterCTA } from './FooterCTA'
+export { default as LandingSearch } from './LandingSearch'
 export { default as NavMenu } from './NavMenu'
+export { default as SpotlightCTA } from './SpotlightCTA'

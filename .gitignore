@@ -11,6 +11,8 @@
 # build
 src/pods/*/api/build
 
+#node_modules
+src/pods/*/api/node_modules
 
 # misc
 .DS_Store

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Auth } from 'aws-amplify'
-import styled from 'styled-components'
+
 import { Formik, Form } from 'formik'
 
 import {
@@ -18,13 +18,13 @@ import icons from 'user-assets/icons'
 import { ValidatedInput } from '../components'
 import { required, emailFormat } from '../services/validators'
 
-const SignIn = ({ authState, onStateChange }) => {
+const SignIn = ({ authState, onStateChange, ...props }) => {
   const _handleStateChange = (newState, params = null) => () =>
     onStateChange(newState, params)
 
   const _signIn = async (values, actions) => {
-    const { setError, setSubmitting } = actions
-    setError(null)
+    const { setStatus, setSubmitting } = actions
+    setStatus(null)
     try {
       const { email, password } = values
       await Auth.signIn(email, password)
@@ -32,12 +32,12 @@ const SignIn = ({ authState, onStateChange }) => {
       if (typeof err === 'object') {
         const { message, code } = err
         if (['NotFoundException', 'NotAuthorizedException'].includes(code)) {
-          return setError('* Invalid email or password.')
+          return setStatus('* Invalid email or password.')
         } else {
-          return setError(`* ${message}`)
+          return setStatus(`* ${message}`)
         }
       }
-      setError(`* Error caught: ${err}`)
+      setStatus(`* Error caught: ${err}`)
     } finally {
       setSubmitting(false)
     }
@@ -46,8 +46,8 @@ const SignIn = ({ authState, onStateChange }) => {
     return null
   }
   return (
-    <Container justifyContent='center' alignItems='center'>
-      <Space mx={3} p={4}>
+    <Flex alignItems='center' justifyContent='center'>
+      <Space mx={4} p={6}>
         <Card
           alignItems='center'
           colors='card-gray'
@@ -73,13 +73,14 @@ const SignIn = ({ authState, onStateChange }) => {
               onSubmit={_signIn}
               render={({
                 values: { email, password },
-                error,
+                status,
                 handleSubmit,
                 isSubmitting
               }) => (
-                <Form noValidate onSubmit={handleSubmit}>
-                  <Space mt={1}>
+                <Space mt={4}>
+                  <Form noValidate onSubmit={handleSubmit}>
                     <ValidatedInput
+                      autoComplete='username'
                       dataTestId='username-input-signin'
                       label='Email'
                       name='email'
@@ -89,6 +90,7 @@ const SignIn = ({ authState, onStateChange }) => {
                       value={email}
                     />
                     <ValidatedInput
+                      autoComplete='current-password'
                       dataTestId='password-input-signin'
                       label='Password'
                       name='password'
@@ -97,49 +99,41 @@ const SignIn = ({ authState, onStateChange }) => {
                       validate={[required]}
                       value={password}
                     />
-                  </Space>
-                  <Space mt={1}>
-                    {error && (
-                      <Typography textStyle='error' textAlign='center'>
-                        {error}
-                      </Typography>
-                    )}
-                  </Space>
-                  <Space mt={4}>
-                    <Button
-                      data-testid='signin-button'
-                      disabled={isSubmitting}
-                      title='Sign In'
-                      type='submit'
-                      width={1}
-                    />
-                  </Space>
-                </Form>
+                    <Typography color='error' textAlign='center' textStyle='h6'>
+                      {status}
+                    </Typography>
+                    <Space mt={4}>
+                      <Button
+                        data-testid='signin-button'
+                        disabled={isSubmitting}
+                        isLoading={isSubmitting}
+                        title='Sign In'
+                        type='submit'
+                        width={1}
+                      />
+                    </Space>
+                  </Form>
+                </Space>
               )}
             />
           </Box>
-          <Space mt={4}>
+          <Space mt={3}>
             <Touchable
               data-testid='anchor-to-signup'
               effect='opacity'
               onClick={_handleStateChange('signUp')}
               width={1}
             >
-              <Typography
-                textStyle='link'
-                message="Don\'t have an account yet? Sign up!"
-              />
+              <Typography textStyle='link'>
+                You do not have an account yet? Sign up!
+              </Typography>
             </Touchable>
           </Space>
         </Card>
       </Space>
-    </Container>
+    </Flex>
   )
 }
-
-const Container = styled(Flex)`
-  height: 100%;
-`
 
 SignIn.propTypes = {
   authState: PropTypes.string.isRequired,

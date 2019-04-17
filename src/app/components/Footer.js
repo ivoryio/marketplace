@@ -12,7 +12,7 @@ const Footer = () => {
     }
     window.dispatchEvent(
       new CustomEvent('transition', {
-        detail: { nextState: path }
+        detail: { destination: path }
       })
     )
   }

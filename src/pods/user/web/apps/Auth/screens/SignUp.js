@@ -1,6 +1,5 @@
 import React from 'react'
 import { Auth } from 'aws-amplify'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Formik, Form } from 'formik'
 import {
@@ -22,15 +21,15 @@ import { required, emailFormat, passwordFormat } from '../services/validators'
 
 const options = [
   {
-    id: 'dropdown-romania',
+    id: 'option-ro',
     name: 'Romania'
   },
   {
-    id: 'dropdown-russia',
+    id: 'option-ru',
     name: 'Russia'
   },
   {
-    id: 'dropdown-moldova',
+    id: 'option-md',
     name: 'Moldova'
   }
 ]
@@ -41,27 +40,33 @@ const SignUp = ({ authState, onStateChange }) => {
   }
 
   const _signUp = async (values, actions) => {
-    const { setError, setSubmitting } = actions
-    setError(null)
-    const { email, password, name, familyName, city, country } = values
+    const { setStatus, setSubmitting } = actions
+    setStatus(null)
+    const { email, password, firstName, familyName, city, country } = values
     try {
-      const user = await Auth.signUp({
+      const newUser = await Auth.signUp({
         username: email,
         password,
         attributes: {
-          name,
+          name: firstName,
           family_name: familyName,
           'custom:city': city,
           'custom:country': country
         }
       })
-      _handleStateChange('signIn', { email: user.email })()
+      if (newUser) {
+        _handleStateChange('signIn', { username: newUser.username })()
+      } else {
+        setStatus(
+          '* Unexpected error caught. Please try again in a few moments.'
+        )
+      }
     } catch (err) {
       if (typeof err === 'object') {
         const { message } = err
-        return setError(`* ${message}`)
+        return setStatus(`* ${message}`)
       }
-      setError(`* Error caught: ${err}`)
+      setStatus(`* Error caught: ${err}`)
     } finally {
       setSubmitting(false)
     }
@@ -71,8 +76,8 @@ const SignUp = ({ authState, onStateChange }) => {
     return null
   }
   return (
-    <Container justifyContent='center' alignItems='center'>
-      <Space mx={3} p={4}>
+    <Flex alignItems='center' justifyContent='center'>
+      <Space mx={4} p={6}>
         <Card
           alignItems='center'
           colors='card-gray'
@@ -80,7 +85,7 @@ const SignUp = ({ authState, onStateChange }) => {
           flexDirection='column'
           width={{ xs: 1, sm: 3 / 4, md: 3 / 5, lg: 1 / 2 }}
         >
-          <Image mx='auto' size={[120]} src={icons.logo} />
+          <Image mx='auto' dimensions={[120]} src={icons.logo} />
           <Typography
             data-testid='signup-title'
             color='dark-gunmetal'
@@ -90,44 +95,45 @@ const SignUp = ({ authState, onStateChange }) => {
           >
             Sign Up Below!
           </Typography>
-          <Space mt={4}>
-            <Formik
-              initialValues={{
-                email: '',
-                password: '',
-                name: '',
-                familyName: '',
-                city: '',
-                country: ''
-              }}
-              onSubmit={_signUp}
-              render={({
-                values: { email, password, name, familyName, city, country },
-                error,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting
-              }) => (
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+              firstName: '',
+              familyName: '',
+              city: '',
+              country: ''
+            }}
+            onSubmit={_signUp}
+            render={({
+              values: { email, password, firstName, familyName, city, country },
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              status
+            }) => (
+              <Space mt={4}>
                 <Form noValidate onSubmit={handleSubmit}>
                   <Flex flexWrap='wrap' justifyContent='center'>
                     <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <ValidatedInput
+                          autoComplete='username'
                           dataTestId='email-input-signup'
                           label='Email'
                           name='email'
                           placeholder='Email'
                           required
+                          showValid='Email validated!'
                           type='email'
                           validate={[required, emailFormat]}
                           value={email}
                         />
                       </Box>
-                    </Space>
-                    <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <ValidatedInput
+                          autoComplete='current-password'
                           dataTestId='password-input-signup'
                           type='password'
                           placeholder='Password'
@@ -135,37 +141,36 @@ const SignUp = ({ authState, onStateChange }) => {
                           value={password}
                           label='Password'
                           required
+                          showValid='Password validated!'
                           validate={[required, passwordFormat]}
                         />
                       </Box>
-                    </Space>
-                    <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <ValidatedInput
+                          autoComplete='first-name'
                           dataTestId='firstname-input-signup'
                           placeholder='First name'
-                          value={name}
+                          value={firstName}
                           label='First Name'
-                          name='name'
+                          name='firstName'
                           required
+                          showValid='First name validated!'
                           validate={[required]}
                         />
                       </Box>
-                    </Space>
-                    <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <ValidatedInput
+                          autoComplete='last-name'
                           dataTestId='lastname-input-signup'
                           label='Last Name'
                           name='familyName'
                           placeholder='Last name'
                           required
+                          showValid='Last name validated!'
                           validate={[required]}
                           value={familyName}
                         />
                       </Box>
-                    </Space>
-                    <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <Input
                           dataTestId='city-input-signup'
@@ -177,11 +182,10 @@ const SignUp = ({ authState, onStateChange }) => {
                           onChange={handleChange}
                         />
                       </Box>
-                    </Space>
-                    <Space px={{ lg: 3 }}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 1 / 2 }}>
                         <Dropdown
-                          data-testid='country-dropdown-signup'
+                          id='country-option-signup'
+                          data-testid='country-option-signup'
                           label='Country'
                           name='country'
                           placeholder='Select Your Country'
@@ -192,21 +196,21 @@ const SignUp = ({ authState, onStateChange }) => {
                         />
                       </Box>
                     </Space>
-                    <Space mt={1}>
-                      <Box width={1}>
-                        {error && (
-                          <Typography textStyle='error' textAlign='center'>
-                            {error}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Space>
+                    <Box width={1}>
+                      <Typography
+                        color='error'
+                        textAlign='center'
+                        textStyle='h6'
+                      >
+                        {status}
+                      </Typography>
+                    </Box>
                     <Space mt={4}>
                       <Box width={{ xs: 1, sm: 4 / 5, md: 3 / 4, lg: 3 / 7 }}>
                         <Button
                           data-testid='signup-button'
                           disabled={isSubmitting}
-                          display='block'
+                          isLoading={isSubmitting}
                           title='Sign Up'
                           type='submit'
                           width={1}
@@ -215,30 +219,25 @@ const SignUp = ({ authState, onStateChange }) => {
                     </Space>
                   </Flex>
                 </Form>
-              )}
-            />
-          </Space>
+              </Space>
+            )}
+          />
           <Space mt={4}>
             <Touchable
               data-testid='anchor-to-signin'
               effect='opacity'
               onClick={_handleStateChange('signIn')}
             >
-              <Typography
-                textStyle='link'
-                message='Already have an account? Sign in!'
-              />
+              <Typography textStyle='link'>
+                Already have an account? Sign in!
+              </Typography>
             </Touchable>
           </Space>
         </Card>
       </Space>
-    </Container>
+    </Flex>
   )
 }
-
-const Container = styled(Flex)`
-  min-height: 100%;
-`
 
 SignUp.propTypes = {
   authState: PropTypes.string.isRequired,

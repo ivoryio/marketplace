@@ -110,7 +110,7 @@ const WatchList = () => {
                 size='32px'
               />
             ) : (
-              data.map(({ id, brand, model, description, imgSrc }) => (
+              data.map(({ id, brand, model, description, imgsrc }) => (
                 <Space key={id} px={{ xs: 2, lg: 3 }}>
                   <Box>
                     <CardWatch
@@ -119,7 +119,7 @@ const WatchList = () => {
                       title={`${brand} ${model}`}
                       type='newest'
                       description={description}
-                      imgSrc={imgSrc}
+                      imgSrc={imgsrc}
                       imgHeight='140px'
                       onClick={() => {}}
                     />

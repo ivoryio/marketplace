@@ -5,16 +5,31 @@ import StateMachineHistory from 'javascript-state-machine/lib/history'
 StateMachine.prototype.listen = function () {
   return Observable.create(function (observer) {
     // #region add event listeners
+    window.addEventListener('escape', handleEvent)
+    window.addEventListener('goBack', handleEvent)
     window.addEventListener('transition', handleEvent)
     // #endregion
 
     // #region handle events
     function handleEvent (ev) {
-      const { nextState, ...payload } = ev.detail
-      if (ev.type === 'transition') {
-        fsm.transitionTo(nextState)
+      const { detail: eventPayload, type: eventType } = ev
+      switch (eventType) {
+        case 'escape':
+          fsm.escape()
+          break
+        case 'goBack':
+          fsm.goBack()
+          break
+        case 'transition':
+          fsm.transitionTo(eventPayload.destination)
+          break
+        default:
+          break
       }
-      observer.next({ state: fsm.state, payload })
+      observer.next({
+        currentState: fsm.state,
+        payload: { ...fsm.data, ...eventPayload }
+      })
     }
     // #endregion
   })
@@ -23,11 +38,13 @@ StateMachine.prototype.listen = function () {
 const fsm = new StateMachine({
   init: 'landing',
   data: {
-    user: null
+    data: {
+      user: {}
+    }
   },
   transitions: [
     {
-      name: 'landing',
+      name: 'escape',
       from: '*',
       to: 'landing'
     },
@@ -37,13 +54,33 @@ const fsm = new StateMachine({
       to: function (nextState) {
         return nextState
       }
+    },
+    {
+      name: 'goBack',
+      from: '*',
+      to: function () {
+        if (fsm.canHistoryBack) {
+          fsm.historyBack()
+          return fsm.history.slice(-1)[0]
+        }
+        return fsm.state
+      }
     }
-  ], // Pattern: { name: '', from: '', to: '' }
+  ],
   plugins: [
     new StateMachineHistory({ max: 100 }) //  <-- plugin enabled here
   ],
   methods: {
-    onTransition: function (lifecycle, data) {}
+    onAuth: function (lifecycle, data) {
+      this.data.user = data
+    },
+    onSignOut: function () {
+      this.data.user = {}
+      fsm.clearHistory()
+    },
+    onInvalidTransition: function (transition, from, to) {
+      console.error(`Invalid transition ${transition} from ${from} to ${to}`)
+    }
   }
 })
 

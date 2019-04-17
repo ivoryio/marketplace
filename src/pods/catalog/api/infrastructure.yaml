@@ -20,49 +20,15 @@ Parameters:
 
 Resources:
   ProductsTable:
-    Type: AWS::DynamoDB::Table
+    Type: AWS::Serverless::SimpleTable
     Properties:
       TableName: !Sub ${TableName}_${StageName}
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: createdAt
-          AttributeType: N
-        - AttributeName: brand
-          AttributeType: S
-        - AttributeName: model
-          AttributeType: S
-        - AttributeName: isSpotlight
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-        - AttributeName: createdAt
-          KeyType: RANGE
+      PrimaryKey:
+         Name: id
+         Type: String
       ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      GlobalSecondaryIndexes:
-        - IndexName: !Sub ${TableName}_${StageName}_gsi_category
-          KeySchema:
-            - AttributeName: brand
-              KeyType: HASH
-            - AttributeName: model
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 5
-            WriteCapacityUnits: 5
-        - IndexName: !Sub ${TableName}_${StageName}_gsi_filter
-          KeySchema:
-            - AttributeName: isSpotlight
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 5
-            WriteCapacityUnits: 5
+         ReadCapacityUnits: 5
+         WriteCapacityUnits: 5
 
   CatalogApi:
     Type: AWS::Serverless::Api
@@ -81,13 +47,16 @@ Resources:
         Variables:
           REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
-          CATEGORY_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_category
-          FILTER_INDEX_NAME: !Sub ${TableName}_${StageName}_gsi_filter
+          SEARCH_HOSTNAME_SECRET: "CloudSearch/Hostname"
       Policies: 
         - AmazonDynamoDBFullAccess
         - Statement:
             - Effect: Allow
               Action: cloudsearch:search
+              Resource: "*"
+        - Statement:
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
               Resource: "*"
       Events:
         ProxyGet:
