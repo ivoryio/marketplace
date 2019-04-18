@@ -1,5 +1,5 @@
 const assert = require('assert')
-const translate = require('../../src/services/queryTranslate')
+const translate = require('../../src/services/search/queryTranslate')
 
 describe('translate()', () => {
     it('should return default params for null query string',() => {

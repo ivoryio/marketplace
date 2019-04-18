@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk')
 
 // const retrieveSecret = require('../src/services/retrieveSecret')
-
-// const { unmarshall } = AWS.DynamoDB.Converter
+const normalizeFields = require('../src/services/search/normalizeFields')
+const { unmarshall } = AWS.DynamoDB.Converter
 
 exports.handler = async (event, context) => {
 
@@ -10,15 +10,12 @@ exports.handler = async (event, context) => {
 
 
   if (event.Records[0].eventName === 'INSERT') {
-    // const item = unmarshall(event.Records[0].dynamodb.NewImage)
+    const item = unmarshall(event.Records[0].dynamodb.NewImage)
 
     const indexParams = { DomainName: 'catalog-search' }
     const indexes = await cloudSearch.describeIndexFields(indexParams).promise()
     const indexNames = indexes.IndexFields.map(index => index.Options.IndexFieldName)
 
-    return indexNames
-
-
-
+    normalizeFields(item, indexNames)
   }
 }

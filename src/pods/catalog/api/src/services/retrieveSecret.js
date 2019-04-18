@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk')
+const AWS = require('pods/catalog/api/src/services/node_modules/aws-sdk')
 
 let cachedHostname = null
 
