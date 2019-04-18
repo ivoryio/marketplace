@@ -23,7 +23,6 @@ const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) =
 
   return (
     <Flex alignItems='center'>
-      <Space mr={{ xs: 1, md: 2 }}>
         <Checkbox
           name={`checkbox-${title}`}
           value={title}
@@ -31,13 +30,14 @@ const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) =
           checked={isChecked}
           onChange={handleCheck}
         />
+      <Space ml={{ xs: 1, md: 2 }}>
+        <Typography
+          color='gunmetal'
+          fontSize={1}
+        >
+          {title}
+        </Typography>
       </Space>
-      <Typography
-        color='gunmetal'
-        fontSize={1}
-      >
-        {title}
-      </Typography>
     </Flex>
   )
 }
@@ -105,10 +105,10 @@ const Checkbox = styled.input`
 LeftOptionSide.propTypes = {
   categoryName: PropTypes.string,
   title: PropTypes.string,
-  handleActiveFilterCategories: PropTypes.string
+  handleActiveFilterCategories: PropTypes.func
 }
 RightOptionSide.propTypes = {
-  numberOfProducts: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+  numberOfProducts: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 Row.propTypes = {
   left: PropTypes.oneOfType([

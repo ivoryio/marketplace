@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Region } from 'frint-react'
 
 const SearchResults = ({ searchTerm }) => (
-  <Region name='search-results' data={{ searchTerm }} />
+  <Region name='products-overview' data={{ searchTerm }} />
 )
 
 SearchResults.propTypes = {
