@@ -1,14 +1,15 @@
 const AWS = require('aws-sdk')
 
 const retrieveSecret = require('./services/retrieveSecret')
-const normalizeFields = require('./services/search/normalizeFields')
+const normalize = require('./services/search/normalizeFields')
+
 const { unmarshall } = AWS.DynamoDB.Converter
 
 exports.handler = async event => {
+  let params = {}
   const { eventName } = event.Records[0]
   const { NewImage, OldImage } = event.Records[0].dynamodb
-  let params = {}
-
+  
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { docService } = JSON.parse(endpoints)
 
@@ -29,7 +30,7 @@ exports.handler = async event => {
 
 const insertDocument = async NewImage => {
   try {
-    const fieldsToInsert = normalizeFields(unmarshall(NewImage))
+    const fieldsToInsert = normalize(unmarshall(NewImage))
 
     const document = [
       {
