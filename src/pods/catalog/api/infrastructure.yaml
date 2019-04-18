@@ -8,6 +8,7 @@ Globals:
       Variables:
         SEARCH_HOSTNAME_SECRET: CloudSearch/Hostname
         REGION: !Sub ${AWS::Region}
+        CS_DOMAIN_NAME: catalog-search
 
 
 Parameters:
