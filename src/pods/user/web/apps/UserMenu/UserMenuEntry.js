@@ -1,18 +1,10 @@
-import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 import { Auth } from 'aws-amplify'
 import PropTypes from 'prop-types'
 import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
 
-import {
-  MenuList,
-  Modal,
-  Space,
-  themeGet,
-  Touchable,
-  Typography
-} from '@ivoryio/kogaio'
+import { MenuList, Modal, Touchable, Typography } from '@ivoryio/kogaio'
 
 const menuItems = [
   {
@@ -34,15 +26,16 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
   const toggleModal = () => setModalShown(!isModalShown)
 
   async function _signOut () {
-    await _requestSignOut()
     toggleModal()
+    await _requestSignOut()
 
     async function _requestSignOut () {
-      await Auth.signOut().catch(err =>
+      try {
+        await Auth.signOut()
+        window.dispatchEvent(new Event('signOut'))
+      } catch (err) {
         console.error('* Error caught on sign out', err)
-      )
-      const event = new Event('signout')
-      window.dispatchEvent(event)
+      }
     }
   }
 
@@ -54,28 +47,32 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
         return toggleModal()
     }
   }
-  const SignOutIcon = ({ ...props }) => (
-    <RoundedIcon data-testid='user-menu-toggler' {...props}>
-      <Typography color='white' fontSize={3}>
+  const UserAvatar = ({ ...props }) => (
+    <Touchable
+      effect='opacity'
+      bg='dark-gunmetal'
+      borderRadius={5}
+      data-testid='user-menu-toggler'
+      p={3}
+      my={2}
+      {...props}
+    >
+      <Typography color='white' fontSize={3} textStyle='h5'>
         {initials}
       </Typography>
-    </RoundedIcon>
+    </Touchable>
   )
 
   return (
-    <Fragment>
-      <Space mr={3} py={2}>
-        <MenuList
-          alignment='right'
-          arrowSize={10}
-          CustomToggler={SignOutIcon}
-          id='user-menu'
-          colors='menu-list'
-          fontSize='1rem'
-          listItems={menuItems}
-          onSelectItem={_selectMenuItem}
-        />
-      </Space>
+    <>
+      <MenuList
+        alignment='right'
+        arrowSize={8}
+        CustomToggler={UserAvatar}
+        id='user-menu'
+        listItems={menuItems}
+        onSelectItem={_selectMenuItem}
+      />
       {isModalShown ? (
         <Modal
           cancelButtonType='outline'
@@ -84,10 +81,10 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
           data-testid='signout-modal'
           display='flex'
           flexDirection='column'
-          fontSize='1.2rem'
+          fontSize='1.2em'
           hideModal={toggleModal}
-          minHeight='14em'
-          maxHeight='25em'
+          minHeight='224px'
+          maxHeight='400px'
           position='relative'
           px={3}
           width={{ xs: 9 / 10, sm: 3 / 4, md: 1 / 2, lg: 1 / 3 }}
@@ -95,16 +92,9 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
           Are you sure you want to sign out?
         </Modal>
       ) : null}
-    </Fragment>
+    </>
   )
 }
-
-const RoundedIcon = styled(Touchable)`
-  width: 40px;
-  height: 40px;
-  border-radius: ${themeGet('radii.5', '50%')};
-  background-color: ${themeGet('colors.dark-gunmetal', '#484848')};
-`
 
 const ObservedUserMenu = observe((app, props$) => {
   const region = app.get('region')

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Flex } from '@ivoryio/kogaio'
+import { Hub } from '@aws-amplify/core'
 
 import fsm from './services/StateMachine'
 import { Header, NavMenu } from './components'
@@ -19,28 +20,33 @@ const RootEntry = () => {
   }, [])
 
   const _handleStateUpdated = nextState => {
-    const { state, payload } = nextState
-    setCurrentState({ name: state, payload })
+    const { currentState, payload } = nextState
+    setCurrentState({ name: currentState, payload })
   }
 
-  const transitionToState = nextState => () => {
-    const transitionEvent = new CustomEvent('transition', {
-      detail: { nextState }
-    })
-    window.dispatchEvent(transitionEvent)
+  const transitionToState = (destination, payload = {}) => () => {
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'transition',
+        data: { destination, payload },
+        message: `Request to transition to ${destination}`
+      },
+      ''
+    )
   }
 
   const CurrentScreen = (() => {
     const { name: stateName, payload } = currentState
     switch (stateName) {
+      case 'landing':
+        return <Landing />
       case 'profile':
         return <Profile />
       case 'cart':
         return <Cart />
       case 'search-results':
         return <SearchResults searchTerm={payload.searchTerm} />
-      case 'landing':
-        return <Landing />
       default:
         return <NotFound />
     }
