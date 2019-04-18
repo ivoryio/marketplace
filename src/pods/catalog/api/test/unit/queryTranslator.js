@@ -1,5 +1,5 @@
 const assert = require('assert')
-const translate = require('../../src/services/queryTranslate')
+const translate = require('../../src/services/search/queryTranslate')
 
 describe('translate()', () => {
     it('should return default params for null query string',() => {
@@ -136,7 +136,7 @@ describe('translate()', () => {
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, null)
     })
-    it('should return params for search text, filtered by brand, model and gender, sorted by oldest, at page 3, with 5 resources on the page', () => {
+    it('should return params for search text, filtered by brand, model, spotlight and gender, sorted by oldest, at page 3, with 5 resources on the page', () => {
         const queryString = { 
             q: 'rolex men',
             sortBy: 'createdat.asc',
@@ -144,7 +144,8 @@ describe('translate()', () => {
             model: 'submariner',
             gender: 'men',
             limit: 5,
-            start: 15
+            start: 15,
+            isspotlight: 'true'
         }
 
         const result = translate(queryString)
@@ -153,6 +154,19 @@ describe('translate()', () => {
         assert.equal(result.size, 5)
         assert.equal(result.sort, 'createdat asc')
         assert.equal(result.start, 15)
-        assert.equal(result.filterQuery, `(and(and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men'))`)
+        assert.equal(result.filterQuery, `(and(and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isspotlight' 'true'))`)
+    })
+    it('should return params filtered by spotlight', () => {
+        const queryString = { 
+            isspotlight: 'true'
+        }
+
+        const result = translate(queryString)
+
+        assert.equal(result.query, 'ivory|-ivory')
+        assert.equal(result.size, 10)
+        assert.equal(result.sort, 'createdat desc')
+        assert.equal(result.start, 0)
+        assert.equal(result.filterQuery, `(and field='isspotlight' 'true')`)
     })
 })

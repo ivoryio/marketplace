@@ -2,6 +2,15 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: AWS resources for the Catalog microservice
 
+Globals:
+  Function:
+    Environment:
+      Variables:
+        SEARCH_HOSTNAME_SECRET: CloudSearch/Hostname
+        REGION: !Sub ${AWS::Region}
+        CS_DOMAIN_NAME: catalog-search
+
+
 Parameters:
   StageName:
     Type: String
@@ -20,15 +29,20 @@ Parameters:
 
 Resources:
   ProductsTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
       TableName: !Sub ${TableName}_${StageName}
-      PrimaryKey:
-         Name: id
-         Type: String
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
       ProvisionedThroughput:
          ReadCapacityUnits: 5
          WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
 
   CatalogApi:
     Type: AWS::Serverless::Api
@@ -45,19 +59,17 @@ Resources:
       Runtime: nodejs8.10
       Environment:
         Variables:
-          REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
-          SEARCH_HOSTNAME_SECRET: "CloudSearch/Hostname"
       Policies: 
         - AmazonDynamoDBFullAccess
         - Statement:
             - Effect: Allow
               Action: cloudsearch:search
-              Resource: "*"
+              Resource: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search 
         - Statement:
             - Effect: Allow
               Action: secretsmanager:GetSecretValue
-              Resource: "*"
+              Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:CloudSearch/Hostname-*
       Events:
         ProxyGet:
           Type: Api
@@ -71,6 +83,39 @@ Resources:
             RestApiId: !Ref CatalogApi
             Path: /{proxy+}
             Method: OPTIONS
+
+  DBStreamController:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/dbStreamController.handler
+      MemorySize: 1024
+      Timeout: 60
+      Runtime: nodejs8.10
+      Events:
+        DBStream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt ProductsTable.StreamArn
+            StartingPosition: LATEST
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeStream
+              - dynamodb:GetRecords
+              - dynamodb:GetShardIterator
+              - dynamodb:ListStreams
+            Resource: !GetAtt ProductsTable.Arn
+        - Statement:
+          - Effect: Allow
+            Action:
+              - cloudsearch:document
+              - cloudsearch:DescribeIndexFields
+            Resource: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search
+        - Statement:
+          - Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:CloudSearch/Hostname-*   
 
 Outputs:
   ApiUrl:

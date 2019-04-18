@@ -23,6 +23,9 @@ module.exports = (queryString) => {
       if(queryString.gender) {
         query.push(`(and field='gender' '${queryString.gender}')`)
       }
+      if(queryString.isspotlight) {
+        query.push(`(and field='isspotlight' '${queryString.isspotlight}')`)
+      }
       if(query.length > 1) {
         query.unshift('(and')
         query.push(')')

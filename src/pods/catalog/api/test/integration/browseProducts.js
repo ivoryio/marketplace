@@ -1,6 +1,6 @@
 const assert = require('assert')
 
-const queryTranslate = require('../../src/services/queryTranslate')
+const queryTranslate = require('../../src/services/search/queryTranslate')
 const retrieveSecret = require('../../src/services/retrieveSecret')
 const browseProducts = require('../../src/usecases/browseProducts')
 

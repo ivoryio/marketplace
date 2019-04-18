@@ -5,7 +5,7 @@ const awsServerlessExpress = require('aws-serverless-express')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 const retrieveSecret = require('./services/retrieveSecret')
-const queryTranslate = require('./services/queryTranslate')
+const queryTranslate = require('./services/search/queryTranslate')
 const browseProducts = require('./usecases/browseProducts')
 
 const app = express()
