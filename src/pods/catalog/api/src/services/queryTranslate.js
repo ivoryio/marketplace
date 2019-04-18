@@ -2,7 +2,7 @@ module.exports = (queryString) => {
 
   return {
     query: queryString && queryString.q ? queryString.q : 'ivory|-ivory',
-    size: queryString && queryString.limit ? queryString.limit : 10,
+    size: queryString && queryString.limit ? queryString.limit : 500,
     start: queryString && queryString.start ? queryString.start : 0,
     filterQuery: createFilterQuery(queryString),
     sort: queryString && queryString.sortBy ? queryString.sortBy.replace('.', ' ') : 'createdat desc'
