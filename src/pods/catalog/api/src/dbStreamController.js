@@ -4,7 +4,7 @@ const retrieveSecret = require('./services/retrieveSecret')
 const normalizeFields = require('./services/search/normalizeFields')
 const { unmarshall } = AWS.DynamoDB.Converter
 
-exports.handler = async (event, context) => {
+exports.handler = async event => {
   const { eventName } = event.Records[0]
   const { NewImage, OldImage } = event.Records[0].dynamodb
   let params = {}
@@ -22,9 +22,6 @@ exports.handler = async (event, context) => {
     case 'REMOVE':
       params = await removeDocument(OldImage)
       break
-
-    default:
-      process.stderr.write('Unknown DDB event')
   }
 
   await cloudSearchDomain.uploadDocuments(params).promise()
