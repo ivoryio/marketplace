@@ -1,34 +1,33 @@
 import { Observable } from 'rxjs'
+import { Hub } from '@aws-amplify/core'
 import StateMachine from 'javascript-state-machine'
 import StateMachineHistory from 'javascript-state-machine/lib/history'
 
 StateMachine.prototype.listen = function () {
   return Observable.create(function (observer) {
-    // #region add event listeners
-    window.addEventListener('escape', handleEvent)
-    window.addEventListener('goBack', handleEvent)
-    window.addEventListener('transition', handleEvent)
+    // #region add event channels
+    Hub.listen('TransitionChannel', transitionListener)
     // #endregion
 
     // #region handle events
-    function handleEvent (ev) {
-      const { detail: eventPayload, type: eventType } = ev
-      switch (eventType) {
+    function transitionListener (ev) {
+      const { event, data } = ev.payload
+      switch (event) {
+        case 'transition':
+          fsm.transitionTo(data.destination)
+          break
         case 'escape':
           fsm.escape()
           break
         case 'goBack':
           fsm.goBack()
           break
-        case 'transition':
-          fsm.transitionTo(eventPayload.destination)
-          break
         default:
           break
       }
       observer.next({
         currentState: fsm.state,
-        payload: { ...fsm.data, ...eventPayload }
+        payload: { ...fsm.data, ...data.payload }
       })
     }
     // #endregion
