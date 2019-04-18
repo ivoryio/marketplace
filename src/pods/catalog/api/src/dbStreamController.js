@@ -4,46 +4,69 @@ const retrieveSecret = require('./services/retrieveSecret')
 const normalizeFields = require('./services/search/normalizeFields')
 const { unmarshall } = AWS.DynamoDB.Converter
 
-
-
-
 exports.handler = async (event, context) => {
+  const { eventName } = event.Records[0]
+  const { NewImage, OldImage } = event.Records[0].dynamodb
+  let params = {}
+
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { docService } = JSON.parse(endpoints)
-  const { eventName } = event.Records[0]
 
   const cloudSearchDomain = new AWS.CloudSearchDomain({ endpoint: docService })
 
-  if (eventName === 'INSERT') {
-    const item = unmarshall(event.Records[0].dynamodb.NewImage)
+  switch (eventName) {
+    case 'INSERT':
+      params = await insertDocument(NewImage)
+      break
 
-    const fieldsToInsert = normalizeFields(item)
+    case 'REMOVE':
+      params = await removeDocument(OldImage)
+      break
 
-    const documentToInsert = [{
-      type: 'add',
-      id: fieldsToInsert.id,
-      fields: { ...fieldsToInsert }
-    }]
+    default:
+      process.stderr.write('Unknown DDB event')
+  }
 
-    const insertParams = {
+  await cloudSearchDomain.uploadDocuments(params).promise()
+}
+
+const insertDocument = async NewImage => {
+  try {
+    const fieldsToInsert = normalizeFields(unmarshall(NewImage))
+
+    const document = [
+      {
+        type: 'add',
+        id: fieldsToInsert.id,
+        fields: { ...fieldsToInsert }
+      }
+    ]
+
+    const params = {
       contentType: 'application/json',
-      documents: JSON.stringify(documentToInsert)
+      documents: JSON.stringify(document)
     }
 
-    await cloudSearchDomain.uploadDocuments(insertParams).promise()
-  } else if(eventName === 'REMOVE') {
-    const { id } = unmarshall(event.Records[0].dynamodb.OldImage)
+    return params
+  } catch (err) {
+    process.stderr.write(err)
+  }
+}
 
-    const documentToRemove = [{
+const removeDocument = async OldImage => {
+  const { id } = unmarshall(OldImage)
+
+  const document = [
+    {
       type: 'delete',
       id
-    }]
-
-    const removeParams = {
-      contentType: 'application/json',
-      documents: JSON.stringify(documentToRemove)
     }
-    
-    await cloudSearchDomain.uploadDocuments(removeParams).promise()    
+  ]
+
+  const params = {
+    contentType: 'application/json',
+    documents: JSON.stringify(document)
   }
+
+  return params
 }
