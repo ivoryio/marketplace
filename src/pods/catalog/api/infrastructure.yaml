@@ -2,6 +2,14 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: AWS resources for the Catalog microservice
 
+Globals:
+  Function:
+    Environment:
+      Variables:
+        SEARCH_HOSTNAME_SECRET: CloudSearch/Hostname
+        REGION: !Sub ${AWS::Region}
+
+
 Parameters:
   StageName:
     Type: String
@@ -50,9 +58,7 @@ Resources:
       Runtime: nodejs8.10
       Environment:
         Variables:
-          REGION: !Sub ${AWS::Region}
           TABLE_NAME: !Ref ProductsTable
-          SEARCH_HOSTNAME_SECRET: "CloudSearch/Hostname"
       Policies: 
         - AmazonDynamoDBFullAccess
         - Statement:
@@ -101,8 +107,14 @@ Resources:
             Resource: !GetAtt ProductsTable.Arn
         - Statement:
           - Effect: Allow
-            Action: cloudsearch:document
-            Resouce: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search
+            Action:
+              - cloudsearch:document
+              - cloudsearch:DescribeIndexFields
+            Resource: !Sub arn:${AWS::Partition}:cloudsearch:${AWS::Region}:${AWS::AccountId}:domain/catalog-search
+        - Statement:
+          - Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:CloudSearch/Hostname-*   
 
 Outputs:
   ApiUrl:
