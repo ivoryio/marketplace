@@ -17,18 +17,22 @@ exports.handler = async event => {
 
   switch (eventName) {
     case 'INSERT':
-      params = await insertDocument(NewImage)
+      params = await updateDocument(NewImage)
       break
 
     case 'REMOVE':
       params = await removeDocument(OldImage)
+      break
+    
+    case 'MODIFY':
+      params = await updateDocument(NewImage)
       break
   }
 
   await cloudSearchDomain.uploadDocuments(params).promise()
 }
 
-const insertDocument = async NewImage => {
+const updateDocument = async NewImage => {
   try {
     const fieldsToInsert = normalize(unmarshall(NewImage))
 
