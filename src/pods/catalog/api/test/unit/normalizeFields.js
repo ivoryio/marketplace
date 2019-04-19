@@ -65,7 +65,7 @@ describe('normalize()', () => {
   })
   it('should return an object only with extra fields removed', () => {
     const inputItem = { 
-      id: '1',
+      id: '2',
       brand: 'rolex',
       model: 'submariner',
       description: 'nice watch',
@@ -77,7 +77,7 @@ describe('normalize()', () => {
       rating: '7'
     }
     const exptectedItem = {
-      id: '1',
+      id: '2',
       brand: 'rolex',
       model: 'submariner',
       description: 'nice watch',

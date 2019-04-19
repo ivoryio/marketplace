@@ -13,7 +13,6 @@ module.exports = document => {
     }
   })
 
-  document.id = '1'
   document.brand = document.brand ? document.brand : ''
   document.model = document.model ? document.model : ''
   document.description = document.description ? document.description : ''

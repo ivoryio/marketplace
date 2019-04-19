@@ -9,9 +9,6 @@ exports.handler = async (event, contex) => {
   let params = {}
   const { eventName } = event.Records[0]
   const { NewImage, OldImage } = event.Records[0].dynamodb
-  // console.log({eventName})
-  // console.log({NewImage})
-  // console.log({OldImage})
   
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { docService } = JSON.parse(endpoints)
@@ -19,7 +16,7 @@ exports.handler = async (event, contex) => {
 
   switch (eventName) {
     case 'INSERT':
-      params = await insertDocument(NewImage)
+      params = await updateDocument(NewImage)
       break
 
     case 'REMOVE':
@@ -30,12 +27,11 @@ exports.handler = async (event, contex) => {
       params = await updateDocument(NewImage)
       break
   }
-  // console.log(params)
+
   await cloudSearchDomain.uploadDocuments(params).promise()
-  // console.log(result)
 }
 
-const insertDocument = async NewImage => {
+const updateDocument = async NewImage => {
   try {
     const fieldsToInsert = normalize(unmarshall(NewImage))
 
@@ -74,27 +70,4 @@ const removeDocument = async OldImage => {
   }
 
   return params
-}
-
-const updateDocument = async NewImage => {
-  try {
-    const fieldsToInsert = normalize(unmarshall(NewImage))
-
-    const document = [
-      {
-        type: 'add',
-        id: fieldsToInsert.id,
-        fields: { ...fieldsToInsert }
-      }
-    ]
-
-    const params = {
-      contentType: 'application/json',
-      documents: JSON.stringify(document)
-    }
-
-    return params
-  } catch (err) {
-    process.stderr.write(err)
-  }
 }
