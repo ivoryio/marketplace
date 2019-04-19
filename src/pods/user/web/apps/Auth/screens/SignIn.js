@@ -62,7 +62,7 @@ const SignIn = ({ authState, onStateChange, ...props }) => {
               color='dark-gunmetal'
               fontWeight={2}
               textAlign='center'
-              textStyle='h2'
+              variant='h2'
             >
               Sign In Below!
             </Typography>
@@ -99,7 +99,7 @@ const SignIn = ({ authState, onStateChange, ...props }) => {
                       validate={[required]}
                       value={password}
                     />
-                    <Typography color='error' textAlign='center' textStyle='h6'>
+                    <Typography color='error' textAlign='center' variant='h6'>
                       {status}
                     </Typography>
                     <Space mt={4}>
@@ -124,7 +124,7 @@ const SignIn = ({ authState, onStateChange, ...props }) => {
               onClick={_handleStateChange('signUp')}
               width={1}
             >
-              <Typography textStyle='link'>
+              <Typography variant='link'>
                 You do not have an account yet? Sign up!
               </Typography>
             </Touchable>

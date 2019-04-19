@@ -91,7 +91,7 @@ const SignUp = ({ authState, onStateChange }) => {
             color='dark-gunmetal'
             fontWeight={2}
             textAlign='center'
-            textStyle='h2'
+            variant='h2'
           >
             Sign Up Below!
           </Typography>
@@ -200,7 +200,7 @@ const SignUp = ({ authState, onStateChange }) => {
                       <Typography
                         color='error'
                         textAlign='center'
-                        textStyle='h6'
+                        variant='h6'
                       >
                         {status}
                       </Typography>
@@ -228,7 +228,7 @@ const SignUp = ({ authState, onStateChange }) => {
               effect='opacity'
               onClick={_handleStateChange('signIn')}
             >
-              <Typography textStyle='link'>
+              <Typography variant='link'>
                 Already have an account? Sign in!
               </Typography>
             </Touchable>

@@ -2,7 +2,7 @@ module.exports = (queryString) => {
 
   return {
     query: queryString && queryString.q ? queryString.q : 'ivory|-ivory',
-    size: queryString && queryString.limit ? queryString.limit : 10,
+    size: queryString && queryString.limit ? queryString.limit : 500,
     start: queryString && queryString.start ? queryString.start : 0,
     filterQuery: createFilterQuery(queryString),
     sort: queryString && queryString.sortBy ? queryString.sortBy.replace('.', ' ') : 'createdat desc'
@@ -22,6 +22,9 @@ module.exports = (queryString) => {
       }
       if(queryString.gender) {
         query.push(`(and field='gender' '${queryString.gender}')`)
+      }
+      if(queryString.isspotlight) {
+        query.push(`(and field='isspotlight' '${queryString.isspotlight}')`)
       }
       if(query.length > 1) {
         query.unshift('(and')

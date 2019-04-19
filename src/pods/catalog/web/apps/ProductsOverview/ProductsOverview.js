@@ -182,7 +182,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
             pl={{ xs: 4, lg: 6 }}
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
-            <Typography color='gunmetal' textStyle='h1'>
+            <Typography color='gunmetal' variant='h1'>
               Browsing products for {searchValue} - 300 results
             </Typography>
           </Space>

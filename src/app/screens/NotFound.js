@@ -8,7 +8,7 @@ const NotFound = () => (
       alignItems='center'
       flexDirection='column'
       justifyContent='center'
-      textStyle='h2'
+      variant='h2'
     >
       <Typography>Oops! Looks like you found a non-existing page.</Typography>
       <Typography>Ask Mihai for assistance (politely!)</Typography>

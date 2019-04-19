@@ -86,7 +86,7 @@ const CardWatch = ({
         <Flex alignItems='center' height='44px'>
           <Description
             color='gunmetal'
-            textStyle={descriptionFontStyle || 'h6'}
+            variant={descriptionFontStyle || 'h6'}
             textAlign='center'
           >
             {description}

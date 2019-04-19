@@ -52,7 +52,7 @@ const NavButton = ({ icName, label, onClick }) => (
         <Icon color='pastel-blue' fontSize={4} name={icName} />
         <Hide xs sm md>
           <Space ml={2}>
-            <Typography color='pastel-blue' textStyle='list'>
+            <Typography color='pastel-blue' variant='list'>
               {label}
             </Typography>
           </Space>

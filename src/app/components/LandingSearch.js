@@ -1,4 +1,5 @@
 import React from 'react'
+import { Hub } from '@aws-amplify/core'
 import { Space } from '@ivoryio/kogaio'
 import { HeroSearch } from '@ivoryio/mercury'
 
@@ -6,10 +7,14 @@ import icons from 'assets/icons'
 
 const LandingSearch = () => {
   const _requestSearch = searchTerm =>
-    window.dispatchEvent(
-      new CustomEvent('transition', {
-        detail: { destination: 'search-results', searchTerm }
-      })
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'transition',
+        data: { destination: 'search-results', searchTerm },
+        message: `Request to transition to search-results`
+      },
+      'LandingSearch'
     )
 
   return (

@@ -125,12 +125,12 @@ const SpotlightWatches = () => {
   return (
     <Flex width={1} flexDirection='column' alignItems='center'>
       <Space px={4}>
-        <Typography color='gunmetal' textAlign='center' textStyle='h5'>
+        <Typography color='gunmetal' textAlign='center' variant='h5'>
           Spotlight Section
         </Typography>
       </Space>
       <Space mt={1} px={4}>
-        <Typography color='manatee' textAlign='center' textStyle='h5'>
+        <Typography color='manatee' textAlign='center' variant='h5'>
           Subtitle with a call to action label goes here
         </Typography>
       </Space>

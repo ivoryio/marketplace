@@ -1036,10 +1036,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
   integrity sha512-4zAPlpDEh2VwXswwr/t8xGNDGg8RQiPxtxZ3qQEXyQsBV39ptTdESCjuBvGze1nLMVrxmTIKmnO/nAV8Tqjjzg==
 
-"@ivoryio/ivory-react-scripts@^0.8.9":
-  version "0.8.9"
-  resolved "https://registry.yarnpkg.com/@ivoryio/ivory-react-scripts/-/ivory-react-scripts-0.8.9.tgz#0faaa003793bbf2821bf875e1b31e46706af9c8c"
-  integrity sha512-21VwpGbWDIv4fCD/hpnLY/YHh2roqWCgeOvQJBCMJHX4sBs4zmDzjyiRhFre3kHydFBBrs+DnwuV9wSOnyv4qA==
+"@ivoryio/ivory-react-scripts@^0.8.10":
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/@ivoryio/ivory-react-scripts/-/ivory-react-scripts-0.8.10.tgz#ee5416efa9906ad44c725759bbcb19510042e8bd"
+  integrity sha512-Q+q+XYR8SKZxJjyou7Gq7Wji5CHZEWS2E36tiuxesnNCtgKQfSBcbcmzDmOPJufibPmL2u2iXaUXZ8cUM7ap0A==
   dependencies:
     "@babel/core" "7.4.3"
     "@svgr/webpack" "4.1.0"
@@ -1094,18 +1094,18 @@
   optionalDependencies:
     fsevents "1.2.7"
 
-"@ivoryio/kogaio@^0.3.26":
-  version "0.3.26"
-  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.3.26.tgz#89c98ec2eab54d4e661dd6f7d0c6fa421e6a1521"
-  integrity sha512-/NWw05N3bQwQQwkMRB7A3LK/hAaszWr303ULfXi7dRbLoozPbeyw2vm8o9kKbntZnirlZPCmKuSmtHwJEX7mtg==
+"@ivoryio/kogaio@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.4.1.tgz#097d73d06701a681153d17577761c561b4798a31"
+  integrity sha512-VmmM4MnDxYA2QX2bBClUkUIaVB+qz0v0mgSO7vn7kP9qyG/nhRsDpBqGb1+DgTWuzpuaADiVNoE/B0iRDyi46Q==
   dependencies:
     styled-components "4.2.0"
     styled-system "^4.1.0"
 
-"@ivoryio/mercury@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@ivoryio/mercury/-/mercury-0.0.3.tgz#f5bd9d84c68184590dc5791ddd64b1cef6c1f9e6"
-  integrity sha512-66mitF8HwQT0Uz0Oi2nPlV7L9cjr9jIFFhaRKNJb24TD1x+ZCP5I3SPMJ2BjC1ZRi7DLTvcAUNFDO/ekec24kA==
+"@ivoryio/mercury@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ivoryio/mercury/-/mercury-0.0.5.tgz#4fef270774fdd8d56e75281f2a33b451eea46552"
+  integrity sha512-5BQX/WaEhsdrRR1l3RmjMCnZjOF+FaHCrvJg2iopLb/RTvPNkbkNUDmVJpuu00sMrEbH7v7KI9BMPgLvSBmtkA==
 
 "@jest/console@^24.7.1":
   version "24.7.1"
@@ -10330,7 +10330,7 @@ style-loader@0.23.1:
     loader-utils "^1.1.0"
     schema-utils "^1.0.0"
 
-styled-components@4.2.0, styled-components@^4.2.0:
+styled-components@4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-4.2.0.tgz#811fbbec4d64c7189f6c7482b9eb6fefa7fefef7"
   integrity sha512-L/LzkL3ZbBhqIVHdR7DbYujy4tqvTNRfc+4JWDCYyhTatI+8CRRQUmdaR0+ARl03DWsfKLhjewll5uNLrqrl4A==
