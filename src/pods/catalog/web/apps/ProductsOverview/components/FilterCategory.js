@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import PropTypes from "prop-types"
-import { Flex, Icon, Space, Touchable, Typography } from "@ivoryio/kogaio"
+import PropTypes from 'prop-types'
+import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 const Row = ({ left, right }) => (
   <Space>
@@ -12,10 +12,14 @@ const Row = ({ left, right }) => (
   </Space>
 )
 
-const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) => {
-  const [ isChecked, setIsChecked ] = useState(false)
-  const handleCheck = (ev) => {
-    if(!isChecked) {
+const LeftOptionSide = ({
+  categoryName,
+  title,
+  handleActiveFilterCategories
+}) => {
+  const [isChecked, setIsChecked] = useState(false)
+  const handleCheck = ev => {
+    if (!isChecked) {
       handleActiveFilterCategories(categoryName.toLowerCase(), title)()
     }
     setIsChecked(!isChecked)
@@ -23,18 +27,15 @@ const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) =
 
   return (
     <Flex alignItems='center'>
-        <Checkbox
-          name={`checkbox-${title}`}
-          value={title}
-          type='checkbox'
-          checked={isChecked}
-          onChange={handleCheck}
-        />
+      <Checkbox
+        name={`checkbox-${title}`}
+        value={title}
+        type='checkbox'
+        checked={isChecked}
+        onChange={handleCheck}
+      />
       <Space ml={{ xs: 1, md: 2 }}>
-        <Typography
-          color='gunmetal'
-          fontSize={1}
-        >
+        <Typography color='gunmetal' fontSize={1}>
           {title}
         </Typography>
       </Space>
@@ -42,13 +43,16 @@ const LeftOptionSide = ({ categoryName, title, handleActiveFilterCategories }) =
   )
 }
 
-  const RightOptionSide = ({ numberOfProducts }) => (
-    <Typography>
-      {`(${numberOfProducts})`}
-    </Typography>
-  )
+const RightOptionSide = ({ numberOfProducts }) => (
+  <Typography>{`(${numberOfProducts})`}</Typography>
+)
 
-const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props }) => {
+const FilterCategory = ({
+  name,
+  options,
+  handleActiveFilterCategories,
+  ...props
+}) => {
   const [showOptions, setShowOptions] = useState(false)
   const handleShowOptions = () => setShowOptions(!showOptions)
 
@@ -66,11 +70,10 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
         height='22px'
         width='22px'
         bg='pastel-blue'
-        borderRadius={5}
-      >
+        borderRadius={5}>
         <Icon
           color='ghost-white'
-          name={showOptions ? "arrow_drop_up" : "arrow_drop_down"}
+          name={showOptions ? 'arrow_drop_up' : 'arrow_drop_down'}
           fontSize={3}
         />
       </Flex>
@@ -81,17 +84,30 @@ const FilterCategory = ({ name, options, handleActiveFilterCategories, ...props 
     <Space>
       <Flex width={1} flexDirection='column' {...props}>
         <Row left={<LeftCategorySide />} right={<RightCategorySide />} />
-        { showOptions && (options ? options.map(option => {
-          const {title, numberOfProducts } = option
-          return (
-            <Space mt={4} key={title}>
-              <Row
-                left={<LeftOptionSide categoryName={name} handleActiveFilterCategories={handleActiveFilterCategories} title={title} />}
-                right={<RightOptionSide numberOfProducts={numberOfProducts} />}
-              />
-            </Space>
-          )
-        }) : null) }
+        {showOptions &&
+          (options
+            ? options.map(option => {
+                const { title, numberOfProducts } = option
+                return (
+                  <Space mt={4} key={title}>
+                    <Row
+                      left={
+                        <LeftOptionSide
+                          categoryName={name}
+                          handleActiveFilterCategories={
+                            handleActiveFilterCategories
+                          }
+                          title={title}
+                        />
+                      }
+                      right={
+                        <RightOptionSide numberOfProducts={numberOfProducts} />
+                      }
+                    />
+                  </Space>
+                )
+              })
+            : null)}
       </Flex>
     </Space>
   )

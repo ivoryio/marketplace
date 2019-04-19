@@ -27,7 +27,7 @@ StateMachine.prototype.listen = function () {
       }
       observer.next({
         currentState: fsm.state,
-        payload: { ...fsm.data, ...data.payload }
+        payload: { ...fsm.data, ...data }
       })
     }
     // #endregion

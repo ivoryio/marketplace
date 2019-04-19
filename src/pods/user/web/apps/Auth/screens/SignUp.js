@@ -80,9 +80,9 @@ const SignUp = ({ authState, onStateChange }) => {
       <Space mx={4} p={8}>
         <Card
           alignItems='center'
-          colors='card-gray'
           display='flex'
           flexDirection='column'
+          variant='light'
           width={{ xs: 1, sm: 3 / 4, md: 3 / 5, lg: 1 / 2 }}
         >
           <Image mx='auto' dimensions={[120]} src={icons.logo} />

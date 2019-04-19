@@ -50,9 +50,9 @@ const SignIn = ({ authState, onStateChange, ...props }) => {
       <Space mx={4} p={8}>
         <Card
           alignItems='center'
-          colors='card-gray'
           display='flex'
           flexDirection='column'
+          variant='light'
           width={{ xs: 1, sm: 2 / 3, md: 3 / 4, lg: 1 / 3 }}
         >
           <Image size={[120]} src={icons.logo} />

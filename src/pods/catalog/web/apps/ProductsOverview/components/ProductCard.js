@@ -16,7 +16,7 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
       borderRadius={4}
       display='flex'
       flexDirection='column'
-      colors='card-white'
+      variant='white'
       {...props}
     >
       <Flex alignItems='center' justifyContent='center' width={1}>
