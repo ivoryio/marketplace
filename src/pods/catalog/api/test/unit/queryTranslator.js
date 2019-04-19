@@ -169,4 +169,5 @@ describe('translate()', () => {
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and field='isspotlight' 'true')`)
     })
+    
 })
