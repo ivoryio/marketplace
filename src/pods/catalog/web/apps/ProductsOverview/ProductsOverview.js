@@ -70,7 +70,7 @@ const ResultsPagination = ({ currPage, handleCurrentPage }) => (
 
 const ProductsOverview = ({ regionData: { searchTerm } }) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchValue, setSearchValue] = useState("")
+  const [searchValue, setSearchValue] = useState(searchTerm)
   const [selectedPageResults, setSelectedPageResults] = useState("25")
   const [selectedSort, setSelectedSort] = useState("Newest entries")
   const [ activeFilterCategories, setActiveFilterCategories ] = useState({
@@ -91,7 +91,6 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
     ev.preventDefault()
     setSearchValue(ev.target.value)
   }
-
   return (
     <Flex flexDirection='row' flexWrap='wrap'>
       <Space mt={3} px={{ xs: 4, lg: 378 }}>
@@ -184,7 +183,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' textStyle='h1'>
-              Browsing products for Rolex - 300 results
+              Browsing products for {searchValue} - 300 results
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
