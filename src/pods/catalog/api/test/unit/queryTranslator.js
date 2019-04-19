@@ -8,7 +8,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'ivory|-ivory')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, null)
@@ -19,7 +19,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, null)
@@ -33,7 +33,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'price asc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, null)
@@ -47,7 +47,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and field='model' 'daytona')`)
@@ -62,7 +62,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and(and field='model' 'daytona')(and field='gender' 'men'))`)
@@ -76,7 +76,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 50)
         assert.equal(result.filterQuery, null)
@@ -103,7 +103,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'ivory|-ivory')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and field='brand' 'seiko')`)
@@ -131,7 +131,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'rolex men')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat asc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, null)
@@ -164,7 +164,7 @@ describe('translate()', () => {
         const result = translate(queryString)
 
         assert.equal(result.query, 'ivory|-ivory')
-        assert.equal(result.size, 10)
+        assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and field='isspotlight' 'true')`)
