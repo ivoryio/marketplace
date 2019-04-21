@@ -5,15 +5,20 @@ import { Box, Flex, Space } from '@ivoryio/kogaio'
 import { ProductCard } from '.'
 
 const ProductList = ({ watches }) => (
-  <Flex width={1} flexWrap='wrap' justifyContent='center'>
-    {watches.map(({ id, imgSrc, price, title }) => (
-      <Space key={id} pb={{ xs: 4, lg: 6 }} px={{ xs: 2, lg: 3 }}>
-        <Box width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
-          <ProductCard imgSrc={imgSrc} price={price} title={title} />
-        </Box>
-      </Space>
-    ))}
-  </Flex>
+  <Space
+    mt={{ xs: 3, md: 6, lg: 4 }}
+    px={{ xs: 2, lg: 3 }}
+  >
+    <Flex width={1} flexWrap='wrap'>
+      {watches.map(({ id, imgSrc, price, title }) => (
+        <Space key={id} pb={{ xs: 4, lg: 6 }} px={{ xs: 2, lg: 3 }}>
+          <Box width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
+            <ProductCard imgSrc={imgSrc} price={price} title={title} />
+          </Box>
+        </Space>
+      ))}
+    </Flex>
+  </Space>
 )
 
 ProductList.propTypes = {

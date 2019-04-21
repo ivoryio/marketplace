@@ -11,12 +11,19 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
     setCurrentPage(currPage - 1)
   }
 
-  const _jump = ev => {
+  const _jump = direction => ev => {
     const HOPPER = 10
-    if (currPage + HOPPER > maxPages) {
-      return setCurrentPage(maxPages)
+    if (direction ==='back') {
+      if (currPage - HOPPER < 1) {
+        return setCurrentPage(1)
+      }
+      setCurrentPage(currPage - HOPPER)
+    } else {
+      if (currPage + HOPPER > maxPages) {
+        return setCurrentPage(maxPages)
+      }
+      setCurrentPage(currPage + HOPPER)
     }
-    setCurrentPage(currPage + HOPPER)
   }
 
   const _increment = ev => {
@@ -26,29 +33,40 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
 
     setCurrentPage(currPage + 1)
   }
+
+  const _jumpToPage = pageNumber => ev => {
+    setCurrentPage(pageNumber)
+  }
+
+  const isCurrMax = currPage === maxPages
   return (
     <>
       <SquaredBox onClick={_decrement}>
         <Icon color='pastel-blue' fontSize={1} name='arrow_back' />
       </SquaredBox>
-      <SquaredBox bg='green'>
+      <SquaredBox
+        bg={!isCurrMax ? 'green' : 'transparent'}
+        onClick={isCurrMax ? _jump('back') : null}>
         <Typography color='pastel-blue' fontSize={1}>
-          {currPage}
+          {!isCurrMax ? currPage : '...' }
         </Typography>
       </SquaredBox>
-      <SquaredBox onClick={_increment}>
+      <SquaredBox onClick={!isCurrMax ? _increment : _jumpToPage(maxPages - 2)}>
         <Typography color='pastel-blue' fontSize={1}>
-          {currPage + 1}
+          { !isCurrMax ? currPage + 1 : maxPages - 2}
         </Typography>
       </SquaredBox>
-      <SquaredBox onClick={_jump}>
+      <SquaredBox onClick={ !isCurrMax ? _jump('forward') : _decrement}>
         <Typography color='pastel-blue' fontSize={1}>
-          ...
+          { !isCurrMax ? '...' : maxPages - 1 }
         </Typography>
       </SquaredBox>
-      <SquaredBox>
+      <SquaredBox
+        bg={ isCurrMax ? 'green' : 'transparent'}
+        onClick={_jumpToPage(maxPages)}
+      >
         <Typography color='pastel-blue' fontSize={1}>
-          50
+          {maxPages}
         </Typography>
       </SquaredBox>
       <SquaredBox onClick={_increment}>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 const Row = ({ left, right }) => (
-  <Space>
+  <Space py={2}>
     <Flex width={1} alignItems='center' justifyContent='space-between'>
       {left}
       {right}
@@ -89,8 +89,8 @@ const FilterCategory = ({
             ? options.map(option => {
                 const { title, numberOfProducts } = option
                 return (
-                  <Space mt={4} key={title}>
                     <Row
+                      key={title}
                       left={
                         <LeftOptionSide
                           categoryName={name}
@@ -104,7 +104,6 @@ const FilterCategory = ({
                         <RightOptionSide numberOfProducts={numberOfProducts} />
                       }
                     />
-                  </Space>
                 )
               })
             : null)}
