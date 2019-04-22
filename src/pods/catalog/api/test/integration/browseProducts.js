@@ -7,8 +7,8 @@ const browseProducts = require('../../src/usecases/browseProducts')
 describe('Browse products', () => {
   it('should retrieve items from cloudsearch', async () => {
     const query = {
-      q: 'rolex men',
-      model: 'submariner'
+      q: 'IWC',
+      model: 'Portofino'
     }
 
     const searchQuery = queryTranslate(query)

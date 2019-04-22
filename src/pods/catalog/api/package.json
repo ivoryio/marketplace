@@ -8,7 +8,7 @@
     "deploy": "aws cloudformation deploy --template-file build/infrastructure.packaged.yaml --capabilities CAPABILITY_IAM",
     "test": "mocha",
     "test:unit": "mocha test/unit",
-    "test:integration": "SEARCH_HOSTNAME_SECRET=CloudSearch/Hostname REGION=us-east-1 mocha test/integration"
+    "test:integration": "SEARCH_HOSTNAME_SECRET=CloudSearch/Hostname REGION=us-east-1 TABLE_NAME=catalog_dev mocha test/integration"
   },
   "author": "Ivory",
   "license": "ISC",

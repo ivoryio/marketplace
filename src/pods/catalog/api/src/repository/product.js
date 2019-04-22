@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
 
 function Product () {
-  const dynamo = new AWS.DynamoDB.DocumentClient()
+  const dynamo = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION })
   const TableName = process.env.TABLE_NAME
 
   return {
@@ -16,7 +16,7 @@ function Product () {
 
   const result = await dynamo.get(params).promise()
   
-  return result
+  return result.Item
   }
 }
 
