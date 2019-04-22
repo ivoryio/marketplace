@@ -15,19 +15,22 @@ module.exports = (queryString) => {
 
       let query = []
       if(queryString.model) {
-        query.push(`(and field='model' '${queryString.model}')`)
+        const models = queryString.model.split(',')
+        models.forEach(model => query.push(`(and field='model' '${model}')`))
       }
       if(queryString.brand) {
-        query.push(`(and field='brand' '${queryString.brand}')`)
+        const brands = queryString.brand.split(',')
+        brands.forEach(brand => query.push(`(and field='brand' '${brand}')`))
       }
       if(queryString.gender) {
-        query.push(`(and field='gender' '${queryString.gender}')`)
+        const genders = queryString.gender.split(',')
+        genders.forEach(gender => query.push(`(and field='gender' '${gender}')`))
       }
       if(queryString.isspotlight) {
         query.push(`(and field='isspotlight' '${queryString.isspotlight}')`)
       }
       if(query.length > 1) {
-        query.unshift('(and')
+        query.unshift('(or ')
         query.push(')')
       }
 
