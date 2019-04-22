@@ -15,12 +15,14 @@ const Row = ({ left, right }) => (
 const LeftOptionSide = ({
   categoryName,
   title,
-  handleActiveFilterCategories
+  handleActiveFilters
 }) => {
   const [isChecked, setIsChecked] = useState(false)
   const handleCheck = ev => {
     if (!isChecked) {
-      handleActiveFilterCategories(categoryName.toLowerCase(), title)()
+      handleActiveFilters('push', title)()
+    } else {
+      handleActiveFilters('pop', title)()
     }
     setIsChecked(!isChecked)
   }
@@ -50,7 +52,8 @@ const RightOptionSide = ({ numberOfProducts }) => (
 const FilterCategory = ({
   name,
   options,
-  handleActiveFilterCategories,
+  activeFilterCategories,
+  handleActiveFilters,
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState(false)
@@ -94,8 +97,8 @@ const FilterCategory = ({
                       left={
                         <LeftOptionSide
                           categoryName={name}
-                          handleActiveFilterCategories={
-                            handleActiveFilterCategories
+                          handleActiveFilters={
+                            handleActiveFilters
                           }
                           title={title}
                         />
@@ -120,7 +123,7 @@ const Checkbox = styled.input`
 LeftOptionSide.propTypes = {
   categoryName: PropTypes.string,
   title: PropTypes.string,
-  handleActiveFilterCategories: PropTypes.func
+  handleActiveFilters: PropTypes.func
 }
 RightOptionSide.propTypes = {
   numberOfProducts: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -141,7 +144,8 @@ Row.propTypes = {
 FilterCategory.propTypes = {
   name: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
-  handleActiveFilterCategories: PropTypes.func
+  activeFilterCategories: PropTypes.arrayOf(PropTypes.object),
+  handleActiveFilters: PropTypes.func
 }
 
 export default FilterCategory

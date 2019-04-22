@@ -23,41 +23,25 @@ import {
   SearchBox
 } from "./components"
 
-import { sortOptions, itemsPerPageOptions } from "./services/constants"
+import { categoryFilters, sortOptions, itemsPerPageOptions } from "./services/constants"
 const LazyProductList = lazy(() => import("./components/ProductList"))
 
-const activeFilters = ["Sports Watches", "Luxury Watches"]
-const categoryFilters = [
-  {
-    name: "Brand",
-    options: [
-      { title: "Rolex", numberOfProducts: 13 },
-      { title: "Tissot", numberOfProducts: 8 }
-    ]
-  },
-  {
-    name: "Model",
-    options: [
-      { title: "SkyWalker", numberOfProducts: 3 },
-      { title: "Day-Time", numberOfProducts: 6 }
-    ]
-}
-]
 const ProductsOverview = ({ regionData: { searchTerm } }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0].name)
   const [selectedSort, setSelectedSort] = useState(sortOptions[0].name)
-  const [activeFilterCategories, setActiveFilterCategories] = useState({
-    brand: [],
-    model: [],
-    gender: []
-  })
+  const [activeFilters, setActiveFilters] = useState([
+    "Sport Watches",
+    "Luxury Watches"
+  ])
 
-  const handleActiveFilterCategories = (key, value) => () => {
-    setActiveFilterCategories({
-      ...activeFilterCategories,
-      [key]: [...activeFilterCategories[key], value]
-    })
+  const handleActiveFilters = (operation, filter) => () => {
+    if (operation === 'push') {
+      setActiveFilters([...activeFilters, filter ])
+    } else {
+      let updatedActiveFilters = [...activeFilters].filter(item => item !== filter)
+      setActiveFilters(updatedActiveFilters)
+    }
   }
 
   return (
@@ -88,12 +72,16 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                 </Flex>
                 <Space>
                   <ActiveFiltersWrapper
+                    width={1}
                     flexWrap='wrap'
                     mt={{ xs: 2, md: 0, lg: 3 }}
                   >
                     {activeFilters.map(item => (
-                      <Space my={1} key={item}>
-                        <ActiveFilter title={item} onClickIcon={() => {}} />
+                      <Space my={1} key={`active-filter-${item}`}>
+                        <ActiveFilter
+                          title={item}
+                          onClickIcon={handleActiveFilters("pop", item)}
+                        />
                       </Space>
                     ))}
                   </ActiveFiltersWrapper>
@@ -106,10 +94,8 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                       <FilterCategory
                         key={`${category}-filter`}
                         options={options}
-                        handleActiveFilterCategories={
-                          handleActiveFilterCategories
-                        }
                         name={name}
+                        handleActiveFilters={handleActiveFilters}
                       />
                     )})}
                   </Flex>
