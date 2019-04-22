@@ -171,11 +171,15 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
               width={1}
               flexDirection='row'
               alignItems='center'
-              justifyContent={{ xs: "center", md: "space-between" }}
+              //justifyContent={{ xs: "center", md: "space-between" }}
               flexWrap='wrap'
             >
-              <Space ml={{ md: 1, lg: 0 }}>
-                <Flex alignItems='center'>
+              <Space pl={{ md: 1, lg: 0 }}>
+                <Flex
+                  width={{ xs: 1, md: 1 / 3 }}
+                  alignItems='center'
+                  justifyContent={{ xs: 'center', md: 'flex-start' }}
+                >
                   <Typography color='gunmetal' fontSize={1}>
                     Results per page
                   </Typography>
@@ -191,7 +195,12 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                   </Space>
                 </Flex>
               </Space>
-              <Flex alignItems='center' justifyContent='center' flexWrap='wrap'>
+              <Flex
+                width={{ xs: 1, md: 2 / 3 }}
+                alignItems='center'
+                justifyContent={{ xs: 'center', md: 'space-between', lg: 'flex-end'}}
+                flexWrap='wrap'
+              >
                 <Space mt={{ xs: 6, md: 0 }}>
                   <Typography
                     alignSelf='center'
@@ -201,9 +210,9 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                     Showing {itemsPerPage} of 300 results
                   </Typography>
                 </Space>
-                <Space mt={{ xs: 3, md: 0 }} ml={{ md: 6 }}>
+                <Space mt={{ xs: 3, md: 0 }} ml={{ lg: 6 }}>
                   <PaginationWrapper
-                    width={{ xs: 1, sm: "auto" }}
+                    width={{ xs: 1, md: "auto" }}
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
                     <Pagination
