@@ -30,7 +30,6 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
     if (currPage === maxPages) {
       return ev.preventDefault()
     }
-
     setCurrentPage(currPage + 1)
   }
 
@@ -38,31 +37,34 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
     setCurrentPage(pageNumber)
   }
 
-  const isCurrMax = currPage === maxPages
+  const isOneOfLastTwo = [maxPages, maxPages - 1].includes(currPage)
   return (
     <>
       <SquaredBox onClick={_decrement}>
         <Icon color='pastel-blue' fontSize={1} name='arrow_back' />
       </SquaredBox>
       <SquaredBox
-        bg={!isCurrMax ? 'green' : 'transparent'}
-        onClick={isCurrMax ? _jump('back') : null}>
+        bg={!isOneOfLastTwo ? 'green' : 'transparent'}
+        onClick={isOneOfLastTwo ? _jump('back') : null}>
         <Typography color='pastel-blue' fontSize={1}>
-          {!isCurrMax ? currPage : '...' }
+          {!isOneOfLastTwo ? currPage : '...' }
         </Typography>
       </SquaredBox>
-      <SquaredBox onClick={!isCurrMax ? _increment : _jumpToPage(maxPages - 2)}>
+      <SquaredBox onClick={!isOneOfLastTwo ? _increment : _jumpToPage(maxPages - 2)}>
         <Typography color='pastel-blue' fontSize={1}>
-          { !isCurrMax ? currPage + 1 : maxPages - 2}
-        </Typography>
-      </SquaredBox>
-      <SquaredBox onClick={ !isCurrMax ? _jump('forward') : _decrement}>
-        <Typography color='pastel-blue' fontSize={1}>
-          { !isCurrMax ? '...' : maxPages - 1 }
+          { !isOneOfLastTwo ? currPage + 1 : maxPages - 2}
         </Typography>
       </SquaredBox>
       <SquaredBox
-        bg={ isCurrMax ? 'green' : 'transparent'}
+        bg={ currPage === maxPages - 1 ? 'green' : 'transparent'}
+        onClick={ !isOneOfLastTwo ? _jump('forward') : _decrement}
+      >
+        <Typography color='pastel-blue' fontSize={1}>
+          { !isOneOfLastTwo ? '...' : maxPages - 1 }
+        </Typography>
+      </SquaredBox>
+      <SquaredBox
+        bg={ currPage === maxPages ? 'green' : 'transparent'}
         onClick={_jumpToPage(maxPages)}
       >
         <Typography color='pastel-blue' fontSize={1}>
