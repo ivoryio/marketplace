@@ -18,8 +18,7 @@ import {
 import {
   ActiveFilter,
   FilterCategory,
-  Pagination,
-  SearchBox
+  Pagination
 } from "./components"
 
 import api from '../../services/catalog.dataservice'
@@ -70,9 +69,6 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
 
   return (
     <Flex flexWrap='wrap'>
-      <Space mt={3} px={{ xs: 4, lg: 378 }}>
-        <SearchBox initialValue={searchTerm} />
-      </Space>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
           <Space p={4}>

@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Region } from 'frint-react'
+import { Flex } from '@ivoryio/kogaio'
 
 const ProductsOverview = ({ searchTerm }) => (
-  <Region name='products-overview' data={{ searchTerm }} />
+  <Flex flexDirection='column'>
+    <Region name='search-products' data={{ searchTerm }} />
+    <Region name='products-overview' data={{ searchTerm }} />
+  </Flex>
 )
 
 ProductsOverview.propTypes = {
