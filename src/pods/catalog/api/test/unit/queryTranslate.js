@@ -1,4 +1,4 @@
-const assert = require('assert')
+const { assert } = require('chai')
 const translate = require('../../src/services/search/queryTranslate')
 
 describe('translate()', () => {
@@ -65,7 +65,7 @@ describe('translate()', () => {
         assert.equal(result.size, 500)
         assert.equal(result.sort, 'createdat desc')
         assert.equal(result.start, 0)
-        assert.equal(result.filterQuery, `(and(and field='model' 'daytona')(and field='gender' 'men'))`)
+        assert.equal(result.filterQuery, `(or (and field='model' 'daytona')(and field='gender' 'men'))`)
     })
     it('should return params for search text at a certain page', () => {
         const queryString = {
@@ -154,7 +154,7 @@ describe('translate()', () => {
         assert.equal(result.size, 5)
         assert.equal(result.sort, 'createdat asc')
         assert.equal(result.start, 15)
-        assert.equal(result.filterQuery, `(and(and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isspotlight' 'true'))`)
+        assert.equal(result.filterQuery, `(or (and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isspotlight' 'true'))`)
     })
     it('should return params filtered by spotlight', () => {
         const queryString = { 
@@ -169,5 +169,46 @@ describe('translate()', () => {
         assert.equal(result.start, 0)
         assert.equal(result.filterQuery, `(and field='isspotlight' 'true')`)
     })
-    
+    it('should return params filtered by model with multiple instances of the filter', () => {
+        const inputItem = {
+            q: 'rolex',
+            limit: 500,
+            start: 0,
+            sortBy: 'createdat.asc',
+            model: 'daytona,datejust'
+        }
+        const expectedItem = {
+            query: 'rolex',
+            size: 500,
+            sort: 'createdat asc',
+            start: 0,
+            filterQuery: `(or (and field='model' 'daytona')(and field='model' 'datejust'))`
+        }
+
+        const actualItem = translate(inputItem)
+
+        assert.deepEqual(actualItem, expectedItem)
+    })
+    it('should return params filtered by model, brand and gender with multiple instances of the filters', () => {
+        const inputItem = {
+            q: 'rolex',
+            limit: 500,
+            start: 0,
+            sortBy: 'createdat.asc',
+            model: 'daytona,datejust,speedster',
+            brand: 'rolex,IWC',
+            gender: 'men,women'
+        }
+        const expectedItem = {
+            query: 'rolex',
+            size: 500,
+            sort: 'createdat asc',
+            start: 0,
+            filterQuery: `(or (and field='model' 'daytona')(and field='model' 'datejust')(and field='model' 'speedster')(and field='brand' 'rolex')(and field='brand' 'IWC')(and field='gender' 'men')(and field='gender' 'women'))`
+        }
+
+        const actualItem = translate(inputItem)
+
+        assert.deepEqual(actualItem, expectedItem)
+    })
 })
