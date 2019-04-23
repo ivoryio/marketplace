@@ -43,7 +43,7 @@ const WatchList = () => {
     }
   }
 
-  const { data, isFetching } = watches
+  const { data: { items }, isFetching } = watches
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Space px={4}>
@@ -110,7 +110,7 @@ const WatchList = () => {
                 size='32px'
               />
             ) : (
-              data.map(({ id, brand, model, description, imgsrc }) => (
+              items.map(({ id, brand, model, description, imgsrc }) => (
                 <Space key={id} px={{ xs: 2, lg: 3 }}>
                   <Box>
                     <CardWatch

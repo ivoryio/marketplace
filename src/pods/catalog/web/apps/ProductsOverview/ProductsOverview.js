@@ -12,6 +12,7 @@ import {
   Icon,
   Space,
   themeGet,
+  Touchable,
   Typography
 } from "@ivoryio/kogaio"
 
@@ -30,6 +31,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0].name)
   const [selectedSort, setSelectedSort] = useState(sortOptions[0].name)
+  const [showFilters, setShowFilters] = useState(false)
   const [activeFilters, setActiveFilters] = useState([
     "Sport Watches",
     "Luxury Watches"
@@ -43,6 +45,8 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
       setActiveFilters(updatedActiveFilters)
     }
   }
+
+  const collapseFilters = () => setShowFilters(!showFilters)
 
   return (
     <Flex flexWrap='wrap'>
@@ -62,7 +66,15 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
               >
                 <Flex width={{ xs: 1, md: "auto" }} alignItems='center'>
                   <Hide lg xlg>
-                    <Icon name='filter_list' fontSize={3} />
+                    <Touchable
+                      activeOpacity={.75}
+                      display='flex'
+                      alignItems='center'
+                      effect='opacity'
+                      onClick={collapseFilters}
+                    >
+                      <Icon name='filter_list' fontSize={3} />
+                    </Touchable>
                   </Hide>
                   <Space ml={3}>
                     <Typography color='gunmetal' fontSize={0} fontWeight={2}>
@@ -86,26 +98,28 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                     ))}
                   </ActiveFiltersWrapper>
                 </Space>
-                <Space mt={{ xs: 2, md: 4, lg: 0 }}>
-                  <Flex width={1} flexWrap='wrap'>
-                    {categoryFilters.map(category => {
-                      const { name, options } = category
-                      return (
-                      <FilterCategory
-                        key={`${category}-filter`}
-                        options={options}
-                        name={name}
-                        handleActiveFilters={handleActiveFilters}
-                      />
-                    )})}
-                  </Flex>
-                </Space>
+                { showFilters ?
+                  (<Space mt={{ xs: 2, md: 4, lg: 0 }}>
+                    <Flex width={1} flexWrap='wrap'>
+                      {categoryFilters.map(category => {
+                        const { name, options } = category
+                        return (
+                        <FilterCategory
+                          key={`${category}-filter`}
+                          options={options}
+                          name={name}
+                          handleActiveFilters={handleActiveFilters}
+                        />
+                      )})}
+                    </Flex>
+                  </Space>) : null
+                }
               </Flex>
               </Space>
             </FilterSection>
           </Space>
         </Box>
-      </Space>
+      </Space> 
       <Space mt={{ lg: 10 }}>
         <Flex width={{ xs: 1, lg: 3 / 4 }} flexWrap='wrap'>
           <Space

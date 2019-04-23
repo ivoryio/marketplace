@@ -102,7 +102,7 @@ const SpotlightWatches = () => {
     try {
       const response = await api.getSpotlightWatches()
       if (response.status === 200) {
-        const groups = groupCards(response.data)
+        const groups = groupCards(response.data.items)
         const slides = mapGroupsToSlides(groups)
         setSpotlightWatches({ data: slides, isFetching: false })
       } else {
