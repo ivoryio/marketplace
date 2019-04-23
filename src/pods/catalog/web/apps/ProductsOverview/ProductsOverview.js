@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from "react"
+import React, { lazy, Suspense, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { map } from "rxjs/operators"
@@ -12,11 +12,9 @@ import {
   Icon,
   Space,
   themeGet,
-  Touchable,
   Typography
 } from "@ivoryio/kogaio"
 
-import { watches } from "./data.mock"
 import {
   ActiveFilter,
   FilterCategory,
@@ -24,6 +22,7 @@ import {
   SearchBox
 } from "./components"
 
+import api from '../../services/catalog.dataservice'
 import { categoryFilters, sortOptions, itemsPerPageOptions } from "./services/constants"
 const LazyProductList = lazy(() => import("./components/ProductList"))
 
@@ -31,11 +30,19 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0].name)
   const [selectedSort, setSelectedSort] = useState(sortOptions[0].name)
-  const [showFilters, setShowFilters] = useState(false)
   const [activeFilters, setActiveFilters] = useState([
     "Sport Watches",
     "Luxury Watches"
   ])
+  const [results, setResults] = useState({
+    data: [],
+    isFetching: true,
+    error: null
+  })
+  useEffect(() => {
+    _search()
+    return _resetSearchResults
+  }, [])
 
   const handleActiveFilters = (operation, filter) => () => {
     if (operation === 'push') {
@@ -46,7 +53,20 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
     }
   }
 
-  const collapseFilters = () => setShowFilters(!showFilters)
+  const _search = async () => {
+    try {
+      const response = await api.getSearchResults(searchTerm)
+      if (response.status === 200) {
+        setResults({ data: response.data.items, isFetching: false, error: null })
+      } else {
+        setResults({ ...results, isFetching: false, error: response.error })
+      }
+    } catch (err) {
+      console.error("* Error caught in _search", err)
+      setResults({ ...results.data, isFetching: false, error: err })
+    }
+  }
+  const _resetSearchResults = () => setResults({ data: [], isFetching: false, error: null })
 
   return (
     <Flex flexWrap='wrap'>
@@ -66,15 +86,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
               >
                 <Flex width={{ xs: 1, md: "auto" }} alignItems='center'>
                   <Hide lg xlg>
-                    <Touchable
-                      activeOpacity={.75}
-                      display='flex'
-                      alignItems='center'
-                      effect='opacity'
-                      onClick={collapseFilters}
-                    >
-                      <Icon name='filter_list' fontSize={3} />
-                    </Touchable>
+                    <Icon name='filter_list' fontSize={3} />
                   </Hide>
                   <Space ml={3}>
                     <Typography color='gunmetal' fontSize={0} fontWeight={2}>
@@ -98,8 +110,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                     ))}
                   </ActiveFiltersWrapper>
                 </Space>
-                { showFilters ?
-                  (<Space mt={{ xs: 2, md: 4, lg: 0 }}>
+                  <Space mt={{ xs: 2, md: 4, lg: 0 }}>
                     <Flex width={1} flexWrap='wrap'>
                       {categoryFilters.map(category => {
                         const { name, options } = category
@@ -112,8 +123,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
                         />
                       )})}
                     </Flex>
-                  </Space>) : null
-                }
+                  </Space>
               </Flex>
               </Space>
             </FilterSection>
@@ -163,7 +173,7 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={watches} />
+              <LazyProductList watches={results.data} />
             </Suspense>
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
@@ -171,7 +181,6 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
               width={1}
               flexDirection='row'
               alignItems='center'
-              //justifyContent={{ xs: "center", md: "space-between" }}
               flexWrap='wrap'
             >
               <Space pl={{ md: 1, lg: 0 }}>

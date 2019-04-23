@@ -10,10 +10,10 @@ const ProductList = ({ watches }) => (
     px={{ xs: 2, lg: 3 }}
   >
     <Flex width={1} flexWrap='wrap'>
-      {watches.map(({ id, imgSrc, price, title }) => (
-        <Space key={id} pb={{ xs: 4, lg: 6 }} px={{ xs: 2, lg: 3 }}>
+      {watches.map(({ id, imgsrc, price, description }) => (
+        <Space key={`watch-${id}`} pb={{ xs: 4, lg: 6 }} px={{ xs: 2, lg: 3 }}>
           <Box width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
-            <ProductCard imgSrc={imgSrc} price={price} title={title} />
+            <ProductCard imgSrc={imgsrc} price={price} description={description} />
           </Box>
         </Space>
       ))}
