@@ -63,5 +63,36 @@ describe('normalize()', () => {
 
     assert.deepEqual(actualItem, exptectedItem)
   })
+  it('should return an object only with extra fields removed', () => {
+    const inputItem = { 
+      id: '2',
+      brand: 'rolex',
+      model: 'submariner',
+      description: 'nice watch',
+      gender: 'male',
+      imgsrc: 'img',
+      isspotlight: 'true',
+      price: 225,
+      createdat: 1554201373636,
+      rating: '7'
+    }
+    const exptectedItem = {
+      id: '2',
+      brand: 'rolex',
+      model: 'submariner',
+      description: 'nice watch',
+      gender: 'male',
+      imgsrc: 'img',
+      isspotlight: 'true',
+      price: 225,
+      createdat: '2019-04-02T10:36:13Z'
+    }
+
+    const actualItem = normalize(inputItem)
+
+    assert.deepEqual(actualItem, exptectedItem)
+
+  })
+  
   
 })

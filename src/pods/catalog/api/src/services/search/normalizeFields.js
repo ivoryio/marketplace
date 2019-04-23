@@ -1,19 +1,25 @@
 const moment = require('moment')
 
-module.exports = item => {
-  if (!Object.keys(item).includes('id')) {
-    throw new Error(`The item provided doesn't have an id.`)
+module.exports = document => {
+  if (!Object.keys(document).includes('id')) {
+    throw new Error(`The document provided doesn't have an id.`)
   }
 
-  item.id = '1'
-  item.brand = item.brand ? item.brand : ''
-  item.model = item.model ? item.model : ''
-  item.description = item.description ? item.description : ''
-  item.gender = item.gender ? item.gender : ''
-  item.imgsrc = item.imgsrc ? item.imgsrc : ''
-  item.isspotlight = item.isspotlight ? item.isspotlight : ''
-  item.price = item.price ? item.price : 0
-  item.createdat = item.createdat ? moment(item.createdat).utc().format() : moment().utc().startOf('day').format()
+  const fields = ['id', 'brand', 'model', 'description', 'gender', 'imgsrc', 'isspotlight', 'price', 'createdat']
 
-  return item
+  Object.keys(document).forEach(field => {
+    if(!fields.includes(field)) {
+      delete document[`${field}`]
+    }
+  })
+
+  document.brand = document.brand ? document.brand : ''
+  document.model = document.model ? document.model : ''
+  document.description = document.description ? document.description : ''
+  document.gender = document.gender ? document.gender : ''
+  document.imgsrc = document.imgsrc ? document.imgsrc : ''
+  document.isspotlight = document.isspotlight ? document.isspotlight : ''
+  document.price = document.price ? document.price : 0
+  document.createdat = document.createdat ? moment(document.createdat).utc().format() : moment().utc().startOf('day').format()
+  return document
 }
