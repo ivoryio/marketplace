@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { map } from "rxjs/operators"
 import { observe } from "frint-react"
@@ -13,11 +13,6 @@ const SearchProducts = ({ regionData: { searchTerm } }) => {
     })
     window.dispatchEvent(searchEvent)
   }
-
-  useEffect(() => {
-    searchWatches(searchTerm)()
-  }, [])
-
   return (
 <Space mt={3} px={{ xs: 4, lg: 378 }}>
   <SearchBox
