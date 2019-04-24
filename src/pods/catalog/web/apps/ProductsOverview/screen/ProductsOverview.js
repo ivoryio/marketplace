@@ -21,7 +21,7 @@ import {
 import { Context } from '../services/Provider'
 
 import api from '../../../services/catalog.dataservice'
-import { categoryFilters, sortOptions, itemsPerPageOptions } from "../services/constants"
+import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = ({ srcTerm }) => {
@@ -46,7 +46,8 @@ const ProductsOverview = ({ srcTerm }) => {
     try {
       const response = await api.getSearchResults(searchTerm)
       if (response.status === 200) {
-        setResults({ data: response.data.items, isFetching: false, error: null })
+        const { data: { items, filters } } = response
+        setResults({ data: items, filters, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -61,7 +62,6 @@ const ProductsOverview = ({ srcTerm }) => {
     _search(searchTerm)
   }
   const _resetSearchResults = () => setResults({ data: [], isFetching: false, error: null })
-
   return (
     <Context.Consumer>
       { context => {
@@ -116,16 +116,16 @@ const ProductsOverview = ({ srcTerm }) => {
                       </Space>
                         <Space mt={{ xs: 2, md: 4, lg: 0 }}>
                           <Flex width={1} flexWrap='wrap'>
-                            {categoryFilters.map(category => {
-                              const { name, options } = category
-                              return (
-                              <FilterCategory
-                                key={`${category}-filter`}
-                                options={options}
-                                name={name}
-                                handleActiveFilters={handleActiveFilters}
-                              />
-                            )})}
+                            { results.filters ? (
+                              Object.keys(results.filters).map(categoryName => (
+                                <FilterCategory
+                                  key={`${categoryName}-filter`}
+                                  options={results.filters[categoryName]}
+                                  name={categoryName}
+                                  handleActiveFilters={handleActiveFilters}
+                                />
+                              ))) : null
+                            }
                           </Flex>
                         </Space>
                     </Flex>

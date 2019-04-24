@@ -48,10 +48,6 @@ const LeftOptionSide = ({
   )
 }
 
-const RightOptionSide = ({ numberOfProducts }) => (
-  <Typography>{`(${numberOfProducts})`}</Typography>
-)
-
 const FilterCategory = ({
   name,
   options,
@@ -63,9 +59,9 @@ const FilterCategory = ({
   const handleShowOptions = () => setShowOptions(!showOptions)
 
   const LeftCategorySide = () => (
-    <Typography color='pastel-blue' fontSize={0} fontWeight={2}>
+    <CategoryTitle color='pastel-blue' fontSize={0} fontWeight={2}>
       {name}
-    </Typography>
+    </CategoryTitle>
   )
 
   const RightCategorySide = () => (
@@ -97,28 +93,18 @@ const FilterCategory = ({
                 <Row left={<LeftCategorySide />} right={<RightCategorySide />} />
                 {showOptions &&
                   (options
-                    ? options.map(option => {
-                        const { title, numberOfProducts } = option
-                        return (
-                            <Row
-                              key={title}
-                              left={
-                                <LeftOptionSide
-                                  activeFilters={activeFilters}
-                                  categoryName={name}
-                                  handleActiveFilters={
-                                    handleActiveFilters
-                                  }
-                                  title={title}
-                                />
-                              }
-                              right={
-                                <RightOptionSide numberOfProducts={numberOfProducts} />
-                              }
-                            />
+                    ? options.map(filter => (
+                          <LeftOptionSide
+                            key={`filter-${filter}`}
+                            activeFilters={activeFilters}
+                            categoryName={name}
+                            handleActiveFilters={
+                              handleActiveFilters
+                            }
+                            title={filter}
+                          />
                         )
-                      })
-                    : null)}
+                      ) : null)}
               </Flex>
             </Space>
           )
@@ -128,6 +114,9 @@ const FilterCategory = ({
   )
 }
 
+const CategoryTitle = styled(Typography)`
+  text-transform: capitalize;
+`
 const Checkbox = styled.input`
   width: 16px;
   height: 16px;
@@ -138,9 +127,6 @@ LeftOptionSide.propTypes = {
   categoryName: PropTypes.string,
   title: PropTypes.string,
   handleActiveFilters: PropTypes.func
-}
-RightOptionSide.propTypes = {
-  numberOfProducts: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 Row.propTypes = {
   left: PropTypes.oneOfType([
