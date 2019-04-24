@@ -38,9 +38,13 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
     isFetching: true,
     error: null
   })
+
   useEffect(() => {
-    _search()
-    return _resetSearchResults
+    window.addEventListener('searchWatches', _search)
+    return () => {
+      _resetSearchResults()
+      window.removeEventListener('searchWatches', _search)
+    }
   }, [])
 
   const handleActiveFilters = (operation, filter) => () => {
@@ -52,7 +56,8 @@ const ProductsOverview = ({ regionData: { searchTerm } }) => {
     }
   }
 
-  const _search = async () => {
+  const _search = async (event) => {
+    const {detail: { searchTerm }} = event
     try {
       const response = await api.getSearchResults(searchTerm)
       if (response.status === 200) {

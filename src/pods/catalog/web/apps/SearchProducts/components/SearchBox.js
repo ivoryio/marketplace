@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, Flex, Hide, Icon, Input, Space } from '@ivoryio/kogaio'
+import { Box, Button, Flex, Hide, Icon, Input, Space, Touchable } from '@ivoryio/kogaio'
 
-const SearchBox = ({ initialValue, ...rest }) => {
+const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
   const [searchValue, setSearchValue] = useState(initialValue)
 
   const updateSearchValue = ev => {
@@ -28,24 +28,33 @@ const SearchBox = ({ initialValue, ...rest }) => {
         </Box>
       </Space>
       <Hide lg xlg>
-        <Flex
+        <Touchable
+          activeOpacity={.75}
+          bg='brand'
+          display='flex'
           alignItems='center'
           justifyContent='center'
-          bg='brand'
-          width='36px'
-          height='36px'>
+          effect='opacity'
+          size={[36]}
+          onClick={searchWatches(searchValue)}
+        >
           <Icon color='white' fontSize={3} name='search' />
-        </Flex>
+        </Touchable>
       </Hide>
       <Hide xs sm md>
-        <Button width={1 / 5} fontSize={0} onClick={() => {}} title='Search' />
+        <Button
+          width={1 / 5}
+          fontSize={0}
+          onClick={searchWatches(searchValue)}
+          title='Search' />
       </Hide>
     </Flex>
   )
 }
 
 SearchBox.propTypes = {
-  initialValue: PropTypes.string
+  initialValue: PropTypes.string,
+  searchWatches: PropTypes.func
 }
 
 export default SearchBox
