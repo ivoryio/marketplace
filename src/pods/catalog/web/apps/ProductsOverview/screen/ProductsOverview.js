@@ -142,7 +142,7 @@ const ProductsOverview = ({ srcTerm }) => {
                   pr={{ xs: 4, md: 24, lg: 6 }}
                 >
                   <Typography color='gunmetal' variant='h1'>
-                    Browsing products for {searchTerm} - 300 results
+                    Browsing products for {searchTerm} - { results.data.length } results
                   </Typography>
                 </Space>
                 <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>

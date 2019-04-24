@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
+import { Context } from '../services/Provider'
+
 const Row = ({ left, right }) => (
   <Space py={2}>
     <Flex width={1} alignItems='center' justifyContent='space-between'>
@@ -15,17 +17,18 @@ const Row = ({ left, right }) => (
 const LeftOptionSide = ({
   categoryName,
   title,
+  activeFilters,
   handleActiveFilters
 }) => {
-  const [isChecked, setIsChecked] = useState(false)
   const handleCheck = ev => {
-    if (!isChecked) {
-      handleActiveFilters('push', title)()
-    } else {
+    if(activeFilters.includes(title)) {
       handleActiveFilters('pop', title)()
+    } else {
+      handleActiveFilters('push', title)()
     }
-    setIsChecked(!isChecked)
   }
+
+  const isChecked = activeFilters.includes(title)
 
   return (
     <Flex alignItems='center'>
@@ -84,34 +87,44 @@ const FilterCategory = ({
   )
 
   return (
-    <Space>
-      <Flex width={1} flexDirection='column' {...props}>
-        <Row left={<LeftCategorySide />} right={<RightCategorySide />} />
-        {showOptions &&
-          (options
-            ? options.map(option => {
-                const { title, numberOfProducts } = option
-                return (
-                    <Row
-                      key={title}
-                      left={
-                        <LeftOptionSide
-                          categoryName={name}
-                          handleActiveFilters={
-                            handleActiveFilters
-                          }
-                          title={title}
-                        />
-                      }
-                      right={
-                        <RightOptionSide numberOfProducts={numberOfProducts} />
-                      }
-                    />
-                )
-              })
-            : null)}
-      </Flex>
-    </Space>
+    <Context.Consumer>
+      {
+        context => {
+          const { data: { activeFilters } } = context
+          return (
+            <Space>
+              <Flex width={1} flexDirection='column' {...props}>
+                <Row left={<LeftCategorySide />} right={<RightCategorySide />} />
+                {showOptions &&
+                  (options
+                    ? options.map(option => {
+                        const { title, numberOfProducts } = option
+                        return (
+                            <Row
+                              key={title}
+                              left={
+                                <LeftOptionSide
+                                  activeFilters={activeFilters}
+                                  categoryName={name}
+                                  handleActiveFilters={
+                                    handleActiveFilters
+                                  }
+                                  title={title}
+                                />
+                              }
+                              right={
+                                <RightOptionSide numberOfProducts={numberOfProducts} />
+                              }
+                            />
+                        )
+                      })
+                    : null)}
+              </Flex>
+            </Space>
+          )
+        }
+      }
+    </Context.Consumer>
   )
 }
 
@@ -121,6 +134,7 @@ const Checkbox = styled.input`
 `
 
 LeftOptionSide.propTypes = {
+  activeFilters: PropTypes.string,  
   categoryName: PropTypes.string,
   title: PropTypes.string,
   handleActiveFilters: PropTypes.func
