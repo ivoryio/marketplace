@@ -88,7 +88,7 @@ const ProductsOverview = ({ srcTerm }) => {
                       flexWrap='wrap'
                       justifyContent={{ xs: "space-between", lg: "flex-start" }}
                     >
-                      <Flex width={{ xs: 1, md: "auto" }} alignItems='center'>
+                      <Flex width={1} alignItems='center'>
                         <Hide lg xlg>
                           <Icon name='filter_list' fontSize={3} />
                         </Hide>
@@ -120,9 +120,8 @@ const ProductsOverview = ({ srcTerm }) => {
                               Object.keys(results.filters).map(categoryName => (
                                 <FilterCategory
                                   key={`${categoryName}-filter`}
-                                  options={results.filters[categoryName]}
                                   name={categoryName}
-                                  handleActiveFilters={handleActiveFilters}
+                                  options={results.filters[categoryName]}
                                 />
                               ))) : null
                             }

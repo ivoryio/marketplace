@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 import { Context } from '../services/Provider'
-
+import { FilterOption } from '.'
 const Row = ({ left, right }) => (
-  <Space py={2}>
+  <Space pb={1} pt={4}>
     <Flex width={1} alignItems='center' justifyContent='space-between'>
       {left}
       {right}
@@ -14,45 +14,10 @@ const Row = ({ left, right }) => (
   </Space>
 )
 
-const LeftOptionSide = ({
-  categoryName,
-  title,
-  activeFilters,
-  handleActiveFilters
-}) => {
-  const handleCheck = ev => {
-    if(activeFilters.includes(title)) {
-      handleActiveFilters('pop', title)()
-    } else {
-      handleActiveFilters('push', title)()
-    }
-  }
-
-  const isChecked = activeFilters.includes(title)
-
-  return (
-    <Flex alignItems='center'>
-      <Checkbox
-        name={`checkbox-${title}`}
-        value={title}
-        type='checkbox'
-        checked={isChecked}
-        onChange={handleCheck}
-      />
-      <Space ml={{ xs: 1, md: 2 }}>
-        <Typography color='gunmetal' fontSize={1}>
-          {title}
-        </Typography>
-      </Space>
-    </Flex>
-  )
-}
-
 const FilterCategory = ({
   name,
   options,
   activeFilterCategories,
-  handleActiveFilters,
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState(false)
@@ -86,18 +51,20 @@ const FilterCategory = ({
     <Context.Consumer>
       {
         context => {
-          const { data: { activeFilters } } = context
+          const { data: { activeFilters, handleActiveFilters } } = context
           return (
             <Space>
               <Flex width={1} flexDirection='column' {...props}>
-                <Row left={<LeftCategorySide />} right={<RightCategorySide />} />
+                  <Row
+                    left={<LeftCategorySide />}
+                    right={<RightCategorySide />}
+                  />
                 {showOptions &&
                   (options
                     ? options.map(filter => (
-                          <LeftOptionSide
+                          <FilterOption
                             key={`filter-${filter}`}
                             activeFilters={activeFilters}
-                            categoryName={name}
                             handleActiveFilters={
                               handleActiveFilters
                             }
@@ -117,17 +84,7 @@ const FilterCategory = ({
 const CategoryTitle = styled(Typography)`
   text-transform: capitalize;
 `
-const Checkbox = styled.input`
-  width: 16px;
-  height: 16px;
-`
 
-LeftOptionSide.propTypes = {
-  activeFilters: PropTypes.string,  
-  categoryName: PropTypes.string,
-  title: PropTypes.string,
-  handleActiveFilters: PropTypes.func
-}
 Row.propTypes = {
   left: PropTypes.oneOfType([
     PropTypes.func,
@@ -144,8 +101,7 @@ Row.propTypes = {
 FilterCategory.propTypes = {
   name: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
-  activeFilterCategories: PropTypes.arrayOf(PropTypes.object),
-  handleActiveFilters: PropTypes.func
+  activeFilterCategories: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default FilterCategory
