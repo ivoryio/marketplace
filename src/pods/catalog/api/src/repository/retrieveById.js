@@ -10,7 +10,6 @@ module.exports = async (id) => {
   }
 
   const result = await documentClient.get(params).promise()
-  
   return result.Item
 }
 
