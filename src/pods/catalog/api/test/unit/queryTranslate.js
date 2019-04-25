@@ -154,7 +154,7 @@ describe('translate()', () => {
         assert.equal(result.size, 5)
         assert.equal(result.sort, 'createdat asc')
         assert.equal(result.start, 15)
-        assert.equal(result.filterQuery, `(or (and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isSpotlight' 'true'))`)
+        assert.equal(result.filterQuery, `(or (and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isspotlight' 'true'))`)
     })
     it('should return params filtered by spotlight', () => {
         const queryString = { 
