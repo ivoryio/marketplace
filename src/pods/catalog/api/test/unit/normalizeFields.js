@@ -10,9 +10,19 @@ describe('normalize()', () => {
     assert.throws(() => normalize(actualItem), Error)
   })
   it(`should return an object with all fields having default values`, () => {
-    const actualItem = { id: '1' }
-
-    const exptectedItem = normalize(actualItem)
+    const inputItem = { id: '1' }
+    const exptectedItem = {
+      id: '1',
+      price: 0,
+      model: '',
+      brand: '',
+      gender: '',
+      imgsrc: '',
+      isspotlight: '',
+      description: '',
+      createdat: '2019-04-25T00:00:00Z' 
+    }
+    const actualItem = normalize(inputItem)
 
     assert.deepEqual(actualItem, exptectedItem)
   })
