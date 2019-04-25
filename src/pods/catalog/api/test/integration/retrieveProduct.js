@@ -1,6 +1,6 @@
 const { assert } = require('chai')
 
-const productRepo = require('../../src/repository/product')
+const productRepo = require('../../src/repository/retrieveById')
 const retrieveProduct = require('../../src/usecases/retrieveProduct')
 
 describe('Retrieve product', () => {
