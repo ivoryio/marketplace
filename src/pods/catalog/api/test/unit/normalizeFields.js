@@ -23,8 +23,8 @@ describe('normalize()', () => {
       model: 'submariner',
       description: 'nice watch',
       gender: 'male',
-      imgsrc: 'img',
-      isspotlight: 'true'
+      imgSrc: 'img',
+      isSpotlight: 'true'
     }
     const exptectedItem = {
       id: '1',
@@ -49,13 +49,20 @@ describe('normalize()', () => {
       model: 'submariner',
       description: 'nice watch',
       gender: 'male',
+      imgSrc: 'img',
+      isSpotlight: 'true',
+      price: 225,
+      createdAt: 1554201373636
+    }
+    const exptectedItem = {
+      id: '1',
+      brand: 'rolex',
+      model: 'submariner',
+      description: 'nice watch',
+      gender: 'male',
       imgsrc: 'img',
       isspotlight: 'true',
       price: 225,
-      createdat: 1554201373636
-    }
-    const exptectedItem = {
-      ...inputItem,
       createdat: '2019-04-02T10:36:13Z'
     }
   
@@ -70,10 +77,10 @@ describe('normalize()', () => {
       model: 'submariner',
       description: 'nice watch',
       gender: 'male',
-      imgsrc: 'img',
-      isspotlight: 'true',
+      imgSrc: 'img',
+      isSpotlight: 'true',
       price: 225,
-      createdat: 1554201373636,
+      createdAt: 1554201373636,
       rating: '7'
     }
     const exptectedItem = {

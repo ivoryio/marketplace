@@ -145,7 +145,7 @@ describe('translate()', () => {
             gender: 'men',
             limit: 5,
             start: 15,
-            isspotlight: 'true'
+            isSpotlight: 'true'
         }
 
         const result = translate(queryString)
@@ -154,11 +154,11 @@ describe('translate()', () => {
         assert.equal(result.size, 5)
         assert.equal(result.sort, 'createdat asc')
         assert.equal(result.start, 15)
-        assert.equal(result.filterQuery, `(or (and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isspotlight' 'true'))`)
+        assert.equal(result.filterQuery, `(or (and field='model' 'submariner')(and field='brand' 'rolex')(and field='gender' 'men')(and field='isSpotlight' 'true'))`)
     })
     it('should return params filtered by spotlight', () => {
         const queryString = { 
-            isspotlight: 'true'
+            isSpotlight: 'true'
         }
 
         const result = translate(queryString)
