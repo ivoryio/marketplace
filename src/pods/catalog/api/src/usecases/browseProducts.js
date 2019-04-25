@@ -16,6 +16,18 @@ module.exports = (retrieveSecret) => async (query) => {
     for(let i in result.fields) {
       object[`${i}`] = result.fields[i][0]
     }
+
+    object = {
+      ...object,
+      createdAt: object.createdat,
+      imgSrc: object.imgsrc,
+      isSpotlight: object.isspotlight
+    }
+
+    delete object.createdat
+    delete object.isspotlight
+    delete object.imgsrc
+
     return object
   })
 }
