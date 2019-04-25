@@ -1,15 +1,17 @@
-const AWS = require('aws-sdk')
+const CloudSearchDomain = require('aws-sdk/clients/cloudsearchdomain')
 
 module.exports = (retrieveSecret) => async (query) => {
+  const region = process.env.REGION
+
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { searchEndpoint } = JSON.parse(endpoints)
 
-  const cloudSearch = new AWS.CloudSearchDomain({ 
-    endpoint: searchEndpoint,
-    region: process.env.REGION
+  const csd = new CloudSearchDomain({ 
+    region,
+    endpoint: searchEndpoint
   })
 
-  const searchResults = await cloudSearch.search(query).promise()
+  const searchResults = await csd.search(query).promise()
 
   return searchResults.hits.hit.map(result => {
     let object = {}
