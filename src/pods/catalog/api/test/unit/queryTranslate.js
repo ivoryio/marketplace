@@ -1,4 +1,5 @@
 const { assert } = require('chai')
+
 const translate = require('../../src/services/search/queryTranslate')
 
 describe('translate()', () => {
