@@ -1,19 +1,15 @@
-const AWS = require('aws-sdk')
-const { Observable, merge, iif, empty } = require('rxjs')
 const { concatMap } = require('rxjs/operators')
+const { Observable, merge, iif, empty } = require('rxjs')
+const CloudSearch = require('aws-sdk/clients/cloudsearch')
+const SecretsManager = require('aws-sdk/clients/secretsmanager')
 
 module.exports = () => getCloudSearchEndpoints().pipe(
   concatMap(decideWthatToDo)
 )
 
-const cloudsearch = new AWS.CloudSearch({
-  region: 'us-east-1'
-})
-const secretsmanager = new AWS.SecretsManager({
-  region: 'us-east-1'
-})
-
 const DomainName = 'catalog-search'
+const cloudsearch = new CloudSearch({ region: 'us-east-1' })
+const secretsmanager = new SecretsManager({ region: 'us-east-1' })
 
 const getCloudSearchEndpoints = () => Observable.create(observer => {
   const params = {
