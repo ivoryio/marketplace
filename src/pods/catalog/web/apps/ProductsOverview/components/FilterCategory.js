@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
@@ -17,12 +17,16 @@ const Row = ({ left, right }) => (
 const FilterCategory = ({
   name,
   options,
-  activeFilterCategories,
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState(false)
   const handleShowOptions = () => setShowOptions(!showOptions)
-
+  const context = useContext(Context)
+  const { data: { 
+      activeFiltersAsArray,
+      handleActiveFilters
+    }
+  } = context
   const LeftCategorySide = () => (
     <CategoryTitle color='pastel-blue' fontSize={0} fontWeight={2}>
       {name}
@@ -48,36 +52,27 @@ const FilterCategory = ({
   )
 
   return (
-    <Context.Consumer>
-      {
-        context => {
-          const { data: { activeFilters, handleActiveFilters } } = context
-          return (
-            <Space>
-              <Flex width={1} flexDirection='column' {...props}>
-                  <Row
-                    left={<LeftCategorySide />}
-                    right={<RightCategorySide />}
+    <Space>
+      <Flex width={1} flexDirection='column' {...props}>
+          <Row
+            left={<LeftCategorySide />}
+            right={<RightCategorySide />}
+          />
+        {showOptions &&
+          (options
+            ? options.map(filter => (
+                  <FilterOption
+                    key={`filter-${filter}`}
+                    activeFiltersAsArray={activeFiltersAsArray}
+                    handleActiveFilters={
+                      handleActiveFilters(name)
+                    }
+                    title={filter}
                   />
-                {showOptions &&
-                  (options
-                    ? options.map(filter => (
-                          <FilterOption
-                            key={`filter-${filter}`}
-                            activeFilters={activeFilters}
-                            handleActiveFilters={
-                              handleActiveFilters
-                            }
-                            title={filter}
-                          />
-                        )
-                      ) : null)}
-              </Flex>
-            </Space>
-          )
-        }
-      }
-    </Context.Consumer>
+                )
+              ) : null)}
+      </Flex>
+    </Space>
   )
 }
 
@@ -100,8 +95,7 @@ Row.propTypes = {
 
 FilterCategory.propTypes = {
   name: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object),
-  activeFilterCategories: PropTypes.arrayOf(PropTypes.object)
+  options: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default FilterCategory

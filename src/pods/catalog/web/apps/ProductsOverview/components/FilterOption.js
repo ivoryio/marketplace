@@ -9,17 +9,18 @@ import {
 const FilterOption = ({
     title,
     activeFilters,
+    activeFiltersAsArray,
     handleActiveFilters
   }) => {
     const handleCheck = ev => {
-      if(activeFilters.includes(title)) {
+      if(activeFiltersAsArray.includes(title)) {
         handleActiveFilters('pop', title)()
       } else {
         handleActiveFilters('push', title)()
       }
     }
   
-    const isChecked = activeFilters.includes(title)
+    const isChecked = activeFiltersAsArray.includes(title)
   
     return (
       <Space pl={1} py={3}>
@@ -36,6 +37,7 @@ const FilterOption = ({
 
   FilterOption.propTypes = {
     activeFilters: PropTypes.string,
+    activeFiltersAsArray: PropTypes.string,
     title: PropTypes.string,
     handleActiveFilters: PropTypes.func
   }

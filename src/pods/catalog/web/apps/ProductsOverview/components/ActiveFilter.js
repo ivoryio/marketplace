@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 const ActiveFilter = ({ title, onClickIcon, ...props }) => (
@@ -10,13 +12,13 @@ const ActiveFilter = ({ title, onClickIcon, ...props }) => (
       {...props}
     >
       <Space px={1}>
-        <Typography
+        <FitlerTitle
           color='white'
           fontFamily='complementary'
           fontSize={0}
         >
           {title}
-        </Typography>
+        </FitlerTitle>
       </Space>
       <Space px={1}>
         <Touchable
@@ -36,6 +38,10 @@ const ActiveFilter = ({ title, onClickIcon, ...props }) => (
     </Flex>
   </Space>
 )
+
+const FitlerTitle = styled(Typography)`
+  text-transform: capitalize;
+`
 
 ActiveFilter.propTypes = {
   title: PropTypes.string,

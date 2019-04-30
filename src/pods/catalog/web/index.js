@@ -5,10 +5,13 @@ import WatchList from './apps/WatchList'
 import ProductsOverview from './apps/ProductsOverview'
 import SpotlightWatches from './apps/SpotlightWatches'
 import SpotlightCategories from './apps/SpotlightCategories'
-import SearchProducts from './apps/SearchProducts'
 
 const entries = [
-  { name: 'WatchList', Component: WatchList, regions: ['watch-list'] },
+  {
+    name: 'WatchList',
+    Component: WatchList,
+    regions: ['watch-list']
+  },
   {
     name: 'ProductsOverview',
     Component: ProductsOverview,
@@ -23,11 +26,6 @@ const entries = [
     name: 'SpotlightCategories',
     Component: SpotlightCategories,
     regions: ['spotlight-categories']
-  },
-  {
-    name: 'SearchProducts',
-    Component: SearchProducts,
-    regions: ['search-products']
   }
 ]
 

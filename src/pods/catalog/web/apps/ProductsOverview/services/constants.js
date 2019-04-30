@@ -27,3 +27,10 @@ export const itemsPerPageOptions = [
     name: '100'
   }
 ]
+
+export const initialActiveFilters = {
+  query: '',
+  brands: [],
+  models: [],
+  genders: []
+}
