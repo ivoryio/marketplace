@@ -4,15 +4,7 @@ import PropTypes from 'prop-types'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 import { Context } from '../services/Provider'
-import { FilterOption } from '.'
-const Row = ({ left, right }) => (
-  <Space pb={1} pt={4}>
-    <Flex width={1} alignItems='center' justifyContent='space-between'>
-      {left}
-      {right}
-    </Flex>
-  </Space>
-)
+import { FilterOption, Row } from '.'
 
 const FilterCategory = ({
   name,
@@ -22,11 +14,8 @@ const FilterCategory = ({
   const [showOptions, setShowOptions] = useState(false)
   const handleShowOptions = () => setShowOptions(!showOptions)
   const context = useContext(Context)
-  const { data: { 
-      activeFiltersAsArray,
-      handleActiveFilters
-    }
-  } = context
+  const { handleActiveFilters } = context
+
   const LeftCategorySide = () => (
     <CategoryTitle color='pastel-blue' fontSize={0} fontWeight={2}>
       {name}
@@ -54,16 +43,17 @@ const FilterCategory = ({
   return (
     <Space>
       <Flex width={1} flexDirection='column' {...props}>
+        <Space pb={1} pt={4}>  
           <Row
             left={<LeftCategorySide />}
             right={<RightCategorySide />}
           />
+        </Space>
         {showOptions &&
           (options
             ? options.map(filter => (
                   <FilterOption
                     key={`filter-${filter}`}
-                    activeFiltersAsArray={activeFiltersAsArray}
                     handleActiveFilters={
                       handleActiveFilters(name)
                     }
@@ -79,19 +69,6 @@ const FilterCategory = ({
 const CategoryTitle = styled(Typography)`
   text-transform: capitalize;
 `
-
-Row.propTypes = {
-  left: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.element
-  ]),
-  right: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.element
-  ])
-}
 
 FilterCategory.propTypes = {
   name: PropTypes.string,

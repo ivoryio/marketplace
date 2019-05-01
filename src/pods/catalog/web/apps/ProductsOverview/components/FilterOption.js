@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-
+import { Context } from '../services/Provider'
 import {
   Checkbox,
   Space
@@ -8,10 +8,11 @@ import {
 
 const FilterOption = ({
     title,
-    activeFilters,
-    activeFiltersAsArray,
     handleActiveFilters
   }) => {
+    const contextData = useContext(Context)
+    const { activeFiltersAsArray } = contextData
+  
     const handleCheck = ev => {
       if(activeFiltersAsArray.includes(title)) {
         handleActiveFilters('pop', title)()
@@ -36,10 +37,8 @@ const FilterOption = ({
   }
 
   FilterOption.propTypes = {
-    activeFilters: PropTypes.string,
-    activeFiltersAsArray: PropTypes.string,
-    title: PropTypes.string,
-    handleActiveFilters: PropTypes.func
+    handleActiveFilters: PropTypes.func,
+    title: PropTypes.string
   }
 
   export default FilterOption

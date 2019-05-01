@@ -6,6 +6,7 @@ import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
+import { composeSearchTerm, transformActiveFiltersToArray } from './helpers'
 
 export const Context = createContext()
 
@@ -31,19 +32,9 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [])
 
   useEffect(() => {
-    const searchTerm = _composeSearchTerm(activeFilters)
+    const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
-
   }, [activeFilters])
-
-  const _composeSearchTerm = activeFilters => {
-    const { query, brands, models, genders  } = activeFilters
-    const brandsTerm = brands.length !== 0 ? `&&brand=${brands.join()}` : ''
-    const modelsTerm = models.length !== 0 ? `&&model=${models.join()}` : ''
-    const gendersTerm = genders.length !== 0 ? `&&gender=${genders.join()}` : ''
-
-    return `${query}${brandsTerm}${modelsTerm}${gendersTerm}`
-  }
 
   const handleActiveFilters = category => (operation, filter) => () => {
     if (operation === 'push') {
@@ -72,28 +63,17 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     }
   }
 
+  const _resetSearchResults = () => setResults({ data: [], isFetching: false, error: null })
+
   const handleSearch = searchTerm => () => {
-    //initial state for them a const
     setActiveFilters({
       ...initialActiveFilters,
       query: searchTerm
     })
     _search(searchTerm)
   }
-  const _resetSearchResults = () => setResults({ data: [], isFetching: false, error: null })
-  
-  const transformActiveFiltersToArray = () => {
-    const filterCategories = Object.keys(activeFilters).filter(category => category !== "query")
-    let array = [activeFilters.query]
-    filterCategories.forEach(category => {
-      if (category.length !== 0) {
-        array = [...array, ...activeFilters[category]]
-      }
-    })
-    return array
-  }
 
-  const activeFiltersAsArray = transformActiveFiltersToArray()
+  const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
 
   const data = {
     activeFilters,
@@ -111,7 +91,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
 
   return (
   <Context.Provider
-    value={{data}}
+    value={data}
   >
     <SearchBox
       initialValue={searchTerm}

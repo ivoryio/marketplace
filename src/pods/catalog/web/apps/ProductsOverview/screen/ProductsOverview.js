@@ -5,17 +5,14 @@ import {
   Box,
   Dropdown,
   Flex,
-  Hide,
-  Icon,
   Space,
   themeGet,
   Typography
 } from "@ivoryio/kogaio"
 
 import {
-  ActiveFilter,
-  FilterCategory,
-  Pagination
+  Pagination,
+  FilterSection
 } from "../components"
 
 import { Context } from '../services/Provider'
@@ -26,10 +23,6 @@ const LazyProductList = lazy(() => import("../components/ProductList"))
 const ProductsOverview = () => {
   const context = useContext(Context)
   const {
-    data: {
-      activeFilters,
-      activeFiltersAsArray,
-      handleActiveFilters,
       currentPage,
       setCurrentPage,
       sortType,
@@ -39,24 +32,11 @@ const ProductsOverview = () => {
       searchTerm,
       searchResults: {
         data: {
-          items: watches,
-          filters
+          items: watches
         },
         isFetching
       }
-    }
-  } = context
-
-  const _categoryProvenience = filter => {
-    let result = null
-    const filterCategories = Object.keys(activeFilters)
-    filterCategories.forEach(category => {
-      if(activeFilters[category].includes(filter)){
-        result = category 
-      }
-    })
-    return result
-  }
+    } = context
 
   if (isFetching) {
     return <Typography textStyle='h2' textAlign='center'>Searching Watches...</Typography>
@@ -65,64 +45,7 @@ const ProductsOverview = () => {
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
-          <Space p={4}>
-            <FilterSection width={1} bg='ghost-white' flexDirection='column'>
-              <Space py={{ lg: 2 }}>
-              <Flex
-                width={1}
-                alignItems='center'
-                flexWrap='wrap'
-                justifyContent={{ xs: "space-between", lg: "flex-start" }}
-              >
-                <Flex width={1} alignItems='center'>
-                  <Hide lg xlg>
-                    <Icon name='filter_list' fontSize={3} />
-                  </Hide>
-                  <Space ml={3}>
-                    <Typography color='gunmetal' fontSize={0} fontWeight={2}>
-                      FILTER RESULTS
-                    </Typography>
-                  </Space>
-                </Flex>
-                <Space>
-                  <ActiveFiltersWrapper
-                    width={1}
-                    flexWrap='wrap'
-                    mt={{ xs: 2, md: 0, lg: 3 }}
-                  >
-                    {/* refactor, getKeys of object activeFilters,
-                    forEach key render all elements from array(if exists)
-                    also specify category to handler in each map */}
-
-                    { activeFiltersAsArray.map(item => {
-                      const category = _categoryProvenience(item)
-                      return (
-                      <Space my={1} key={`active-filter-${item}`}>
-                        <ActiveFilter
-                          title={item}
-                          onClickIcon={handleActiveFilters(category)("pop", item)}
-                        />
-                      </Space>
-                    )})}
-                  </ActiveFiltersWrapper>
-                </Space>
-                  <Space mt={{ xs: 2, md: 4, lg: 0 }}>
-                    <Flex width={1} flexWrap='wrap'>
-                      { filters ? (
-                        Object.keys(filters).map(categoryName => (
-                          <FilterCategory
-                            key={`${categoryName}-filter`}
-                            name={categoryName}
-                            options={filters[categoryName]}
-                          />
-                        ))) : null
-                      }
-                    </Flex>
-                  </Space>
-              </Flex>
-              </Space>
-            </FilterSection>
-          </Space>
+          <FilterSection />
         </Box>
       </Space> 
       <Space mt={{ lg: 10 }}>
@@ -233,16 +156,6 @@ const ProductsOverview = () => {
     </Flex>
   )
 }
-
-const ActiveFiltersWrapper = styled(Flex)`
-  & div:not(:first-child) {
-    margin-left: ${themeGet("space.2")}px;
-  }
-`
-
-const FilterSection = styled(Flex)`
-  border: ${themeGet("borders.1")} ${themeGet("colors.pastel-blue")};
-`
 
 const PaginationWrapper = styled(Flex)`
   & button:not(:last-child) {
