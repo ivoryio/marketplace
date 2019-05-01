@@ -30,7 +30,7 @@ const FilterCategory = ({
         height='22px'
         width='22px'
         bg='pastel-blue'
-        borderRadius={5}>
+        borderRadius='round'>
         <Icon
           color='ghost-white'
           name={showOptions ? 'arrow_drop_up' : 'arrow_drop_down'}
