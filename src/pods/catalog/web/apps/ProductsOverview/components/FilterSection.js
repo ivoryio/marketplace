@@ -15,7 +15,7 @@ import {
 } from "@ivoryio/kogaio"
 
 const FilterSection = () => {
-  const context = useContext(Context)
+  const contextData = useContext(Context)
   const {
     activeFilters,
     activeFiltersAsArray,
@@ -23,7 +23,7 @@ const FilterSection = () => {
     searchResults: {
       data: { filters }
     }
-  } = context
+  } = contextData
   return (
     <Space p={4}>
       <Container width={1} bg='ghost-white' flexDirection='column'>

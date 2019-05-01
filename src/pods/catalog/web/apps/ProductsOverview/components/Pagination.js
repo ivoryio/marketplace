@@ -1,43 +1,48 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { PropTypes } from 'prop-types'
 import { SquaredBox } from '.'
 import { Icon, Typography } from '@ivoryio/kogaio'
 
-const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
+import { Context } from '../services/Provider'
+
+const Pagination = ({ maxPages }) => {
+  const contextData = useContext(Context)
+  const { currentPage, setCurrentPage } = contextData
+  
   const _decrement = ev => {
-    if (currPage === 1) {
+    if (currentPage === 1) {
       return ev.preventDefault()
     }
-    setCurrentPage(currPage - 1)
+    setCurrentPage(currentPage - 1)
   }
 
   const _jump = direction => ev => {
     const HOPPER = 10
     if (direction ==='back') {
-      if (currPage - HOPPER < 1) {
+      if (currentPage - HOPPER < 1) {
         return setCurrentPage(1)
       }
-      setCurrentPage(currPage - HOPPER)
+      setCurrentPage(currentPage - HOPPER)
     } else {
-      if (currPage + HOPPER > maxPages) {
+      if (currentPage + HOPPER > maxPages) {
         return setCurrentPage(maxPages)
       }
-      setCurrentPage(currPage + HOPPER)
+      setCurrentPage(currentPage + HOPPER)
     }
   }
 
   const _increment = ev => {
-    if (currPage === maxPages) {
+    if (currentPage === maxPages) {
       return ev.preventDefault()
     }
-    setCurrentPage(currPage + 1)
+    setCurrentPage(currentPage + 1)
   }
 
   const _jumpToPage = pageNumber => ev => {
     setCurrentPage(pageNumber)
   }
 
-  const isOneOfLastTwo = [maxPages, maxPages - 1].includes(currPage)
+  const isOneOfLastTwo = [maxPages, maxPages - 1].includes(currentPage)
   return (
     <>
       <SquaredBox onClick={_decrement}>
@@ -47,16 +52,16 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
         bg={!isOneOfLastTwo ? 'green' : 'transparent'}
         onClick={isOneOfLastTwo ? _jump('back') : null}>
         <Typography color='pastel-blue' fontSize={1}>
-          {!isOneOfLastTwo ? currPage : '...' }
+          {!isOneOfLastTwo ? currentPage : '...' }
         </Typography>
       </SquaredBox>
       <SquaredBox onClick={!isOneOfLastTwo ? _increment : _jumpToPage(maxPages - 2)}>
         <Typography color='pastel-blue' fontSize={1}>
-          { !isOneOfLastTwo ? currPage + 1 : maxPages - 2}
+          { !isOneOfLastTwo ? currentPage + 1 : maxPages - 2}
         </Typography>
       </SquaredBox>
       <SquaredBox
-        bg={ currPage === maxPages - 1 ? 'green' : 'transparent'}
+        bg={ currentPage === maxPages - 1 ? 'green' : 'transparent'}
         onClick={ !isOneOfLastTwo ? _jump('forward') : _decrement}
       >
         <Typography color='pastel-blue' fontSize={1}>
@@ -64,7 +69,7 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
         </Typography>
       </SquaredBox>
       <SquaredBox
-        bg={ currPage === maxPages ? 'green' : 'transparent'}
+        bg={ currentPage === maxPages ? 'green' : 'transparent'}
         onClick={_jumpToPage(maxPages)}
       >
         <Typography color='pastel-blue' fontSize={1}>
@@ -79,9 +84,7 @@ const Pagination = ({ currPage, maxPages, setCurrentPage }) => {
 }
 
 Pagination.propTypes = {
-  currPage: PropTypes.number,
-  maxPages: PropTypes.number,
-  setCurrentPage: PropTypes.func
+  maxPages: PropTypes.number
 }
 
 Pagination.defaultProps = {

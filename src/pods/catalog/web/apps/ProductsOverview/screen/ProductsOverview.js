@@ -21,10 +21,8 @@ import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
-  const context = useContext(Context)
+  const contextData = useContext(Context)
   const {
-      currentPage,
-      setCurrentPage,
       sortType,
       setSortType,
       resultsPerPage,
@@ -36,7 +34,7 @@ const ProductsOverview = () => {
         },
         isFetching
       }
-    } = context
+    } = contextData
 
   if (isFetching) {
     return <Typography textStyle='h2' textAlign='center'>Searching Watches...</Typography>
@@ -142,10 +140,7 @@ const ProductsOverview = () => {
                     width={{ xs: 1, md: "auto" }}
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
-                    <Pagination
-                      currPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                    />
+                    <Pagination />
                   </PaginationWrapper>
                 </Space>
               </Flex>

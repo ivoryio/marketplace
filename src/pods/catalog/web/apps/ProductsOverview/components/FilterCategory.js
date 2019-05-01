@@ -13,8 +13,8 @@ const FilterCategory = ({
 }) => {
   const [showOptions, setShowOptions] = useState(false)
   const handleShowOptions = () => setShowOptions(!showOptions)
-  const context = useContext(Context)
-  const { handleActiveFilters } = context
+  const contextData = useContext(Context)
+  const { handleActiveFilters } = contextData
 
   const LeftCategorySide = () => (
     <CategoryTitle color='pastel-blue' fontSize={0} fontWeight={2}>
