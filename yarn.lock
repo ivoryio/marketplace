@@ -1094,10 +1094,10 @@
   optionalDependencies:
     fsevents "1.2.7"
 
-"@ivoryio/kogaio@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.4.5.tgz#53d633aae852f3fd920ef894f937064a354f51f6"
-  integrity sha512-/PwxBeVdPO4Cq30o7Aw/FQWuWHmw2kJyhhAjTaycYLzzaVu233zoWQCF61ydOyCxpZAjnTOLXLHDiMjMTP9HnQ==
+"@ivoryio/kogaio@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ivoryio/kogaio/-/kogaio-0.5.0.tgz#7a096f459220da9ae8f05528feebc9732db410f4"
+  integrity sha512-0iCXqrNi18ddTYAjQNIpzCuvpjprgaRqNYeAiQpvto5TvP09XaFwJqoaVudWgzzw5teiCMUeAxKJyaImngHWDw==
   dependencies:
     styled-components "4.2.0"
     styled-system "^4.1.0"

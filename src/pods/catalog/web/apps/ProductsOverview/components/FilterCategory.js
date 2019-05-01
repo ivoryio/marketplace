@@ -70,7 +70,7 @@ const CategoryTitle = styled(Typography)`
 
 FilterCategory.propTypes = {
   name: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object)
+  options: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default FilterCategory
