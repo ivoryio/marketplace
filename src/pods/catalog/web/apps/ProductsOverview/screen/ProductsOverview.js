@@ -10,12 +10,9 @@ import {
   Typography
 } from "@ivoryio/kogaio"
 
-import {
-  Pagination,
-  FilterSection
-} from "../components"
+import { Pagination, FilterSection } from "../components"
 
-import { Context } from '../services/Provider'
+import { Context } from "../services/Provider"
 
 import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
@@ -23,21 +20,23 @@ const LazyProductList = lazy(() => import("../components/ProductList"))
 const ProductsOverview = () => {
   const contextData = useContext(Context)
   const {
-      sortType,
-      setSortType,
-      resultsPerPage,
-      setResultsPerPage,
-      searchTerm,
-      searchResults: {
-        data: {
-          items: watches
-        },
-        isFetching
-      }
-    } = contextData
+    sortType,
+    setSortType,
+    resultsPerPage,
+    setResultsPerPage,
+    searchTerm,
+    searchResults: {
+      data: { items: watches },
+      isFetching
+    }
+  } = contextData
 
   if (isFetching) {
-    return <Typography textStyle='h2' textAlign='center'>Searching Watches...</Typography>
+    return (
+      <Typography textStyle='h2' textAlign='center'>
+        Searching Watches...
+      </Typography>
+    )
   }
   return (
     <Flex flexWrap='wrap'>
@@ -45,7 +44,7 @@ const ProductsOverview = () => {
         <Box width={{ xs: 1, lg: 1 / 4 }}>
           <FilterSection />
         </Box>
-      </Space> 
+      </Space>
       <Space mt={{ lg: 10 }}>
         <Flex width={{ xs: 1, lg: 3 / 4 }} flexWrap='wrap'>
           <Space
@@ -54,7 +53,7 @@ const ProductsOverview = () => {
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' variant='h1'>
-              Browsing products for {searchTerm} - { watches.length } results
+              Browsing products for {searchTerm} - {watches.length} results
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
@@ -103,7 +102,7 @@ const ProductsOverview = () => {
                 <Flex
                   width={{ xs: 1, md: 1 / 3 }}
                   alignItems='center'
-                  justifyContent={{ xs: 'center', md: 'flex-start' }}
+                  justifyContent={{ xs: "center", md: "flex-start" }}
                 >
                   <Typography color='gunmetal' fontSize={1}>
                     Results per page
@@ -123,17 +122,37 @@ const ProductsOverview = () => {
               <Flex
                 width={{ xs: 1, md: 2 / 3 }}
                 alignItems='center'
-                justifyContent={{ xs: 'center', md: 'space-between', lg: 'flex-end'}}
+                justifyContent={{
+                  xs: "center",
+                  md: "space-between",
+                  lg: "flex-end"
+                }}
                 flexWrap='wrap'
               >
                 <Space mt={{ xs: 6, md: 0 }}>
-                  <Typography
-                    alignSelf='center'
-                    color='pastel-blue'
-                    fontSize={1}
-                  >
-                    Showing {resultsPerPage} of 300 results
-                  </Typography>
+                  <PaginationDescription color='pastel-blue' fontSize={1}>
+                    Showing
+                    <Space px={1}>
+                      <Typography
+                        color='pastel-blue'
+                        fontSize={1}
+                        fontWeight={2}
+                      >
+                        {resultsPerPage}
+                      </Typography>
+                    </Space>
+                    of
+                    <Space px={1}>
+                      <Typography
+                        color='pastel-blue'
+                        fontSize={1}
+                        fontWeight={2}
+                      >
+                        300
+                      </Typography>
+                    </Space>
+                    results
+                  </PaginationDescription>
                 </Space>
                 <Space mt={{ xs: 3, md: 0 }} ml={{ lg: 6 }}>
                   <PaginationWrapper
@@ -151,6 +170,12 @@ const ProductsOverview = () => {
     </Flex>
   )
 }
+
+const PaginationDescription = styled(Typography)`
+  display: flex;
+  flexdirection: row;
+  alignself: center;
+`
 
 const PaginationWrapper = styled(Flex)`
   & button:not(:last-child) {
