@@ -5,30 +5,35 @@ const normalize = require('./services/search/normalizeFields')
 
 const { unmarshall } = AWS.DynamoDB.Converter
 
-exports.handler = async event => {
-  let params = {}
-  const { eventName } = event.Records[0]
-  const { NewImage, OldImage } = event.Records[0].dynamodb
-  
+exports.handler = async (event, contex) => {
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { docService } = JSON.parse(endpoints)
-
   const cloudSearchDomain = new AWS.CloudSearchDomain({ endpoint: docService })
-
-  switch (eventName) {
-    case 'INSERT':
-      params = await insertDocument(NewImage)
-      break
-
-    case 'REMOVE':
-      params = await removeDocument(OldImage)
-      break
+  
+  for(let value of event.Records) {
+    let params = {}
+    const { eventName } = value
+    const { NewImage, OldImage } = value.dynamodb
+    
+    switch (eventName) {
+      case 'INSERT':
+        params = await updateDocument(NewImage)
+        break
+  
+      case 'REMOVE':
+        params = await removeDocument(OldImage)
+        break
+      
+      case 'MODIFY':
+        params = await updateDocument(NewImage)
+        break
+    }
+      await cloudSearchDomain.uploadDocuments(params).promise()
   }
-
-  await cloudSearchDomain.uploadDocuments(params).promise()
+  
 }
 
-const insertDocument = async NewImage => {
+const updateDocument = async NewImage => {
   try {
     const fieldsToInsert = normalize(unmarshall(NewImage))
 
