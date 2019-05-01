@@ -25,16 +25,16 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   })
 
   useEffect(() => {
-    _search(searchTerm)
+    _search(`${searchTerm}&&start=${0}&&limit=${resultsPerPage}`)
     return () => {
       _resetSearchResults()
     }
   }, [])
 
   useEffect(() => {
-    const searchTerm = composeSearchTerm(activeFilters)
+    const searchTerm = composeSearchTerm(activeFilters, currentPage, resultsPerPage)
     _search(searchTerm)
-  }, [activeFilters])
+  }, [activeFilters, currentPage, resultsPerPage])
 
   const handleActiveFilters = category => (operation, filter) => () => {
     if (operation === 'push') {
