@@ -27,7 +27,6 @@ const FilterSection = () => {
   return (
     <Space p={4}>
       <Container width={1} bg='ghost-white' flexDirection='column'>
-        <Space py={{ lg: 2 }}>
           <Flex
             width={1}
             alignItems='center'
@@ -35,7 +34,10 @@ const FilterSection = () => {
             justifyContent={{ xs: "space-between",
             lg: "flex-start" }}
           >
-            <Flex width={1} alignItems='center'>
+            <Flex
+              width={{ xs: 1, md: 1 / 5, lg: 1 }}
+              alignItems='center'
+            >
               <Hide lg xlg>
                 <Icon name='filter_list' fontSize={3} />
               </Hide>
@@ -45,25 +47,25 @@ const FilterSection = () => {
                 </Typography>
               </Space>
             </Flex>
-            <Space>
+            <Space mt={{ xs: 2, md: 0, lg: 3 }}>
               <ActiveFiltersWrapper
-                width={1}
+                width={{ xs:1, md: 4 / 5, lg: 1 }}
                 flexWrap='wrap'
-                mt={{ xs: 2, md: 0, lg: 3 }}
+                justifyContent={{ md: 'flex-end', lg: 'flex-start' }}
               >
                 {activeFiltersAsArray.map(item => {
                   const category = categoryProvenience(item, activeFilters)
                   return (
-                    <Space my={1} key={`active-filter-${item}`}>
-                      <ActiveFilter
-                        title={item}
-                        onClickIcon={handleActiveFilters(category)("pop", item)}
-                      />
-                    </Space>
+                    <ActiveFilter
+                      key={`active-filter-${item}`}
+                      title={item}
+                      onClickIcon={handleActiveFilters(category)("pop", item)}
+                    />
                   )
                 })}
               </ActiveFiltersWrapper>
             </Space>
+            </Flex>
             <Space mt={{ xs: 2, md: 4, lg: 0 }}>
               <Flex width={1} flexWrap='wrap'>
                 {
@@ -77,8 +79,6 @@ const FilterSection = () => {
                 }
               </Flex>
             </Space>
-          </Flex>
-        </Space>
       </Container>
     </Space>
   )

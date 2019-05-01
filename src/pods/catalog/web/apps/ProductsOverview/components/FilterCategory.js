@@ -41,28 +41,26 @@ const FilterCategory = ({
   )
 
   return (
-    <Space>
-      <Flex width={1} flexDirection='column' {...props}>
-        <Space pb={1} pt={4}>  
-          <Row
-            left={<LeftCategorySide />}
-            right={<RightCategorySide />}
-          />
-        </Space>
-        {showOptions &&
-          (options
-            ? options.map(filter => (
-                  <FilterOption
-                    key={`filter-${filter}`}
-                    handleActiveFilters={
-                      handleActiveFilters(name)
-                    }
-                    title={filter}
-                  />
-                )
-              ) : null)}
-      </Flex>
-    </Space>
+    <Flex width={1} flexDirection='column' {...props}>
+      <Space py={2}>  
+        <Row
+          left={<LeftCategorySide />}
+          right={<RightCategorySide />}
+        />
+      </Space>
+      {showOptions &&
+        (options
+          ? options.map(filter => (
+                <FilterOption
+                  key={`filter-${filter}`}
+                  handleActiveFilters={
+                    handleActiveFilters(name)
+                  }
+                  title={filter}
+                />
+              )
+            ) : null)}
+    </Flex>
   )
 }
 
