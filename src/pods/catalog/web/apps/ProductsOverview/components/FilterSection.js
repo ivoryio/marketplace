@@ -20,9 +20,7 @@ const FilterSection = () => {
     activeFilters,
     activeFiltersAsArray,
     handleActiveFilters,
-    searchResults: {
-      data: { filters }
-    }
+    filters
   } = contextData
   return (
     <Space p={4}>

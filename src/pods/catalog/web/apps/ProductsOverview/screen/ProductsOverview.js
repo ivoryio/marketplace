@@ -20,15 +20,15 @@ const LazyProductList = lazy(() => import("../components/ProductList"))
 const ProductsOverview = () => {
   const contextData = useContext(Context)
   const {
+    slicedArray,
     sortType,
     setSortType,
     resultsPerPage,
     setResultsPerPage,
     searchTerm,
-    searchResults: {
-      data: { items: watches },
-      isFetching
-    }
+    isFetching,
+    displayedWatches,
+    itemsCount
   } = contextData
 
   if (isFetching) {
@@ -38,6 +38,7 @@ const ProductsOverview = () => {
       </Typography>
     )
   }
+
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
@@ -53,7 +54,7 @@ const ProductsOverview = () => {
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' variant='h1'>
-              Browsing products for {searchTerm} - {watches.length} results
+              Browsing products for {searchTerm} - {itemsCount} results
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
@@ -88,7 +89,7 @@ const ProductsOverview = () => {
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={watches} />
+              <LazyProductList watches={displayedWatches} />
             </Suspense>
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
@@ -159,7 +160,9 @@ const ProductsOverview = () => {
                     width={{ xs: 1, md: "auto" }}
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
-                    <Pagination />
+                    <Pagination
+                      maxPages={slicedArray.length}
+                    />
                   </PaginationWrapper>
                 </Space>
               </Flex>
