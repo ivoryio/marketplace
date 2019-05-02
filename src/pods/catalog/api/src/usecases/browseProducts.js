@@ -11,11 +11,16 @@ module.exports = (retrieveSecret) => async (query) => {
 
   const searchResults = await cloudSearch.search(query).promise()
 
-  return searchResults.hits.hit.map(result => {
+  let items = searchResults.hits.hit.map(result => {
     let object = {}
     for(let i in result.fields) {
       object[`${i}`] = result.fields[i][0]
     }
     return object
   })
+
+  return {
+    items,
+    itemsCount: searchResults.hits.found
+  }
 }
