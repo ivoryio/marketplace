@@ -23,14 +23,14 @@ router.get('/products', async (req, res) => {
   try {
     const searchQuery = queryTranslate(req.query)
     const items = await browseProducts(retrieveSecret)(searchQuery)
-    const filters = groupFilters(items)
+    const filters = groupFilters(items.items)
 
     res.status(200).json({
-      items,
+      ...items,
       filters
     })
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({err})
   }
 })
 

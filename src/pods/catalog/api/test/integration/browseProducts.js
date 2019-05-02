@@ -13,7 +13,7 @@ describe('Browse products', () => {
     
     const searchQuery = queryTranslate(query)
     const result = await browseProducts(retrieveSecret)(searchQuery)
-
+    
     assert.isTrue(result.items.length > 0)
   })
   it('should return an object containing the number of items searched' , async () => {
