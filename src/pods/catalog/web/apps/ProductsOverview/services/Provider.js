@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
 
 import api from '../../../services/catalog.dataservice'
+import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
 import { composeSearchTerm, transformActiveFiltersToArray } from './helpers'
@@ -52,7 +53,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const _search = async (searchTerm) => {
     try {
       const response = await api.getSearchResults(searchTerm)
-      if (response.status === 200) {
+      if (isResponseOk(response.status)) {
         const { data } = response
         setResults({ data, isFetching: false, error: null })
       } else {

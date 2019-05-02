@@ -1,21 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { themeGet, Touchable } from '@ivoryio/kogaio'
+import { Flex, themeGet, Touchable } from '@ivoryio/kogaio'
 
-const SquaredBox = ({ children, onClick, ...props }) => (
-    <StyledTouchable
-      borderRadius={1}
+const SquaredBox = ({ children, onClick, size, ...props }) => (
+  <StyledTouchable
+    borderRadius={1}
+    effect='highlight'
+    onClick={onClick}
+  >
+    <Flex
+      width={size}
+      height={size}
       justifyContent='center'
       alignItems='center'
-      minWidth='36px'
-      minHeight='36px'
-      effect='highlight'
-      onClick={onClick}
       {...props}
     >
-    { children }
-    </StyledTouchable>
+      { children }
+    </Flex>
+  </StyledTouchable>
 )
 
 SquaredBox.propTypes = {
@@ -25,7 +28,12 @@ SquaredBox.propTypes = {
     PropTypes.func,
     PropTypes.element
   ]).isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+}
+
+SquaredBox.defaultProps = {
+  size: 36
 }
 
 const StyledTouchable = styled(Touchable)`

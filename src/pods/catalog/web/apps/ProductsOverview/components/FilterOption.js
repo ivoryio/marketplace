@@ -10,8 +10,7 @@ const FilterOption = ({
     title,
     handleActiveFilters
   }) => {
-    const contextData = useContext(Context)
-    const { activeFiltersAsArray } = contextData
+    const { activeFiltersAsArray } = useContext(Context)
   
     const handleCheck = ev => {
       if(activeFiltersAsArray.includes(title)) {

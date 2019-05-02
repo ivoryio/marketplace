@@ -18,7 +18,6 @@ import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
-  const contextData = useContext(Context)
   const {
     sortType,
     setSortType,
@@ -29,7 +28,7 @@ const ProductsOverview = () => {
       data: { items: watches },
       isFetching
     }
-  } = contextData
+  } = useContext(Context)
 
   if (isFetching) {
     return (

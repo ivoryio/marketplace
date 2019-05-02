@@ -1,1 +1,1 @@
-export { default } from './RootEntry'
+export { default } from './ProductsOverviewEntry'

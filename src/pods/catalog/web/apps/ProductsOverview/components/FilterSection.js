@@ -15,7 +15,6 @@ import {
 } from "@ivoryio/kogaio"
 
 const FilterSection = () => {
-  const contextData = useContext(Context)
   const {
     activeFilters,
     activeFiltersAsArray,
@@ -23,7 +22,8 @@ const FilterSection = () => {
     searchResults: {
       data: { filters }
     }
-  } = contextData
+  } = useContext(Context)
+
   return (
     <Space p={4}>
       <Container width={1} bg='ghost-white' flexDirection='column'>
@@ -56,11 +56,16 @@ const FilterSection = () => {
                 {activeFiltersAsArray.map(item => {
                   const category = categoryProvenience(item, activeFilters)
                   return (
-                    <ActiveFilter
+                    <Space
+                      px={1}
+                      py={1}
                       key={`active-filter-${item}`}
-                      title={item}
-                      onClickIcon={handleActiveFilters(category)("pop", item)}
-                    />
+                    >
+                      <ActiveFilter
+                        title={item}
+                        onClickIcon={handleActiveFilters(category)("pop", item)}
+                      />
+                    </Space>
                   )
                 })}
               </ActiveFiltersWrapper>
