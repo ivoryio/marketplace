@@ -37,17 +37,19 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     _search(searchTerm)
   }, [activeFilters])
 
-  const handleActiveFilters = category => (operation, filter) => () => {
-    if (operation === 'push') {
-      setActiveFilters({
-        ...activeFilters,
-        [category]: [...activeFilters[category], filter]
-      })
-    } else {
-      let copy = {...activeFilters}
-      copy[category].pop(filter)
-      setActiveFilters(copy)
-    }
+  const addFilter = category => filter => () => {
+    setActiveFilters({
+      ...activeFilters,
+      [category]: [...activeFilters[category], filter]
+    })
+  }
+
+  const removeFilter = category => filter => () => {
+    const updatedCategory = activeFilters[category].filter(item => item !== filter)
+    setActiveFilters({
+      ...activeFilters,
+      [category]: updatedCategory
+    })
   }
 
   const _search = async (searchTerm) => {
@@ -79,7 +81,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const data = {
     activeFilters,
     activeFiltersAsArray,
-    handleActiveFilters,
+    addFilter,
+    removeFilter,
     currentPage,
     setCurrentPage,
     resultsPerPage,

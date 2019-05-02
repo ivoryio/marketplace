@@ -12,7 +12,7 @@ const FilterCategory = ({
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState(false)
-  const { handleActiveFilters } = useContext(Context)
+  const { addFilter, removeFilter } = useContext(Context)
 
   const CategoryName = () => (
     <CategoryTitle color='pastel-blue' fontSize={0} fontWeight={2}>
@@ -51,9 +51,8 @@ const FilterCategory = ({
           ? options.map(filter => (
                 <FilterOption
                   key={`filter-${filter}`}
-                  handleActiveFilters={
-                    handleActiveFilters(name)
-                  }
+                  addFilter={addFilter(name)}
+                  removeFilter={removeFilter(name)}
                   title={filter}
                 />
               )

@@ -8,15 +8,16 @@ import {
 
 const FilterOption = ({
     title,
-    handleActiveFilters
+    addFilter,
+    removeFilter
   }) => {
     const { activeFiltersAsArray } = useContext(Context)
   
     const handleCheck = ev => {
       if(activeFiltersAsArray.includes(title)) {
-        handleActiveFilters('pop', title)()
+        removeFilter(title)()
       } else {
-        handleActiveFilters('push', title)()
+        addFilter(title)()
       }
     }
   
@@ -36,7 +37,8 @@ const FilterOption = ({
   }
 
   FilterOption.propTypes = {
-    handleActiveFilters: PropTypes.func,
+    addFilter: PropTypes.func,
+    removeFilter: PropTypes.func,
     title: PropTypes.string
   }
 
