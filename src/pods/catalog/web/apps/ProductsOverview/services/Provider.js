@@ -35,12 +35,15 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       _resetSearchResults()
     }
   }, [])
+
   useEffect(() => {
     setCurrentPage(1)
   },[resultsPerPage])
+
   useEffect(() => {
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
+    setCurrentPage(1)
   }, [activeFilters])
 
   const addFilter = category => filter => () => {
@@ -91,8 +94,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
-  const slicedArray = makeSlices(results.data.items, Number(resultsPerPage))
-  const displayedWatches = slicedArray[currentPage - 1]
+  const slicedWatches = makeSlices(results.data.items, Number(resultsPerPage))
 
   const {
     isFetching,
@@ -108,7 +110,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     removeFilter,
     currentPage,
     setCurrentPage,
-    displayedWatches,
     itemsCount: results.data.itemsCount,
     resultsPerPage,
     setResultsPerPage,
@@ -117,7 +118,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     searchTerm,
     isFetching,
     filters,
-    slicedArray
+    slicedWatches
   }
 
   return (

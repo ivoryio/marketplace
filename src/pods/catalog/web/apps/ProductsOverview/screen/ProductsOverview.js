@@ -19,14 +19,14 @@ const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
   const {
-    slicedArray,
+    currentPage,
+    slicedWatches,
     sortType,
     setSortType,
     resultsPerPage,
     setResultsPerPage,
     searchTerm,
     isFetching,
-    displayedWatches,
     itemsCount
   } = useContext(Context)
 
@@ -88,7 +88,7 @@ const ProductsOverview = () => {
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={displayedWatches} />
+              <LazyProductList watches={slicedWatches[currentPage - 1]} />
             </Suspense>
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
@@ -160,7 +160,7 @@ const ProductsOverview = () => {
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
                     <Pagination
-                      maxPages={slicedArray.length}
+                      maxPages={slicedWatches.length}
                     />
                   </PaginationWrapper>
                 </Space>
