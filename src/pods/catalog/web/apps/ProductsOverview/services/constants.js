@@ -10,6 +10,10 @@ export const sortOptions = [
   {
     id: 'newest',
     name: 'Newest'
+  },
+  {
+    id: 'oldest',
+    name: 'Oldest'
   }
 ]
 

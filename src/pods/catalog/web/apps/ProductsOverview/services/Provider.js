@@ -6,7 +6,7 @@ import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
-import { composeSearchTerm, transformActiveFiltersToArray } from './helpers'
+import { composeSearchTerm, transformActiveFiltersToArray, sortWatches } from './helpers'
 
 export const Context = createContext()
 
@@ -36,20 +36,9 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [])
 
   useEffect(() => {
-    if (sortType === 'Price Low - High') {
-      const items = [...results.data.items]
-      items.sort(function (a,b) {
-        return Number(a.price) - Number(b.price)
-      })
-      setResults({...results, data: { ...results.data, items }})
-    } else if (sortType === 'Price High - Low') {
-      const items = [...results.data.items]
-      items.sort(function (a,b) {
-        return Number(b.price) - Number(a.price)
-      })
-      setResults({...results, data: { ...results.data, items }})
-    }
-  }, sortType)
+    const sortedItems = sortWatches(sortType, results.data.items)
+    setResults({...results, data: { ...results.data, items: sortedItems }})
+  }, [sortType])
 
   useEffect(() => {
     const searchTerm = composeSearchTerm(activeFilters)
@@ -74,7 +63,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       const response = await api.getSearchResults(searchTerm)
       if (response.status === 200) {
         const { data } = response
-        setResults({ data, isFetching: false, error: null })
+        const sortedItems = sortWatches(sortType, data.items)
+        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -94,7 +84,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
-
   const data = {
     activeFilters,
     activeFiltersAsArray,
