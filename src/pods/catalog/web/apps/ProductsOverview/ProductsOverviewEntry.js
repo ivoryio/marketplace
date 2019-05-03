@@ -2,10 +2,10 @@ import React from 'react'
 import ProductsOverview from './screen/ProductsOverview'
 import Provider from './services/Provider'
 
-const RootEntry = () => (
+const ProductsOverviewEntry = () => (
   <Provider>
     <ProductsOverview />
   </Provider>
   )
 
-export default RootEntry
+export default ProductsOverviewEntry
