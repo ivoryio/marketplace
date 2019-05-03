@@ -18,7 +18,6 @@ import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
-  const contextData = useContext(Context)
   const {
     slicedArray,
     sortType,
@@ -29,7 +28,7 @@ const ProductsOverview = () => {
     isFetching,
     displayedWatches,
     itemsCount
-  } = contextData
+  } = useContext(Context)
 
   if (isFetching) {
     return (
@@ -149,7 +148,7 @@ const ProductsOverview = () => {
                         fontSize={1}
                         fontWeight={2}
                       >
-                        300
+                        {itemsCount}
                       </Typography>
                     </Space>
                     results

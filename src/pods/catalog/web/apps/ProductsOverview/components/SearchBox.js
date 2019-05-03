@@ -31,15 +31,18 @@ const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
         <Hide lg xlg>
           <Touchable
             activeOpacity={.75}
-            bg='brand'
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
             effect='opacity'
-            size={[36]}
             onClick={searchWatches(searchValue)}
           >
-            <Icon color='white' fontSize={3} name='search' />
+            <Flex
+              width='36px'
+              height='36px'
+              bg='brand'
+              alignItems='center'
+              justifyContent='center'
+            >
+              <Icon color='white' fontSize={3} name='search' />
+            </Flex>
           </Touchable>
         </Hide>
         <Hide xs sm md>
