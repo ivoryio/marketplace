@@ -19,7 +19,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPageOptions[0].name)
   const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
-    data: [],
+    data: {
+      items: [],
+      itemsCount: 0,
+      filters: []
+    },
     isFetching: true,
     error: null
   })
@@ -30,6 +34,22 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       _resetSearchResults()
     }
   }, [])
+
+  useEffect(() => {
+    if (sortType === 'Price Low - High') {
+      const items = [...results.data.items]
+      items.sort(function (a,b) {
+        return Number(a.price) - Number(b.price)
+      })
+      setResults({...results, data: { ...results.data, items }})
+    } else if (sortType === 'Price High - Low') {
+      const items = [...results.data.items]
+      items.sort(function (a,b) {
+        return Number(b.price) - Number(a.price)
+      })
+      setResults({...results, data: { ...results.data, items }})
+    }
+  }, sortType)
 
   useEffect(() => {
     const searchTerm = composeSearchTerm(activeFilters)
@@ -88,7 +108,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     searchTerm,
     searchResults: results
   }
-
   return (
   <Context.Provider
     value={data}
