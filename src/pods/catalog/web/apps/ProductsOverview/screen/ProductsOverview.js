@@ -138,7 +138,7 @@ const ProductsOverview = () => {
                         fontSize={1}
                         fontWeight={2}
                       >
-                        {resultsPerPage}
+                        {(currentPage - 1) * resultsPerPage + 1}-{currentPage * resultsPerPage}
                       </Typography>
                     </Space>
                     of
