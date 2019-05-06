@@ -42,24 +42,53 @@ const Pagination = ({ maxPages }) => {
   }
 
   const isOneOfLastTwo = [maxPages, maxPages - 1].includes(currentPage)
+  const isMaxPagesOneOrTwo = [1, 2].includes(maxPages)
+
+  const _pickContentOfFirstBox = () => {
+    if (maxPages === 2 && currentPage === 2) {
+      return currentPage - 1
+    } else if (!isOneOfLastTwo || currentPage === 1) {
+      return currentPage
+    } else {
+      return '...'
+    }
+  }
+  const _pickContentOfSecondBox = () => {
+    if (currentPage === 2 && maxPages === 2) {
+      return currentPage
+    } else if (!isOneOfLastTwo || maxPages === 2) {
+      return currentPage + 1
+    } else {
+      return maxPages - 2
+    }
+  }
   return (
     <>
       <SquaredBox onClick={_decrement}>
         <Icon color='pastel-blue' fontSize={1} name='arrow_back' />
       </SquaredBox>
       <SquaredBox
-        bg={!isOneOfLastTwo ? 'green' : 'transparent'}
-        onClick={isOneOfLastTwo ? _jump('back') : null}>
+        bg={!isOneOfLastTwo || currentPage === 1 ? 'green' : 'transparent'}
+        onClick={isOneOfLastTwo && !isMaxPagesOneOrTwo ? _jump('back') : _decrement}>
         <Typography color='pastel-blue' fontSize={1}>
-          {!isOneOfLastTwo ? currentPage : '...' }
+          {_pickContentOfFirstBox()}
         </Typography>
       </SquaredBox>
-      <SquaredBox onClick={!isOneOfLastTwo ? _increment : _jumpToPage(maxPages - 2)}>
-        <Typography color='pastel-blue' fontSize={1}>
-          { !isOneOfLastTwo ? currentPage + 1 : maxPages - 2}
-        </Typography>
-      </SquaredBox>
+      {
+        maxPages !== 1 ?
       <SquaredBox
+        bg={currentPage === 2 && maxPages === 2 ? 'green' : 'transparent'}
+        onClick={!isOneOfLastTwo || maxPages === 2 ? _increment : _jumpToPage(maxPages - 2)}
+      >
+        <Typography color='pastel-blue' fontSize={1}>
+          {_pickContentOfSecondBox()}
+        </Typography>
+      </SquaredBox> : null
+      }
+      {
+        !isMaxPagesOneOrTwo
+        ? <>
+          <SquaredBox
         bg={ currentPage === maxPages - 1 ? 'green' : 'transparent'}
         onClick={ !isOneOfLastTwo ? _jump('forward') : _decrement}
       >
@@ -75,6 +104,8 @@ const Pagination = ({ maxPages }) => {
           {maxPages}
         </Typography>
       </SquaredBox>
+        </> : null
+      }
       <SquaredBox onClick={_increment}>
         <Icon color='pastel-blue' fontSize={1} name='arrow_forward' />
       </SquaredBox>

@@ -10,6 +10,10 @@ export const sortOptions = [
   {
     id: 'newest',
     name: 'Newest'
+  },
+  {
+    id: 'oldest',
+    name: 'Oldest'
   }
 ]
 
@@ -33,4 +37,14 @@ export const initialActiveFilters = {
   brands: [],
   models: [],
   genders: []
+}
+
+export const initialSearchResults = {
+  data: {
+    items: [],
+    itemsCount: 0,
+    filters: []
+  },
+  isFetching: false,
+  error: null
 }
