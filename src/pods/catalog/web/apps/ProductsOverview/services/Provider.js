@@ -36,6 +36,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   },[resultsPerPage])
 
   useEffect(() => {
+    setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
     setCurrentPage(1)
