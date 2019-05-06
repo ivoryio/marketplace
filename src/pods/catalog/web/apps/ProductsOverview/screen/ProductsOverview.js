@@ -30,6 +30,8 @@ const ProductsOverview = () => {
     itemsCount
   } = useContext(Context)
 
+  const maxPages = slicedWatches.length
+
   if (isFetching) {
     return (
       <Typography textStyle='h2' textAlign='center'>
@@ -138,7 +140,7 @@ const ProductsOverview = () => {
                         fontSize={1}
                         fontWeight={2}
                       >
-                        {(currentPage - 1) * resultsPerPage + 1}-{currentPage * resultsPerPage}
+                        {(currentPage - 1) * resultsPerPage + 1}-{currentPage === maxPages ? itemsCount : currentPage * resultsPerPage}
                       </Typography>
                     </Space>
                     of
@@ -160,7 +162,7 @@ const ProductsOverview = () => {
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
                     <Pagination
-                      maxPages={slicedWatches.length}
+                      maxPages={maxPages}
                     />
                   </PaginationWrapper>
                 </Space>
