@@ -20,9 +20,7 @@ const FilterSection = () => {
     activeFilters,
     activeFiltersAsArray,
     removeFilter,
-    searchResults: {
-      data: { filters }
-    }
+    filters
   } = useContext(Context)
 
   return (

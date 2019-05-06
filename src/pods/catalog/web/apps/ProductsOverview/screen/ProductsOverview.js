@@ -19,16 +19,18 @@ const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
   const {
+    currentPage,
+    slicedWatches,
     sortType,
     setSortType,
     resultsPerPage,
     setResultsPerPage,
     searchTerm,
-    searchResults: {
-      data: { items: watches },
-      isFetching
-    }
+    isFetching,
+    itemsCount
   } = useContext(Context)
+
+  const maxPages = slicedWatches.length
 
   return (
     <Flex flexWrap='wrap'>
@@ -46,7 +48,7 @@ const ProductsOverview = () => {
           >
             <Typography color='gunmetal' variant='h1'>
               { isFetching ? 'Searching products...'
-                  : `Browsing products for ${searchTerm} - ${watches.length} results`
+                  : `Browsing products for ${searchTerm} - ${itemsCount} results`
               }
             </Typography>
           </Space>
@@ -82,7 +84,7 @@ const ProductsOverview = () => {
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={watches} isFetching={isFetching} />
+              <LazyProductList watches={slicedWatches[currentPage - 1]} isFetching={isFetching} />
             </Suspense>
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
@@ -132,7 +134,7 @@ const ProductsOverview = () => {
                         fontSize={1}
                         fontWeight={2}
                       >
-                        {resultsPerPage}
+                        {(currentPage - 1) * resultsPerPage + 1}-{currentPage === maxPages ? itemsCount : currentPage * resultsPerPage}
                       </Typography>
                     </Space>
                     of
@@ -142,7 +144,7 @@ const ProductsOverview = () => {
                         fontSize={1}
                         fontWeight={2}
                       >
-                        300
+                        {itemsCount}
                       </Typography>
                     </Space>
                     results
@@ -153,7 +155,9 @@ const ProductsOverview = () => {
                     width={{ xs: 1, md: "auto" }}
                     justifyContent={{ xs: "center", md: "flex-end" }}
                   >
-                    <Pagination />
+                    <Pagination
+                      maxPages={maxPages}
+                    />
                   </PaginationWrapper>
                 </Space>
               </Flex>

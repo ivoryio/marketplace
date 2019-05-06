@@ -6,8 +6,8 @@ import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
-import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
-import { composeSearchTerm, transformActiveFiltersToArray, sortWatches } from './helpers'
+import { sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
+import { composeSearchTerm, makeSlices, transformActiveFiltersToArray, sortWatches } from './helpers'
 
 export const Context = createContext()
 
@@ -20,13 +20,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPageOptions[0].name)
   const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
-    data: {
-      items: [],
-      itemsCount: 0,
-      filters: []
-    },
-    isFetching: true,
-    error: null
+    ...initialSearchResults,
+    isFetching: true
   })
 
   useEffect(() => {
@@ -37,6 +32,10 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [])
 
   useEffect(() => {
+    setCurrentPage(1)
+  },[resultsPerPage])
+
+  useEffect(() => {
     const sortedItems = sortWatches(sortType, results.data.items)
     setResults({...results, data: { ...results.data, items: sortedItems }})
   }, [sortType])
@@ -45,6 +44,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
+    setCurrentPage(1)
   }, [activeFilters])
 
   const addFilter = category => filter => () => {
@@ -77,7 +77,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     }
   }
 
-  const _resetSearchResults = () => setResults({ data: [], isFetching: false, error: null })
+  const _resetSearchResults = () => setResults(initialSearchResults)
 
   const handleSearch = searchTerm => () => {
     setActiveFilters({
@@ -88,6 +88,15 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
+  const slicedWatches = makeSlices(results.data.items, Number(resultsPerPage))
+
+  const {
+    isFetching,
+    data: {
+      filters
+    }
+  } = results
+
   const data = {
     activeFilters,
     activeFiltersAsArray,
@@ -95,12 +104,15 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     removeFilter,
     currentPage,
     setCurrentPage,
+    itemsCount: results.data.itemsCount,
     resultsPerPage,
     setResultsPerPage,
     sortType,
     setSortType,
     searchTerm,
-    searchResults: results
+    isFetching,
+    filters,
+    slicedWatches
   }
   return (
   <Context.Provider
