@@ -8,6 +8,7 @@ const ActiveFilter = ({ title, onClickIcon, ...props }) => (
     <Flex
       bg='brand'
       borderRadius={1}
+      width='fit-content'
       {...props}
     >
       <Space px={1}>
