@@ -4,9 +4,10 @@ import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
 
 import api from '../../../services/catalog.dataservice'
+import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
-import { composeSearchTerm, transformActiveFiltersToArray } from './helpers'
+import { composeSearchTerm, transformActiveFiltersToArray, sortWatches } from './helpers'
 
 export const Context = createContext()
 
@@ -19,7 +20,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPageOptions[0].name)
   const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
-    data: [],
+    data: {
+      items: [],
+      itemsCount: 0,
+      filters: []
+    },
     isFetching: true,
     error: null
   })
@@ -32,29 +37,38 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [])
 
   useEffect(() => {
+    const sortedItems = sortWatches(sortType, results.data.items)
+    setResults({...results, data: { ...results.data, items: sortedItems }})
+  }, [sortType])
+
+  useEffect(() => {
+    setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
   }, [activeFilters])
 
-  const handleActiveFilters = category => (operation, filter) => () => {
-    if (operation === 'push') {
-      setActiveFilters({
-        ...activeFilters,
-        [category]: [...activeFilters[category], filter]
-      })
-    } else {
-      let copy = {...activeFilters}
-      copy[category].pop(filter)
-      setActiveFilters(copy)
-    }
+  const addFilter = category => filter => () => {
+    setActiveFilters({
+      ...activeFilters,
+      [category]: [...activeFilters[category], filter]
+    })
+  }
+
+  const removeFilter = category => filter => () => {
+    const updatedCategory = activeFilters[category].filter(item => item !== filter)
+    setActiveFilters({
+      ...activeFilters,
+      [category]: updatedCategory
+    })
   }
 
   const _search = async (searchTerm) => {
     try {
       const response = await api.getSearchResults(searchTerm)
-      if (response.status === 200) {
+      if (isResponseOk(response.status)) {
         const { data } = response
-        setResults({ data, isFetching: false, error: null })
+        const sortedItems = sortWatches(sortType, data.items)
+        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -74,11 +88,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
-
   const data = {
     activeFilters,
     activeFiltersAsArray,
-    handleActiveFilters,
+    addFilter,
+    removeFilter,
     currentPage,
     setCurrentPage,
     resultsPerPage,
@@ -88,7 +102,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     searchTerm,
     searchResults: results
   }
-
   return (
   <Context.Provider
     value={data}

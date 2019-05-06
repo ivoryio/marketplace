@@ -7,6 +7,37 @@ export const composeSearchTerm = activeFilters => {
   return `${query}${brandsTerm}${modelsTerm}${gendersTerm}`
 }
 
+export const sortWatches = (sortType, watches) => {
+  if (sortType === 'Price Low - High') {
+    const items = [...watches]
+    items.sort(function (a,b) {
+      return Number(a.price) - Number(b.price)
+    })
+    return items
+  } else if (sortType === 'Price High - Low') {
+    const items = [...watches]
+    items.sort(function (a,b) {
+      return Number(b.price) - Number(a.price)
+    })
+    return items
+  } else if (sortType === 'Newest') {
+    const items = [...watches]
+    items.sort(function (a,b) {
+      let dateA = new Date(a.createdat),
+          dateB = new Date(b.createdat)
+      return dateB - dateA
+    })
+    return items
+  }
+    const items = [...watches]
+    items.sort(function (a,b) {
+      let dateA = new Date(a.createdat),
+          dateB = new Date(b.createdat)
+      return dateA - dateB
+    })
+    return items
+}
+
 export const transformActiveFiltersToArray = activeFilters => {
   const { query } = activeFilters
   const filterCategories = Object.keys(activeFilters).filter(category => category !== "query")

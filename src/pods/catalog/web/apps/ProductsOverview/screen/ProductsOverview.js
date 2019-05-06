@@ -18,7 +18,6 @@ import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
 const ProductsOverview = () => {
-  const contextData = useContext(Context)
   const {
     sortType,
     setSortType,
@@ -29,15 +28,8 @@ const ProductsOverview = () => {
       data: { items: watches },
       isFetching
     }
-  } = contextData
+  } = useContext(Context)
 
-  if (isFetching) {
-    return (
-      <Typography textStyle='h2' textAlign='center'>
-        Searching Watches...
-      </Typography>
-    )
-  }
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
@@ -53,7 +45,9 @@ const ProductsOverview = () => {
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' variant='h1'>
-              Browsing products for {searchTerm} - {watches.length} results
+              { isFetching ? 'Searching products...'
+                  : `Browsing products for ${searchTerm} - ${watches.length} results`
+              }
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
@@ -88,7 +82,7 @@ const ProductsOverview = () => {
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={watches} />
+              <LazyProductList watches={watches} isFetching={isFetching} />
             </Suspense>
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>

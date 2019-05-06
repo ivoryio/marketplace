@@ -6,6 +6,7 @@ import { categoryProvenience } from "../services/helpers"
 import { ActiveFilter, FilterCategory } from "."
 
 import {
+  Box,
   Flex,
   Hide,
   Icon,
@@ -15,15 +16,15 @@ import {
 } from "@ivoryio/kogaio"
 
 const FilterSection = () => {
-  const contextData = useContext(Context)
   const {
     activeFilters,
     activeFiltersAsArray,
-    handleActiveFilters,
+    removeFilter,
     searchResults: {
       data: { filters }
     }
-  } = contextData
+  } = useContext(Context)
+
   return (
     <Space p={4}>
       <Container width={1} bg='ghost-white' flexDirection='column'>
@@ -41,13 +42,13 @@ const FilterSection = () => {
               <Hide lg xlg>
                 <Icon name='filter_list' fontSize={3} />
               </Hide>
-              <Space ml={3}>
+              <Space ml={{xs: 3, lg: 0}}>
                 <Typography color='gunmetal' fontSize={0} fontWeight={2}>
                   FILTER RESULTS
                 </Typography>
               </Space>
             </Flex>
-            <Space mt={{ xs: 2, md: 0, lg: 3 }}>
+            <Space mt={{ xs: 1, md: 0, lg: 3 }}>
               <ActiveFiltersWrapper
                 width={{ xs:1, md: 4 / 5, lg: 1 }}
                 flexWrap='wrap'
@@ -56,11 +57,21 @@ const FilterSection = () => {
                 {activeFiltersAsArray.map(item => {
                   const category = categoryProvenience(item, activeFilters)
                   return (
-                    <ActiveFilter
+                    <Box
+                      width={{ lg: 1 }}
                       key={`active-filter-${item}`}
-                      title={item}
-                      onClickIcon={handleActiveFilters(category)("pop", item)}
-                    />
+                    >
+                      <Space
+                        mt={1}
+                        px={1}
+                        py={1}
+                      >
+                        <ActiveFilter
+                          title={item}
+                          onClickIcon={removeFilter(category)(item)}
+                        />
+                      </Space>
+                    </Box>
                   )
                 })}
               </ActiveFiltersWrapper>
@@ -85,8 +96,8 @@ const FilterSection = () => {
 }
 
 const ActiveFiltersWrapper = styled(Flex)`
-  & div:not(:first-child) {
-    margin-left: ${themeGet("space.2")}px;
+  & div:not(:last-child) {
+    margin-right: ${themeGet("space.2")}px;
   }
 `
 

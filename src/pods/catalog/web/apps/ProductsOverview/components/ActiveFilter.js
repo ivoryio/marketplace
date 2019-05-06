@@ -5,20 +5,20 @@ import styled from 'styled-components'
 import { Flex, Icon, Space, Touchable, Typography } from '@ivoryio/kogaio'
 
 const ActiveFilter = ({ title, onClickIcon, ...props }) => (
-  <Space px={1} py={1}>
     <Flex
       bg='brand'
       borderRadius={1}
+      width='fit-content'
       {...props}
     >
       <Space px={1}>
-        <FitlerTitle
+        <Title
           color='white'
           fontFamily='complementary'
           fontSize={0}
         >
           {title}
-        </FitlerTitle>
+        </Title>
       </Space>
       <Space px={1}>
         <Touchable
@@ -36,10 +36,9 @@ const ActiveFilter = ({ title, onClickIcon, ...props }) => (
         </Touchable>
       </Space>
     </Flex>
-  </Space>
 )
 
-const FitlerTitle = styled(Typography)`
+const Title = styled(Typography)`
   text-transform: capitalize;
 `
 

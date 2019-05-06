@@ -6,8 +6,7 @@ import { Icon, Typography } from '@ivoryio/kogaio'
 import { Context } from '../services/Provider'
 
 const Pagination = ({ maxPages }) => {
-  const contextData = useContext(Context)
-  const { currentPage, setCurrentPage } = contextData
+  const { currentPage, setCurrentPage } = useContext(Context)
   
   const _decrement = ev => {
     if (currentPage === 1) {
