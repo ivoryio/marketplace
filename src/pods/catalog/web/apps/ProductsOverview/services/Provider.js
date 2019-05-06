@@ -20,7 +20,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPageOptions[0].name)
   const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
-    data: [],
+    data: {
+      items: [],
+      itemsCount: 0,
+      filters: []
+    },
     isFetching: true,
     error: null
   })
@@ -33,6 +37,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [])
 
   useEffect(() => {
+    setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
   }, [activeFilters])
