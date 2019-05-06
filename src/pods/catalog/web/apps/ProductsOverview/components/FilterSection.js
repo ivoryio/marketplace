@@ -6,6 +6,7 @@ import { categoryProvenience } from "../services/helpers"
 import { ActiveFilter, FilterCategory } from "."
 
 import {
+  Box,
   Flex,
   Hide,
   Icon,
@@ -56,17 +57,21 @@ const FilterSection = () => {
                 {activeFiltersAsArray.map(item => {
                   const category = categoryProvenience(item, activeFilters)
                   return (
-                    <Space
-                      mt={1}
-                      px={1}
-                      py={1}
+                    <Box
+                      width={{ lg: 1 }}
                       key={`active-filter-${item}`}
                     >
-                      <ActiveFilter
-                        title={item}
-                        onClickIcon={removeFilter(category)(item)}
-                      />
-                    </Space>
+                      <Space
+                        mt={1}
+                        px={1}
+                        py={1}
+                      >
+                        <ActiveFilter
+                          title={item}
+                          onClickIcon={removeFilter(category)(item)}
+                        />
+                      </Space>
+                    </Box>
                   )
                 })}
               </ActiveFiltersWrapper>
