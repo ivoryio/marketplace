@@ -63,8 +63,7 @@ const FilterSection = () => {
                     >
                       <Space
                         mt={1}
-                        px={1}
-                        py={1}
+                        p={1}
                       >
                         <ActiveFilter
                           title={item}
