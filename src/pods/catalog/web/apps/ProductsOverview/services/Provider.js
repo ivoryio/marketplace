@@ -67,8 +67,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       const response = await api.getSearchResults(searchTerm)
       if (isResponseOk(response.status)) {
         const { data } = response
+        const { data: { filters: stateFilters } } = results
         const sortedItems = sortWatches(sortType, data.items)
-        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
+        const filters = stateFilters.length === 0 ? data.filters : stateFilters
+
+        setResults({ data: {...data, items: sortedItems, filters}, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
