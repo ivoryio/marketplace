@@ -20,7 +20,7 @@ const ProductList = ({ watches, isFetching }) => (
             ? <ActivityIndicator
                 colors={{ background: 'white', primary: 'gunmetal' }}
                 size='32px'
-              /> : <ProductCard imgSrc={imgsrc} price={price} description={description} />
+              /> : <ProductCard imgSrc={imgsrc} price={`$${price}`} description={description} />
           }
           </Flex>
         </Space>

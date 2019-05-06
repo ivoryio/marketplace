@@ -50,9 +50,8 @@ export const sortWatches = (sortType, watches) => {
 }
 
 export const transformActiveFiltersToArray = activeFilters => {
-  const { query } = activeFilters
   const filterCategories = Object.keys(activeFilters).filter(category => category !== "query")
-  let array = [query]
+  let array = []
   filterCategories.forEach(category => {
     if (category.length !== 0) {
       array = [...array, ...activeFilters[category]]
@@ -66,7 +65,7 @@ export const categoryProvenience = (filter, activeFilters) => {
   const filterCategories = Object.keys(activeFilters)
   filterCategories.forEach(category => {
     if(activeFilters[category].includes(filter)){
-      result = category 
+      result = category
     }
   })
   return result
