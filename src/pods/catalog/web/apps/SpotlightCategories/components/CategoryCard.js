@@ -9,7 +9,7 @@ const CategoryCard = ({ imgSrc, description }) => (
       <Image src={imgSrc} dimensions={['100%', 120]} />
       <Space mt={2}>
         <Flex alignItems='center' height='34px'>
-          <Description color='gunmetal' textStyle='h6' textAlign='center'>
+          <Description color='gunmetal' variant='h6' textAlign='center'>
             {description}
           </Description>
         </Flex>

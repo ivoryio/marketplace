@@ -11,7 +11,7 @@ const FooterCTA = () => (
             color='white'
             fontWeight={2}
             textAlign='center'
-            textStyle='subtitle'>
+            variant='subtitle'>
             Start your 30-day free trial today. Cancel or upgrade anytime.
           </Typography>
         </Box>

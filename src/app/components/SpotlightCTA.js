@@ -6,7 +6,7 @@ import icons from 'assets/icons'
 
 const SpotlightCTA = () => {
   const ActionTitle = () => (
-    <Typography color='white' fontWeight={2} textAlign='center' textStyle='h2'>
+    <Typography color='white' fontWeight={2} textAlign='center' variant='h2'>
       Deal of the day! <br />
       <Space mt={1}>
         <Typography color='white'>

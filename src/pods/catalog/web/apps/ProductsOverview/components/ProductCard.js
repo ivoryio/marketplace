@@ -10,13 +10,13 @@ import {
 
 } from '@ivoryio/kogaio'
 
-const ProductCard = ({ imgSrc, price, title, ...props }) => (
+const ProductCard = ({ imgSrc, price, description, ...props }) => (
   <Space pb={4}>
     <Card
-      borderRadius={3}
+      borderRadius={4}
       display='flex'
       flexDirection='column'
-      colors='card-white'
+      variant='white'
       {...props}
     >
       <Flex alignItems='center' justifyContent='center' width={1}>
@@ -24,12 +24,12 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
       </Flex>
       <Space mt={3} px={{ xs: 4, lg: 6 }}>
         <Flex alignItems='center' height='34px'>
-          <ProductTitle
+          <ProductDescription
             color='gunmetal'
             fontSize={1}
           >
-            {title}
-          </ProductTitle>
+            {description}
+          </ProductDescription>
         </Flex>
       </Space>
       <Space mt={1} px={{ xs: 4, lg: 6 }}>
@@ -45,7 +45,7 @@ const ProductCard = ({ imgSrc, price, title, ...props }) => (
   </Space>
 )
 
-const ProductTitle = styled(Typography)`
+const ProductDescription = styled(Typography)`
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -54,7 +54,7 @@ const ProductTitle = styled(Typography)`
 
 ProductCard.propTypes = {
   imgSrc: PropTypes.string,
-  title: PropTypes.string,
+  description: PropTypes.string,
   price: PropTypes.string
 }
 

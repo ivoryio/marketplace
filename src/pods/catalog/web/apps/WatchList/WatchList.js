@@ -43,16 +43,16 @@ const WatchList = () => {
     }
   }
 
-  const { data, isFetching } = watches
+  const { data: { items }, isFetching } = watches
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Space px={4}>
-        <Typography color='gunmetal' textAlign='center' textStyle='h5'>
+        <Typography color='gunmetal' textAlign='center' variant='h5'>
           Newest Watches Section
         </Typography>
       </Space>
       <Space mt={1} px={4}>
-        <Typography color='manatee' textAlign='center' textStyle='h5'>
+        <Typography color='manatee' textAlign='center' variant='h5'>
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
@@ -110,7 +110,7 @@ const WatchList = () => {
                 size='32px'
               />
             ) : (
-              data.map(({ id, brand, model, description, imgsrc }) => (
+              items.map(({ id, brand, model, description, imgsrc }) => (
                 <Space key={id} px={{ xs: 2, lg: 3 }}>
                   <Box>
                     <CardWatch

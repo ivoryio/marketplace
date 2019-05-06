@@ -39,7 +39,7 @@ const Footer = () => {
                 <SectionHeader
                   color='pastel-blue'
                   fontWeight={2}
-                  textStyle='h6'>
+                  variant='h6'>
                   {section.title}
                 </SectionHeader>
                 {section.items.map(item => (
@@ -47,7 +47,7 @@ const Footer = () => {
                     <Touchable
                       effect='opacity'
                       onClick={_handleItemClick(item)}>
-                      <Typography fontWeight={0} textStyle='caption'>
+                      <Typography fontWeight={0} variant='caption'>
                         {item.title}
                       </Typography>
                     </Touchable>
@@ -68,7 +68,7 @@ const Copyright = () => (
       <Flex alignItems='center' justifyContent='center'>
         <Image dimensions={[24]} src={icons.logo} />
         <Space ml={1}>
-          <Typography color='pastel-blue' fontWeight={5} textStyle='h6'>
+          <Typography color='pastel-blue' fontWeight={5} variant='h6'>
             Ivory
           </Typography>
         </Space>
@@ -77,7 +77,7 @@ const Copyright = () => (
         <Typography
           fontFamily='complementary'
           textAlign='center'
-          textStyle='caption'>
+          variant='caption'>
           © 2019 Ivory.io, Inc. or its affiliates
         </Typography>
       </Space>
