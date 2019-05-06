@@ -6,7 +6,7 @@ import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
-import { sortOptions, initialActiveFilters, itemsPerPageOptions } from '../services/constants'
+import { sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
 import { composeSearchTerm, makeSlices, transformActiveFiltersToArray } from './helpers'
 
 export const Context = createContext()
@@ -20,13 +20,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPageOptions[0].name)
   const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
-    data: {
-      items: [],
-      itemsCount: 0,
-      filters: []
-    },
-    isFetching: true,
-    error: null
+    ...initialSearchResults,
+    isFetching: true
   })
 
   useEffect(() => {
@@ -41,6 +36,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   },[resultsPerPage])
 
   useEffect(() => {
+    setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
     setCurrentPage(1)
@@ -75,15 +71,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     }
   }
 
-  const _resetSearchResults = () => setResults({
-    data: {
-      itemsCount: 0,
-      items: [],
-      filters: []
-    },
-    isFetching: false,
-    error: null
-  })
+  const _resetSearchResults = () => setResults(initialSearchResults)
 
   const handleSearch = searchTerm => () => {
     setActiveFilters({

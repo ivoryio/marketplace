@@ -38,3 +38,13 @@ export const initialActiveFilters = {
   models: [],
   genders: []
 }
+
+export const initialSearchResults = {
+  data: {
+    items: [],
+    itemsCount: 0,
+    filters: []
+  },
+  isFetching: false,
+  error: null
+}
