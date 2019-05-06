@@ -42,6 +42,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }, [sortType])
 
   useEffect(() => {
+    setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
   }, [activeFilters])
