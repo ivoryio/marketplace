@@ -7,7 +7,7 @@ import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
-import { composeSearchTerm, makeSlices, transformActiveFiltersToArray } from './helpers'
+import { composeSearchTerm, makeSlices, transformActiveFiltersToArray, sortWatches } from './helpers'
 
 export const Context = createContext()
 
@@ -36,6 +36,11 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   },[resultsPerPage])
 
   useEffect(() => {
+    const sortedItems = sortWatches(sortType, results.data.items)
+    setResults({...results, data: { ...results.data, items: sortedItems }})
+  }, [sortType])
+
+  useEffect(() => {
     setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
     _search(searchTerm)
@@ -62,7 +67,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       const response = await api.getSearchResults(searchTerm)
       if (isResponseOk(response.status)) {
         const { data } = response
-        setResults({ data, isFetching: false, error: null })
+        const sortedItems = sortWatches(sortType, data.items)
+        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -108,7 +114,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     filters,
     slicedWatches
   }
-
   return (
   <Context.Provider
     value={data}
