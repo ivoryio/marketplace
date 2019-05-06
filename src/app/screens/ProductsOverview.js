@@ -5,7 +5,6 @@ import { Flex } from '@ivoryio/kogaio'
 
 const ProductsOverview = ({ searchTerm }) => (
   <Flex flexDirection='column'>
-    <Region name='search-products' data={{ searchTerm }} />
     <Region name='products-overview' data={{ searchTerm }} />
   </Flex>
 )
