@@ -22,7 +22,7 @@ const Footer = () => {
     )
   }
   return (
-    <Space my={8}>
+    <Space my={{xs: 6, lg: 10}}>
       <Flex
         alignItems='center'
         flexWrap={{ xs: 'wrap-reverse', md: 'wrap' }}
