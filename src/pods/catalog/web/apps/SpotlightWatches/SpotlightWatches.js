@@ -140,7 +140,7 @@ const SpotlightWatches = () => {
             addArrowClickHandler
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
-            infinite={false}
+            infinite={true}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={1}
@@ -148,7 +148,6 @@ const SpotlightWatches = () => {
             breakpoints={{
               1279: {
                 centered: false,
-                infinite: false,
                 arrowLeft: null,
                 arrowRight: null
               },
@@ -156,21 +155,18 @@ const SpotlightWatches = () => {
                 arrowLeft: null,
                 arrowRight: null,
                 centered: false,
-                infinite: false,
                 animationSpeed: 2000
               },
               480: {
                 arrowLeft: null,
                 arrowRight: null,
                 centered: false,
-                infinite: false,
                 animationSpeed: 2000
               },
               360: {
                 arrowLeft: null,
                 arrowRight: null,
                 clickToChange: false,
-                infinite: false,
                 animationSpeed: 2000
               }
             }}
