@@ -54,7 +54,7 @@ const RootEntry = () => {
   return (
     <Flex flexDirection='column'>
       <Header transitionToState={transitionToState} user={fsm.user} />
-      {currentState.name.includes('landing') ? <NavMenu /> : null}
+      {['landing', 'search-results'].includes(currentState.name) ? <NavMenu /> : null}
       {CurrentScreen}
     </Flex>
   )
