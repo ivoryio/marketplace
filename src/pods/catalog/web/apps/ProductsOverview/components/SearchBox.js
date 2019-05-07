@@ -11,7 +11,7 @@ const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
     setSearchValue(value)
   }
   return (
-    <Space mt={3} px={{ xs: 4, lg: 378 }}>
+    <Space px={{ xs: 4, lg: 378 }}>
       <Flex
         width={1}
         bg='ghost-white'

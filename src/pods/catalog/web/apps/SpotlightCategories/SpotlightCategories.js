@@ -9,7 +9,7 @@ const SpotlightCategories = () => (
     alignItems='center'
     bg='ghost-white'
     flexDirection='column'
-    pb={10}
+    pb={{xs: 17, md: 10}}
     pt={16}
   >
     <Space px={4}>

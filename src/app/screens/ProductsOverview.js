@@ -1,11 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Region } from 'frint-react'
-import { Flex } from '@ivoryio/kogaio'
+import { Flex, Space } from '@ivoryio/kogaio'
+
+import { Footer, FooterCTA } from '../components'
 
 const ProductsOverview = ({ searchTerm }) => (
   <Flex flexDirection='column'>
     <Region name='products-overview' data={{ searchTerm }} />
+    <Space mt={10}>
+      <FooterCTA />
+    </Space>
+    <Footer />
   </Flex>
 )
 
