@@ -16,7 +16,7 @@ const ProductList = ({ watches, isFetching }) => (
     ) : (
       <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
         <Flex width={1} flexWrap='wrap'>
-          {watches.map(({ id, imgsrc, price, description }) => (
+          {watches.map(({ id, imgSrc, price, description }) => (
             <Space
               key={`watch-${id}`}
               pb={{ xs: 4, lg: 6 }}
@@ -27,7 +27,7 @@ const ProductList = ({ watches, isFetching }) => (
                 justifyContent='center'
               >
                 <ProductCard
-                  imgSrc={imgsrc}
+                  imgSrc={imgSrc}
                   price={`$${price}`}
                   description={description}
                 />

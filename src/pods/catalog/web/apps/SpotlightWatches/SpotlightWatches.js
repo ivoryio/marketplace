@@ -43,7 +43,7 @@ const mapGroupsToSlides = arr =>
             descriptionFontStyle='h4'
             descriptionPadding={{ xs: 8, md: 10 }}
             imgHeight='250px'
-            imgSrc={first.imgsrc}
+            imgSrc={first.imgSrc}
             onClick={() => {}}
             buttonAlignment='left'
             buttonLabel='Button Label'
@@ -58,7 +58,7 @@ const mapGroupsToSlides = arr =>
             key={second.id}
             description={second.description}
             imgHeight='250px'
-            imgSrc={second.imgsrc}
+            imgSrc={second.imgSrc}
             onClick={() => {}}
             buttonLabel='Button Label'
             buttonAlignment='center'
@@ -74,7 +74,7 @@ const mapGroupsToSlides = arr =>
               key={third.id}
               description={third.description}
               imgHeight='250px'
-              imgSrc={third.imgsrc}
+              imgSrc={third.imgSrc}
               onClick={() => {}}
               buttonLabel='Button Label'
               buttonAlignment='center'
