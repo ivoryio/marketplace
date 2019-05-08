@@ -1,12 +1,8 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
   description: "REST API for Catalog"
   version: "1.0.0"
   title: "Catalog Service"
-host: "https://kvxajdvh79.execute-api.us-east-1.amazonaws.com/dev"
-basePath: "/"
-schemes:
-- "https"
 paths:
   /products:
     post:
@@ -14,24 +10,20 @@ paths:
       - "product"
       summary: "Create a new product for the catalog"
       operationId: "createProduct"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
+      requestBody:
         description: "Product object that needs to be added to the catalog"
         required: true
-        schema:
-          $ref: "#/definitions/Details"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Details"
       responses:
-        '201':
+        201:
           description: "Created"
-          content: 
+          content:
             application/json:
               schema:
-                $ref: "#/definitions/Details"
+                $ref: "#/components/schemas/Product"
         400:
           description: "Bad Request"
         401:
@@ -39,75 +31,83 @@ paths:
         500:
           description: "Internal Server Error"
 
-definitions:
-  Details:
-    type: "object"
-    properties:
-      brand:
-        type: "string"
-        required: true
-      model:
-        type: "string"
-        required: true
-      imgSrc:
-        type: "string"
-        format: "uri"
-        required: true
-      price:
-        type: "number"
-        format: "int32"
-        required: true
-      description:
-        type: "string"
-        required: true
-      referenceNumber:
-        type: "string"
-      year:
-        type: "number"
-        format: "int32"
-      gender: 
-        type: "string"
-      imgList:
-        type: "array"
-      caliber:
-        type: "object"
-        properties:
-          movement:
+components:
+  schemas:
+    Details:
+      type: "object"
+      required:
+        - brand
+        - model
+        - imgSrc
+        - price
+        - description
+        - referenceNumber
+      properties:
+        brand:
+          type: "string"
+        model:
+          type: "string"
+        imgSrc:
+          type: "string"
+          format: "uri"
+        price:
+          type: "number"
+          format: "int32"
+        description:
+          type: "string"
+        referenceNumber:
+          type: "string"
+        year:
+          type: "number"
+          format: "int32"
+        gender: 
+          type: "string"
+        imgList:
+          type: "array"
+          items: 
             type: "string"
-          movement/caliber:
-            type: "number"
-            format: "int32"
-          powerReserve:
-            type: "string"
-      case:
-        type: "object"
-        properties:
-          bezelMaterial:
-            type: "string"
-          caseDiameter:
-            type: "string"
-          dialNumerals:
-            type: "string"
-          glass:
-            type: "string"
-          waterResistance:
-            type: "string"
-      strap:
-        type: "object"
-        properties:
-          braceletColor:
-            type: "string"
-          braceletMaterial:
-            type: "string"
-          clasp:
-            type: "string"
-          claspMaterial:
-            type: "string"
-
-  Product:
+        caliber:
+          type: "object"
+          properties:
+            movement:
+              type: "string"
+            movement/caliber:
+              type: "number"
+              format: "int32"
+            powerReserve:
+              type: "string"
+        case:
+          type: "object"
+          properties:
+            bezelMaterial:
+              type: "string"
+            caseDiameter:
+              type: "string"
+            dialNumerals:
+              type: "string"
+            glass:
+              type: "string"
+            waterResistance:
+              type: "string"
+        strap:
+          type: "object"
+          properties:
+            braceletColor:
+              type: "string"
+            braceletMaterial:
+              type: "string"
+            clasp:
+              type: "string"
+            claspMaterial:
+              type: "string"
+    Product:
       allOf:
-        - ref: '#/definitions/Product'
-        - type: "object"
+        - $ref: "#/components/schemas/Details"
+        - type: object
+          required:
+            - id
+            - createdAt
+            - listingNumber
           properties:
             id:
               type: "string"
@@ -115,5 +115,6 @@ definitions:
             createdAt:
               type: "string"
               format: "date-time"
-            listingNumber: 
+            listingNumber:
               type: "string"
+            
