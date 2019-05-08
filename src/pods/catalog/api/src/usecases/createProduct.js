@@ -15,7 +15,8 @@ module.exports = (create) => async (product) => {
     gender: Joi.string(),
     caliber: Joi.object(),
     case: Joi.object(),
-    strap: Joi.object()
+    strap: Joi.object(),
+    imgList: Joi.array()
   })
 
   const validated = Joi.validate(product, schema)

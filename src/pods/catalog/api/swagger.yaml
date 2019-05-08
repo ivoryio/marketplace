@@ -1,0 +1,119 @@
+swagger: "2.0"
+info:
+  description: "REST API for Catalog"
+  version: "1.0.0"
+  title: "Catalog Service"
+host: "https://kvxajdvh79.execute-api.us-east-1.amazonaws.com/dev"
+basePath: "/"
+schemes:
+- "https"
+paths:
+  /products:
+    post:
+      tags:
+      - "product"
+      summary: "Create a new product for the catalog"
+      operationId: "createProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the catalog"
+        required: true
+        schema:
+          $ref: "#/definitions/Details"
+      responses:
+        '201':
+          description: "Created"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/definitions/Details"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+
+definitions:
+  Details:
+    type: "object"
+    properties:
+      brand:
+        type: "string"
+        required: true
+      model:
+        type: "string"
+        required: true
+      imgSrc:
+        type: "string"
+        format: "uri"
+        required: true
+      price:
+        type: "number"
+        format: "int32"
+        required: true
+      description:
+        type: "string"
+        required: true
+      referenceNumber:
+        type: "string"
+      year:
+        type: "number"
+        format: "int32"
+      gender: 
+        type: "string"
+      imgList:
+        type: "array"
+      caliber:
+        type: "object"
+        properties:
+          movement:
+            type: "string"
+          movement/caliber:
+            type: "number"
+            format: "int32"
+          powerReserve:
+            type: "string"
+      case:
+        type: "object"
+        properties:
+          bezelMaterial:
+            type: "string"
+          caseDiameter:
+            type: "string"
+          dialNumerals:
+            type: "string"
+          glass:
+            type: "string"
+          waterResistance:
+            type: "string"
+      strap:
+        type: "object"
+        properties:
+          braceletColor:
+            type: "string"
+          braceletMaterial:
+            type: "string"
+          clasp:
+            type: "string"
+          claspMaterial:
+            type: "string"
+
+  Product:
+      allOf:
+        - ref: '#/definitions/Product'
+        - type: "object"
+          properties:
+            id:
+              type: "string"
+              format: "uuid"
+            createdAt:
+              type: "string"
+              format: "date-time"
+            listingNumber: 
+              type: "string"
