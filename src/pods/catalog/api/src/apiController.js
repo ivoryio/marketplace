@@ -4,7 +4,9 @@ const bodyParser = require('body-parser')
 const awsServerlessExpress = require('aws-serverless-express')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
+const create = require('./repository/create')
 const retrieveById = require('./repository/retrieveById')
+const createProduct = require('./usecases/createProduct')
 const retrieveSecret = require('./services/retrieveSecret')
 const browseProducts = require('./usecases/browseProducts')
 const retrieveProduct = require('./usecases/retrieveProduct')
@@ -34,12 +36,24 @@ router.get('/products', async (req, res) => {
   }
 })
 
+router.post('/products', async (req, res) => {
+  const product = req.body
+
+  try {
+    const result = await createProduct(create)(product)
+
+    res.status(201).json(result)
+  } catch (err) {
+    res.status(500).json({err})
+  }
+})
+
 router.get('/products/:id', async (req, res) => {
   const { id } = req.params
 
   try {
     const result = await retrieveProduct(retrieveById)(id)
-    
+
     res.status(200).json(result)
   } catch (err) {
     res.status(500).json(err)
