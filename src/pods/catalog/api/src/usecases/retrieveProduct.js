@@ -1,5 +1,5 @@
-module.exports = (productRepo) => async (id) => {
-  const result = await productRepo.retrieveById(id)
+module.exports = (retrieveById) => async (id) => {
+  const result = await retrieveById(id)
 
   return result
 }
