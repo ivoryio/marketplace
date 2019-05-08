@@ -9,16 +9,16 @@ const SpotlightCategories = () => (
     alignItems='center'
     bg='ghost-white'
     flexDirection='column'
-    pb={10}
+    pb={{xs: 17, md: 10}}
     pt={16}
   >
     <Space px={4}>
-      <Typography color='gunmetal' textAlign='center' textStyle='h5'>
+      <Typography color='gunmetal' textAlign='center' variant='h5'>
         Spotlight Categories Section
       </Typography>
     </Space>
     <Space mt={1} px={4}>
-      <Typography color='manatee' textAlign='center' textStyle='h5'>
+      <Typography color='manatee' textAlign='center' variant='h5'>
         Subtitle With A Call To Action Goes Here
       </Typography>
     </Space>

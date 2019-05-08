@@ -29,10 +29,10 @@ const CardWatch = ({
     <Card
       alignItems='center'
       borderRadius={3}
-      colors='card-white'
       display='flex'
       flexDirection='column'
       position='relative'
+      variant='white'
       {...props}
     >
       <Flex alignItems='center' justifyContent='center' width={1}>
@@ -74,9 +74,9 @@ const CardWatch = ({
   ) : (
     <Card
       borderRadius={3}
-      colors='card-white'
       display='flex'
       flexDirection='column'
+      variant='white'
       {...props}
     >
       <Flex alignItems='center' justifyContent='center' width={1}>
@@ -86,7 +86,7 @@ const CardWatch = ({
         <Flex alignItems='center' height='44px'>
           <Description
             color='gunmetal'
-            textStyle={descriptionFontStyle || 'h6'}
+            variant={descriptionFontStyle || 'h6'}
             textAlign='center'
           >
             {description}

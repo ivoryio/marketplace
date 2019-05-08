@@ -67,7 +67,7 @@ const Category = ({ name, onClick }) => (
     justifyContent='center'
     minWidth={{ xs: '33.3333%', lg: '15%' }}>
     <Touchable effect='opacity' onClick={onClick} width={1}>
-      <Typography textStyle='list'>{name}</Typography>
+      <Typography variant='list'>{name}</Typography>
     </Touchable>
   </Flex>
 )

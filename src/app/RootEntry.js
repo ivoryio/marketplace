@@ -4,7 +4,7 @@ import { Hub } from '@aws-amplify/core'
 
 import fsm from './services/StateMachine'
 import { Header, NavMenu } from './components'
-import { Cart, Landing, NotFound, Profile, SearchResults } from './screens'
+import { Cart, Landing, NotFound, ProductsOverview, Profile } from './screens'
 
 const RootEntry = () => {
   const [currentState, setCurrentState] = useState({
@@ -46,7 +46,7 @@ const RootEntry = () => {
       case 'cart':
         return <Cart />
       case 'search-results':
-        return <SearchResults searchTerm={payload.searchTerm} />
+        return <ProductsOverview searchTerm={payload.searchTerm} />
       default:
         return <NotFound />
     }
@@ -54,7 +54,7 @@ const RootEntry = () => {
   return (
     <Flex flexDirection='column'>
       <Header transitionToState={transitionToState} user={fsm.user} />
-      {currentState.name.includes('landing') ? <NavMenu /> : null}
+      {['landing', 'search-results'].includes(currentState.name) ? <NavMenu /> : null}
       {CurrentScreen}
     </Flex>
   )

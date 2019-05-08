@@ -1,9 +1,10 @@
-const AWS = require('aws-sdk')
+const SecretsManager = require('aws-sdk/clients/secretsmanager')
 
 let cachedHostname = null
 
 module.exports = async (secretId) => {
-  const client = new AWS.SecretsManager({ region: process.env.REGION })
+  const region = process.env.REGION
+  const client = new SecretsManager({ region })
 
   if (cachedHostname) {
     return cachedHostname
