@@ -1,6 +1,5 @@
 export { default as ProductCard } from './ProductCard'
 export { default as SquaredBox } from './SquaredBox'
-export { default as ActiveFilter } from './ActiveFilter'
 export { default as FilterCategory } from './FilterCategory'
 export { default as FilterOption } from './FilterOption'
 export { default as FilterSection } from './FilterSection'

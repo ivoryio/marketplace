@@ -13,7 +13,7 @@ const Landing = () => (
     </Space>
     <SpotlightCTA />
     <Space my={6}>
-      <Region name='watch-list' />
+      <Region name='newest-watches' />
     </Space>
     <Region name='spotlight-categories' />
     <FooterCTA />

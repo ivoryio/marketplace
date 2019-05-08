@@ -4,7 +4,7 @@ import { Hub } from '@aws-amplify/core'
 
 import fsm from './services/StateMachine'
 import { Header, NavMenu } from './components'
-import { Cart, Landing, NotFound, ProductsOverview, Profile } from './screens'
+import { Cart, Landing, NotFound, WatchCatalog, Profile } from './screens'
 
 const RootEntry = () => {
   const [currentState, setCurrentState] = useState({
@@ -46,7 +46,7 @@ const RootEntry = () => {
       case 'cart':
         return <Cart />
       case 'search-results':
-        return <ProductsOverview searchTerm={payload.searchTerm} />
+        return <WatchCatalog searchTerm={payload.searchTerm} />
       default:
         return <NotFound />
     }

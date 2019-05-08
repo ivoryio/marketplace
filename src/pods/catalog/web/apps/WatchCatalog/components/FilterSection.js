@@ -3,10 +3,11 @@ import styled from "styled-components"
 
 import { Context } from "../services/Provider"
 import { categoryProvenience } from "../services/helpers"
-import { ActiveFilter, FilterCategory } from "."
+import { FilterCategory } from "."
 
 import {
   Box,
+  Chip,
   Flex,
   Hide,
   Icon,
@@ -61,11 +62,12 @@ const FilterSection = () => {
                     >
                       <Space
                         mt={1}
-                        p={1}
                       >
-                        <ActiveFilter
-                          title={item}
-                          onClickIcon={removeFilter(category)(item)}
+                        <Chip
+                          bg='brand'
+                          color='white'
+                          label={item}
+                          onDismiss={removeFilter(category)(item)}
                         />
                       </Space>
                     </Box>
