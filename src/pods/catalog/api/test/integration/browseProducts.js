@@ -1,4 +1,4 @@
-const assert = require('assert')
+const { assert } = require('chai')
 
 const retrieveSecret = require('../../src/services/retrieveSecret')
 const browseProducts = require('../../src/usecases/browseProducts')
@@ -10,10 +10,22 @@ describe('Browse products', () => {
       q: 'rolex',
       model: 'datejust,daytona'
     }
+    
+    const searchQuery = queryTranslate(query)
+    const result = await browseProducts(retrieveSecret)(searchQuery)
+    
+    assert.isTrue(result.items.length > 0)
+  })
+  it('should return an object containing the number of items searched' , async () => {
+    const query = {
+      q: 'rolex',
+      model: 'datejust,daytona'
+    }
+    const expectedProperty = 'itemsCount'
 
     const searchQuery = queryTranslate(query)
     const result = await browseProducts(retrieveSecret)(searchQuery)
 
-    assert.equal(result.length > 0, true)
+    assert.property(result, expectedProperty)
   })
 })
