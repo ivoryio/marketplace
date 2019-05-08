@@ -1,5 +1,7 @@
 const { assert } = require('chai')
+
 const groupFilters = require('../../src/services/search/groupFilters')
+
 describe('Group filters', searchresult => {
   it('should return an object with options filters for the search query', () => {
     const inputItem = [{

@@ -102,7 +102,7 @@ const SpotlightWatches = () => {
     try {
       const response = await api.getSpotlightWatches()
       if (response.status === 200) {
-        const groups = groupCards(response.data)
+        const groups = groupCards(response.data.items)
         const slides = mapGroupsToSlides(groups)
         setSpotlightWatches({ data: slides, isFetching: false })
       } else {
@@ -125,12 +125,12 @@ const SpotlightWatches = () => {
   return (
     <Flex width={1} flexDirection='column' alignItems='center'>
       <Space px={4}>
-        <Typography color='gunmetal' textAlign='center' textStyle='h5'>
+        <Typography color='gunmetal' textAlign='center' variant='h5'>
           Spotlight Section
         </Typography>
       </Space>
       <Space mt={1} px={4}>
-        <Typography color='manatee' textAlign='center' textStyle='h5'>
+        <Typography color='manatee' textAlign='center' variant='h5'>
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
@@ -140,7 +140,7 @@ const SpotlightWatches = () => {
             addArrowClickHandler
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
-            infinite={false}
+            infinite={true}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={1}
@@ -148,7 +148,6 @@ const SpotlightWatches = () => {
             breakpoints={{
               1279: {
                 centered: false,
-                infinite: false,
                 arrowLeft: null,
                 arrowRight: null
               },
@@ -156,21 +155,18 @@ const SpotlightWatches = () => {
                 arrowLeft: null,
                 arrowRight: null,
                 centered: false,
-                infinite: false,
                 animationSpeed: 2000
               },
               480: {
                 arrowLeft: null,
                 arrowRight: null,
                 centered: false,
-                infinite: false,
                 animationSpeed: 2000
               },
               360: {
                 arrowLeft: null,
                 arrowRight: null,
                 clickToChange: false,
-                infinite: false,
                 animationSpeed: 2000
               }
             }}

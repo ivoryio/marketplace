@@ -1,4 +1,5 @@
 const { assert } = require('chai')
+
 const retrieveCSindexes = require('../../src/services/retrieveCSindexes')
 
 describe('Retrive cs indexes', () => {

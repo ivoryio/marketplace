@@ -1,14 +1,13 @@
-const AWS = require('aws-sdk')
+const { unmarshall } = require('lib/dynamodb/converter')
+const CloudSearchDomain = require('aws-sdk/clients/cloudsearchdomain')
 
 const retrieveSecret = require('./services/retrieveSecret')
 const normalize = require('./services/search/normalizeFields')
 
-const { unmarshall } = AWS.DynamoDB.Converter
-
 exports.handler = async (event, contex) => {
   const endpoints = await retrieveSecret(process.env.SEARCH_HOSTNAME_SECRET)
   const { docService } = JSON.parse(endpoints)
-  const cloudSearchDomain = new AWS.CloudSearchDomain({ endpoint: docService })
+  const cloudSearchDomain = new CloudSearchDomain({ endpoint: docService })
   
   for(let value of event.Records) {
     let params = {}

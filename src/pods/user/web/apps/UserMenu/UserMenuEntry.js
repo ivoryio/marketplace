@@ -57,7 +57,7 @@ export const UserMenuEntry = ({ regionData: { user } }) => {
       my={2}
       {...props}
     >
-      <Typography color='white' fontSize={3} textStyle='h5'>
+      <Typography color='white' fontSize={3} variant='h5'>
         {initials}
       </Typography>
     </Touchable>
