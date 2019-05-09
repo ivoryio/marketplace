@@ -4,6 +4,7 @@ import { Collapsible } from '@ivoryio/kogaio'
 
 import { DataContext } from '../services/Provider'
 import { FilterOption } from '.'
+import { capitalizeFirstChar } from '../../../../../user/web/apps/Auth/services/auth.helpers'
 
 const FilterCategory = ({
   name,
@@ -11,7 +12,7 @@ const FilterCategory = ({
   ...props
 }) => {
   const { addFilter, removeFilter } = useContext(DataContext)
-  const title = name.charAt(0).toUpperCase() + name.slice(1)
+  const title = capitalizeFirstChar(name)
   return (
       <Collapsible
         width={1}
