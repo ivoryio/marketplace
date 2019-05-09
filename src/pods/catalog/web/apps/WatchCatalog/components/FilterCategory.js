@@ -4,7 +4,7 @@ import { Collapsible } from '@ivoryio/kogaio'
 
 import { DataContext } from '../services/Provider'
 import { FilterOption } from '.'
-import { capitalizeFirstChar } from '../../../../../user/web/apps/Auth/services/auth.helpers'
+import { capitalizeFirstChar } from '../services/helpers'
 
 const FilterCategory = ({
   name,

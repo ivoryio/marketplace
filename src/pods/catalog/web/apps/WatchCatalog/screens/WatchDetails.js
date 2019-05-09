@@ -4,7 +4,7 @@ import { Button, Flex, Typography, Space } from '@ivoryio/kogaio'
 import { ScreensContext } from '../WatchCatalogEntry'
 
 const WatchDetails = () => {
-  const { currentScreen, setCurrentScreen } = useContext(ScreensContext)
+  const { currentScreen, setScreen } = useContext(ScreensContext)
   if (!currentScreen.includes('watch-details')) {
     return null
   }
@@ -14,7 +14,7 @@ const WatchDetails = () => {
       <Space mt={1}>
         <Button
           title='Go Back To Watch List'
-          onClick={() => setCurrentScreen('watch-list')}
+          onClick={() => setScreen('watch-list')}
         />
       </Space>
     </Flex>

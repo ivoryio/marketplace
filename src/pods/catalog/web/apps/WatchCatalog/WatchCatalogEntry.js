@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useState } from "react"
 import { WatchList, WatchDetails } from "./screens"
 import Provider from "./services/Provider"
 
@@ -6,16 +6,17 @@ export const ScreensContext = createContext()
 const WatchCatalogEntry = () => {
   const [currentScreen, setCurrentScreen] = useState("watch-list")
   const validScreens = ["watch-list", "watch-details"]
-
-  useEffect(() => {
+  const setScreen = screenName => {
     if (!validScreens.includes(currentScreen)) {
-      setCurrentScreen('watch-list')
+      console.error(`Invalid screen name, it must be one of ${validScreens}`)
     }
-  }, [currentScreen])
+    setCurrentScreen(screenName)
+  }
+
   return (
     <Provider>
       <ScreensContext.Provider
-        value={{currentScreen, setCurrentScreen}}
+        value={{currentScreen, setScreen}}
       >
         <WatchList />
         <WatchDetails />

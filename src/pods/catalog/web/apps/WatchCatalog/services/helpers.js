@@ -70,3 +70,6 @@ export const categoryProvenience = (filter, activeFilters) => {
   })
   return result
 }
+
+export const capitalizeFirstChar = string =>
+  string.charAt(0).toUpperCase() + string.slice(1)
