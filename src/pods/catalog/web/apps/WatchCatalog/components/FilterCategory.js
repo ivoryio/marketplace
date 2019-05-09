@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Collapsible, Space} from '@ivoryio/kogaio'
+import { Collapsible } from '@ivoryio/kogaio'
 
 import { Context } from '../services/Provider'
 import { FilterOption } from '.'
@@ -13,10 +13,10 @@ const FilterCategory = ({
   const { addFilter, removeFilter } = useContext(Context)
   const title = name.charAt(0).toUpperCase() + name.slice(1)
   return (
-    <Space py={2}>
       <Collapsible
         width={1}
         title={title}
+        {...props}
       >
         {options
           ? options.map(filter => (
@@ -29,7 +29,6 @@ const FilterCategory = ({
             )) : null
           }
       </Collapsible>
-    </Space>
   )
 }
 

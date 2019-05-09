@@ -80,11 +80,12 @@ const FilterSection = () => {
               <Flex width={1} flexWrap='wrap'>
                 {
                   Object.keys(filters).map(categoryName => (
-                    <FilterCategory
-                      key={`${categoryName}-filter`}
-                      name={categoryName}
-                      options={filters[categoryName]}
-                    />
+                    <Space py={2} key={`${categoryName}-filter`}>
+                      <FilterCategory
+                        name={categoryName}
+                        options={filters[categoryName]}
+                      />
+                    </Space>
                   ))
                 }
               </Flex>
