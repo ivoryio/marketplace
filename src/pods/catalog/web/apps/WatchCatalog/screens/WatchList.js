@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useContext } from "react"
-import PropTypes from 'prop-types'
 import styled from "styled-components"
 
 import {
@@ -13,12 +12,13 @@ import {
 
 import { Pagination, FilterSection } from "../components"
 
-import { Context } from "../services/Provider"
+import { DataContext } from "../services/Provider"
+import { ScreensContext } from '../WatchCatalogEntry'
 
 import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
-const WatchList = ({ currentScreen, setCurrentScreen }) => {
+const WatchList = () => {
   const {
     currentPage,
     slicedWatches,
@@ -29,7 +29,9 @@ const WatchList = ({ currentScreen, setCurrentScreen }) => {
     searchTerm,
     isFetching,
     itemsCount
-  } = useContext(Context)
+  } = useContext(DataContext)
+
+  const { currentScreen } = useContext(ScreensContext)
   const maxPages = slicedWatches.length
 
   if (!currentScreen.includes('watch-list')) {
@@ -183,10 +185,5 @@ const PaginationWrapper = styled(Flex)`
     margin-right: ${themeGet("space.2")}px;
   }
 `
-
-WatchList.propTypes = {
-  currentScreen: PropTypes.string,
-  setCurrentScreen: PropTypes.func
-}
 
 export default WatchList

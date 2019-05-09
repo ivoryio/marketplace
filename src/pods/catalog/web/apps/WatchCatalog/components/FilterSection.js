@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
 
-import { Context } from "../services/Provider"
+import { DataContext } from "../services/Provider"
 import { categoryProvenience } from "../services/helpers"
 import { FilterCategory } from "."
 
@@ -22,7 +22,7 @@ const FilterSection = () => {
     activeFiltersAsArray,
     removeFilter,
     filters
-  } = useContext(Context)
+  } = useContext(DataContext)
 
   return (
     <Space p={4}>

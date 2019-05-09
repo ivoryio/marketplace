@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Collapsible } from '@ivoryio/kogaio'
 
-import { Context } from '../services/Provider'
+import { DataContext } from '../services/Provider'
 import { FilterOption } from '.'
 
 const FilterCategory = ({
@@ -10,7 +10,7 @@ const FilterCategory = ({
   options,
   ...props
 }) => {
-  const { addFilter, removeFilter } = useContext(Context)
+  const { addFilter, removeFilter } = useContext(DataContext)
   const title = name.charAt(0).toUpperCase() + name.slice(1)
   return (
       <Collapsible
