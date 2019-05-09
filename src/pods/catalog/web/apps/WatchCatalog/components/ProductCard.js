@@ -9,10 +9,10 @@ import {
   Typography
 } from '@ivoryio/kogaio'
 
-import { ScreensContext } from '../WatchCatalogEntry'
+import { NavigationContext } from '../WatchCatalogEntry'
 
 const ProductCard = ({ imgSrc, price, description, ...props }) => {
-  const { NavigateTo } = useContext(ScreensContext)
+  const { NavigateTo } = useContext(NavigationContext)
 
   return (
     <Space pb={4}>

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { Button, Flex, Typography, Space } from '@ivoryio/kogaio'
 
-import { ScreensContext } from '../WatchCatalogEntry'
+import { NavigationContext } from '../WatchCatalogEntry'
 
 const WatchDetails = () => {
-  const { currentScreen, NavigateTo } = useContext(ScreensContext)
+  const { currentScreen, NavigateTo } = useContext(NavigationContext)
   if (!currentScreen.includes('watch-details')) {
     return null
   }

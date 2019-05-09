@@ -13,7 +13,7 @@ import {
 import { Pagination, FilterSection } from "../components"
 
 import { DataContext } from "../services/Provider"
-import { ScreensContext } from '../WatchCatalogEntry'
+import { NavigationContext } from '../WatchCatalogEntry'
 
 import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
@@ -31,7 +31,7 @@ const WatchList = () => {
     itemsCount
   } = useContext(DataContext)
 
-  const { currentScreen } = useContext(ScreensContext)
+  const { currentScreen } = useContext(NavigationContext)
   const maxPages = slicedWatches.length
 
   if (!currentScreen.includes('watch-list')) {

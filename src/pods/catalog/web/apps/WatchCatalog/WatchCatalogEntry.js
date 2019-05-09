@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react"
 import { WatchList, WatchDetails } from "./screens"
 import Provider from "./services/Provider"
 
-export const ScreensContext = createContext()
+export const NavigationContext = createContext()
 const WatchCatalogEntry = () => {
   const [currentScreen, setCurrentScreen] = useState("watch-list")
   const validScreens = ["watch-list", "watch-details"]
@@ -12,12 +12,12 @@ const WatchCatalogEntry = () => {
 
   return (
     <Provider>
-      <ScreensContext.Provider
+      <NavigationContext.Provider
         value={{currentScreen, NavigateTo}}
       >
         <WatchList />
         <WatchDetails />
-      </ScreensContext.Provider>
+      </NavigationContext.Provider>
     </Provider>
   )
 }
