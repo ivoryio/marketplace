@@ -15,7 +15,7 @@ const entries = [
   {
     name: 'WatchCatalog',
     Component: WatchCatalog,
-    regions: ['products-overview']
+    regions: ['watch-catalog']
   },
   {
     name: 'SpotlightWatches',

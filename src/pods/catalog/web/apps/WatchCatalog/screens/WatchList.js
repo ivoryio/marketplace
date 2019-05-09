@@ -17,7 +17,7 @@ import { Context } from "../services/Provider"
 import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
-const ProductsOverview = () => {
+const WatchList = () => {
   const {
     currentPage,
     slicedWatches,
@@ -181,4 +181,4 @@ const PaginationWrapper = styled(Flex)`
   }
 `
 
-export default ProductsOverview
+export default WatchList

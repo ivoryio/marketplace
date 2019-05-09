@@ -1,5 +1,5 @@
 export { default as Cart } from './Cart'
 export { default as Landing } from './Landing'
 export { default as NotFound } from './NotFound'
-export { default as WatchCatalog } from './WatchCatalog'
+export { default as ProductsOverview } from './ProductsOverview'
 export { default as Profile } from './Profile'

@@ -5,9 +5,9 @@ import { Flex, Space } from '@ivoryio/kogaio'
 
 import { Footer, FooterCTA } from '../components'
 
-const WatchCatalog = ({ searchTerm }) => (
+const ProductsOverview = ({ searchTerm }) => (
   <Flex flexDirection='column'>
-    <Region name='products-overview' data={{ searchTerm }} />
+    <Region name='watch-catalog' data={{ searchTerm }} />
     <Space mt={10}>
       <FooterCTA />
     </Space>
@@ -15,8 +15,8 @@ const WatchCatalog = ({ searchTerm }) => (
   </Flex>
 )
 
-WatchCatalog.propTypes = {
+ProductsOverview.propTypes = {
   searchTerm: PropTypes.string.isRequired
 }
 
-export default WatchCatalog
+export default ProductsOverview
