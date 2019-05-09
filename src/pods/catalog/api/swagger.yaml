@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  description: "REST API for Catalog"
+  version: "1.0.0"
+  title: "Catalog Service"
+paths:
+  /products:
+    post:
+      tags:
+      - "product"
+      summary: "Create a new product for the catalog"
+      operationId: "createProduct"
+      requestBody:
+        description: "Product object that needs to be added to the catalog"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Details"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+    get:
+      tags:
+        - "product"
+      summary: "Retrieve all the products from the catalog"
+      operationId: "retrieveProducts"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Product"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+
+  /products/{id}:
+    get:
+      tags:
+      - "product"
+      summary: "Retrieve a product from the catalog by their id"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: "string"
+            format: "uuid"
+          required: true
+          description: "The id of the product to retrieve"
+      operationId: "retrieveProduct"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+        
+components:
+  schemas:
+    Details:
+      type: "object"
+      required:
+        - brand
+        - model
+        - imgSrc
+        - price
+        - description
+        - referenceNumber
+      properties:
+        brand:
+          type: "string"
+        model:
+          type: "string"
+        imgSrc:
+          type: "string"
+          format: "uri"
+        price:
+          type: "number"
+          format: "int32"
+        description:
+          type: "string"
+        referenceNumber:
+          type: "string"
+        year:
+          type: "number"
+          format: "int32"
+        gender: 
+          type: "string"
+        imgList:
+          type: "array"
+          items: 
+            type: "string"
+        caliber:
+          type: "object"
+          properties:
+            movement:
+              type: "string"
+            movement/caliber:
+              type: "number"
+              format: "int32"
+            powerReserve:
+              type: "string"
+        case:
+          type: "object"
+          properties:
+            bezelMaterial:
+              type: "string"
+            caseDiameter:
+              type: "string"
+            dialNumerals:
+              type: "string"
+            glass:
+              type: "string"
+            waterResistance:
+              type: "string"
+        strap:
+          type: "object"
+          properties:
+            braceletColor:
+              type: "string"
+            braceletMaterial:
+              type: "string"
+            clasp:
+              type: "string"
+            claspMaterial:
+              type: "string"
+    Product:
+      allOf:
+        - $ref: "#/components/schemas/Details"
+        - type: object
+          required:
+            - id
+            - createdAt
+            - listingNumber
+          properties:
+            id:
+              type: "string"
+              format: "uuid"
+            createdAt:
+              type: "string"
+              format: "date-time"
+            listingNumber:
+              type: "string"
+            
