@@ -9,7 +9,7 @@ import { SearchBox } from '../components'
 import { sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
 import { composeSearchTerm, makeSlices, transformActiveFiltersToArray, sortWatches } from './helpers'
 
-export const Context = createContext()
+export const DataContext = createContext()
 
 const Provider = ({ children, regionData: { searchTerm } }) => {
   const [activeFilters, setActiveFilters] = useState({
@@ -118,7 +118,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     slicedWatches
   }
   return (
-  <Context.Provider
+  <DataContext.Provider
     value={data}
   >
     <SearchBox
@@ -126,7 +126,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       searchWatches={handleSearch}
     />
     {children}
-  </Context.Provider>
+  </DataContext.Provider>
 )
 }
 

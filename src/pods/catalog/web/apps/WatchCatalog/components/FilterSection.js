@@ -1,12 +1,13 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
 
-import { Context } from "../services/Provider"
+import { DataContext } from "../services/Provider"
 import { categoryProvenience } from "../services/helpers"
-import { ActiveFilter, FilterCategory } from "."
+import { FilterCategory } from "."
 
 import {
   Box,
+  Chip,
   Flex,
   Hide,
   Icon,
@@ -21,7 +22,7 @@ const FilterSection = () => {
     activeFiltersAsArray,
     removeFilter,
     filters
-  } = useContext(Context)
+  } = useContext(DataContext)
 
   return (
     <Space p={4}>
@@ -61,11 +62,12 @@ const FilterSection = () => {
                     >
                       <Space
                         mt={1}
-                        p={1}
                       >
-                        <ActiveFilter
-                          title={item}
-                          onClickIcon={removeFilter(category)(item)}
+                        <Chip
+                          bg='brand'
+                          color='white'
+                          label={item}
+                          onDismiss={removeFilter(category)(item)}
                         />
                       </Space>
                     </Box>
@@ -78,11 +80,12 @@ const FilterSection = () => {
               <Flex width={1} flexWrap='wrap'>
                 {
                   Object.keys(filters).map(categoryName => (
-                    <FilterCategory
-                      key={`${categoryName}-filter`}
-                      name={categoryName}
-                      options={filters[categoryName]}
-                    />
+                    <Space py={2} key={`${categoryName}-filter`}>
+                      <FilterCategory
+                        name={categoryName}
+                        options={filters[categoryName]}
+                      />
+                    </Space>
                   ))
                 }
               </Flex>

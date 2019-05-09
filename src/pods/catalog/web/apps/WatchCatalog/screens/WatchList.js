@@ -12,12 +12,13 @@ import {
 
 import { Pagination, FilterSection } from "../components"
 
-import { Context } from "../services/Provider"
+import { DataContext } from "../services/Provider"
+import { NavigationContext } from '../WatchCatalogEntry'
 
 import { sortOptions, itemsPerPageOptions } from "../services/constants"
 const LazyProductList = lazy(() => import("../components/ProductList"))
 
-const ProductsOverview = () => {
+const WatchList = () => {
   const {
     currentPage,
     slicedWatches,
@@ -28,10 +29,14 @@ const ProductsOverview = () => {
     searchTerm,
     isFetching,
     itemsCount
-  } = useContext(Context)
+  } = useContext(DataContext)
 
+  const { currentScreen } = useContext(NavigationContext)
   const maxPages = slicedWatches.length
 
+  if (!currentScreen.includes('watch-list')) {
+    return null
+  }
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
@@ -181,4 +186,4 @@ const PaginationWrapper = styled(Flex)`
   }
 `
 
-export default ProductsOverview
+export default WatchList

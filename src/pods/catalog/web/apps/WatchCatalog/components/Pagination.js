@@ -3,10 +3,10 @@ import { PropTypes } from 'prop-types'
 import { SquaredBox } from '.'
 import { Icon, Typography } from '@ivoryio/kogaio'
 
-import { Context } from '../services/Provider'
+import { DataContext } from '../services/Provider'
 
 const Pagination = ({ maxPages }) => {
-  const { currentPage, setCurrentPage } = useContext(Context)
+  const { currentPage, setCurrentPage } = useContext(DataContext)
   
   const _decrement = ev => {
     if (currentPage === 1) {

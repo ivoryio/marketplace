@@ -1,21 +1,21 @@
 import { createApp } from 'frint'
 import { RegionService } from 'frint-react'
 
-import WatchList from './apps/WatchList'
-import ProductsOverview from './apps/ProductsOverview'
+import NewestWatches from './apps/NewestWatches'
+import WatchCatalog from './apps/WatchCatalog'
 import SpotlightWatches from './apps/SpotlightWatches'
 import SpotlightCategories from './apps/SpotlightCategories'
 
 const entries = [
   {
-    name: 'WatchList',
-    Component: WatchList,
-    regions: ['watch-list']
+    name: 'NewestWatches',
+    Component: NewestWatches,
+    regions: ['newest-watches']
   },
   {
-    name: 'ProductsOverview',
-    Component: ProductsOverview,
-    regions: ['products-overview']
+    name: 'WatchCatalog',
+    Component: WatchCatalog,
+    regions: ['watch-catalog']
   },
   {
     name: 'SpotlightWatches',

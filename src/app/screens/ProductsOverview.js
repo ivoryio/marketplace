@@ -7,7 +7,7 @@ import { Footer, FooterCTA } from '../components'
 
 const ProductsOverview = ({ searchTerm }) => (
   <Flex flexDirection='column'>
-    <Region name='products-overview' data={{ searchTerm }} />
+    <Region name='watch-catalog' data={{ searchTerm }} />
     <Space mt={10}>
       <FooterCTA />
     </Space>

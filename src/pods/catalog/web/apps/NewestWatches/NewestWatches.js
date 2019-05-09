@@ -14,7 +14,7 @@ import '@brainhubeu/react-carousel/lib/style.css'
 import { Arrow, CardWatch } from '../../components'
 import api from '../../services/catalog.dataservice'
 
-const WatchList = () => {
+const NewestWatches = () => {
   const [activeElement, setActiveElement] = useState(0)
   const [watches, setNewestWatches] = useState({
     data: [],
@@ -142,4 +142,4 @@ const StyledCarousel = styled(Carousel)`
   }
 `
 
-export default WatchList
+export default NewestWatches

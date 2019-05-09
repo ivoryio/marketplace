@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Context } from '../services/Provider'
+import { DataContext } from '../services/Provider'
 import {
   Checkbox,
   Space
@@ -11,7 +11,7 @@ const FilterOption = ({
     addFilter,
     removeFilter
   }) => {
-    const { activeFiltersAsArray } = useContext(Context)
+    const { activeFiltersAsArray } = useContext(DataContext)
   
     const handleCheck = ev => {
       if(activeFiltersAsArray.includes(title)) {
