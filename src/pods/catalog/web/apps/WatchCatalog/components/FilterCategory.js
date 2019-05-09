@@ -12,11 +12,10 @@ const FilterCategory = ({
   ...props
 }) => {
   const { addFilter, removeFilter } = useContext(DataContext)
-  const title = capitalizeFirstChar(name)
   return (
       <Collapsible
         width={1}
-        title={title}
+        title={capitalizeFirstChar(name)}
         {...props}
       >
         {options
