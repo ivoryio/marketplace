@@ -6,17 +6,14 @@ export const ScreensContext = createContext()
 const WatchCatalogEntry = () => {
   const [currentScreen, setCurrentScreen] = useState("watch-list")
   const validScreens = ["watch-list", "watch-details"]
-  const setScreen = screenName => {
-    if (!validScreens.includes(currentScreen)) {
-      console.error(`Invalid screen name, it must be one of ${validScreens}`)
-    }
-    setCurrentScreen(screenName)
+  const NavigateTo = screenName => {
+    validScreens.includes(currentScreen) ? setCurrentScreen(screenName) : console.error(`Invalid screen name, expected one of ${validScreens}`)
   }
 
   return (
     <Provider>
       <ScreensContext.Provider
-        value={{currentScreen, setScreen}}
+        value={{currentScreen, NavigateTo}}
       >
         <WatchList />
         <WatchDetails />

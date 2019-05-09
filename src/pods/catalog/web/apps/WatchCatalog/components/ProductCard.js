@@ -12,12 +12,12 @@ import {
 import { ScreensContext } from '../WatchCatalogEntry'
 
 const ProductCard = ({ imgSrc, price, description, ...props }) => {
-  const { setScreen } = useContext(ScreensContext)
+  const { NavigateTo } = useContext(ScreensContext)
 
   return (
     <Space pb={4}>
       <Card
-        onClick={() => setScreen('watch-details')}
+        onClick={() => NavigateTo('watch-details')}
         borderRadius={4}
         display='flex'
         flexDirection='column'

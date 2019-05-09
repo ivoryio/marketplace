@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Collapsible } from '@ivoryio/kogaio'
 
-import { DataContext } from '../services/Provider'
 import { FilterOption } from '.'
+import { DataContext } from '../services/Provider'
 import { capitalizeFirstChar } from '../services/helpers'
 
 const FilterCategory = ({
