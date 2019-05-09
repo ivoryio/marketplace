@@ -17,10 +17,7 @@ const WatchCatalogEntry = () => {
       <ScreensContext.Provider
         value={{currentScreen, setCurrentScreen}}
       >
-        <WatchList
-          currentScreen={currentScreen}
-          setCurrentScreen={setCurrentScreen}
-        />
+        <WatchList />
         <WatchDetails />
       </ScreensContext.Provider>
     </Provider>
