@@ -4,7 +4,10 @@ import { Button, Flex, Typography, Space } from '@ivoryio/kogaio'
 import { ScreensContext } from '../WatchCatalogEntry'
 
 const WatchDetails = () => {
-  const { setCurrentScreen } = useContext(ScreensContext)
+  const { currentScreen, setCurrentScreen } = useContext(ScreensContext)
+  if (!currentScreen.includes('watch-details')) {
+    return null
+  }
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Typography>Welcome to Watch Details</Typography>
