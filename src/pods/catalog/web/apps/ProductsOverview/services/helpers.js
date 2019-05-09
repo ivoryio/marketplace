@@ -34,16 +34,16 @@ export const sortWatches = (sortType, watches) => {
   } else if (sortType === 'Newest') {
     const items = [...watches]
     items.sort(function (a,b) {
-      let dateA = new Date(a.createdat),
-          dateB = new Date(b.createdat)
+      let dateA = new Date(a.createdAt),
+          dateB = new Date(b.createdAt)
       return dateB - dateA
     })
     return items
   }
     const items = [...watches]
     items.sort(function (a,b) {
-      let dateA = new Date(a.createdat),
-          dateB = new Date(b.createdat)
+      let dateA = new Date(a.createdAt),
+          dateB = new Date(b.createdAt)
       return dateA - dateB
     })
     return items
