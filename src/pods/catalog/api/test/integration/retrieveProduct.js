@@ -14,7 +14,16 @@ describe('Retrieve product', () => {
     const id = '4d892582-724e-11e9-9ed5-658de3b853f5'
 
     const expectedItem = await retrieveProduct(retrieveById)(id)
-
+    
     assert.isNotEmpty(expectedItem)
+  })
+  it('should throw an error when the id id not the right format', async () => {
+    const id = '4d892582-724e-11e9-9ed5-658de3b853f'
+
+    try {
+      await retrieveProduct(retrieveById)(id)
+    } catch (err) {
+      assert.equal(err.name, 'ValidationError')
+    }
   })
 })
