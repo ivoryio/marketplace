@@ -26,4 +26,14 @@ describe('Retrieve product', () => {
       assert.equal(err.name, 'ValidationError')
     }
   })
+  it(`should throw an error when the product doesn't exists`, async () => {
+    const id = '4d892582-724e-11e9-9ed5-658de3b853f6'
+
+    try {
+      await retrieveProduct(retrieveById)(id)
+    } catch (err) {
+      assert.exists(err.message)
+      assert.equal(err.name, 'ReferenceError')
+    }
+  })
 })
