@@ -69,7 +69,7 @@ router.get('/products/:id', async (req, res) => {
 
     res.status(200).json(result)
   } catch (err) {
-    switch (err.message) {
+    switch (err.name) {
       case 'ValidationError':
         res.status(400).json({
           type: err.name, 
