@@ -32,7 +32,10 @@ router.get('/products', async (req, res) => {
       filters
     })
   } catch (err) {
-    res.status(500).json({err})
+    res.status(500).json({
+      type: '', 
+      message: ''
+    })
   }
 })
 
@@ -44,7 +47,17 @@ router.post('/products', async (req, res) => {
 
     res.status(201).json(result)
   } catch (err) {
-    res.status(500).json({err})
+    if(err.name === 'ValidationError') {
+      res.status(400).json({
+        type: err.name, 
+        message: err.details[0].message
+      })
+      return
+    }
+    res.status(500).json({
+      type: '',
+      message: ''
+    })
   }
 })
 
@@ -56,7 +69,10 @@ router.get('/products/:id', async (req, res) => {
 
     res.status(200).json(result)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({
+      type: '',
+      message: ''
+    })
   }
 })
 

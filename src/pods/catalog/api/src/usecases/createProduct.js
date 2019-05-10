@@ -19,9 +19,10 @@ module.exports = (create) => async (product) => {
     imgList: Joi.array()
   })
 
-  const validated = Joi.validate(product, schema)
-  if(validated.error) {
-    return new Error(validated.error)
+  const { error } = Joi.validate(product, schema)
+
+  if(error) {
+    throw error
   }
   product.id = uuid()
   product.listingNumber = shortid.generate()

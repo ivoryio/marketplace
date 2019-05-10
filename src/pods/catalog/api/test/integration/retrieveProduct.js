@@ -11,7 +11,7 @@ describe('Retrieve product', () => {
   })
 
   it('should retrieve an item from dynamodb by id', async () => {
-    const id = '49e1e781-6f71-11e9-9bcc-5762fcf185da'
+    const id = '4d892582-724e-11e9-9ed5-658de3b853f5'
 
     const expectedItem = await retrieveProduct(retrieveById)(id)
 
