@@ -77,13 +77,13 @@ router.get('/products/:id', async (req, res) => {
         })
         break
 
-      case 'ReferenceError':
+      case 'RangeError':
         res.status(404).json({
           type: err.name,
           message: err.message
         })
         break
-        
+
       default:
         res.status(500).json({
             type: '',

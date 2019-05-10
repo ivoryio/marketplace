@@ -33,7 +33,7 @@ describe('Retrieve product', () => {
       await retrieveProduct(retrieveById)(id)
     } catch (err) {
       assert.exists(err.message)
-      assert.equal(err.name, 'ReferenceError')
+      assert.equal(err.name, 'RangeError')
     }
   })
 })
