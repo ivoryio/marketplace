@@ -7,7 +7,7 @@ const queryTranslate = require('../../src/services/search/queryTranslate')
 
 
 describe('Browse products', () => {
-  before(() => {
+  beforeEach(() => {
     const credentials = new AWS.SharedIniFileCredentials({profile: 'marketplace'})
     AWS.config.credentials = credentials
   })

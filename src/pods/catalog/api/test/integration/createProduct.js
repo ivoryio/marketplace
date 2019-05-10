@@ -5,7 +5,7 @@ const create = require('../../src/repository/create')
 const createProduct = require('../../src/usecases/createProduct')
 
 describe('Create product', () => {
-  before(() => {
+  beforeEach(() => {
     const credentials = new AWS.SharedIniFileCredentials({profile: 'marketplace'})
     AWS.config.credentials = credentials
   })
