@@ -4,7 +4,7 @@ import Provider from "./services/Provider"
 
 export const NavigationContext = createContext()
 const WatchCatalogEntry = () => {
-  const [currentScreen, setCurrentScreen] = useState("watch-details")
+  const [currentScreen, setCurrentScreen] = useState("watch-list")
   const validScreens = ["watch-list", "watch-details"]
   const NavigateTo = screenName => {
     validScreens.includes(currentScreen) ? setCurrentScreen(screenName) : console.error(`Invalid screen name, expected one of ${validScreens}`)
