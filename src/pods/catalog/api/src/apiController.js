@@ -10,7 +10,6 @@ const createProduct = require('./usecases/createProduct')
 const retrieveSecret = require('./services/retrieveSecret')
 const browseProducts = require('./usecases/browseProducts')
 const retrieveProduct = require('./usecases/retrieveProduct')
-const groupFilters = require('./services/search/groupFilters')
 const queryTranslate = require('./services/search/queryTranslate')
 
 const app = express()
@@ -24,13 +23,9 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 router.get('/products', async (req, res) => {
   try {
     const searchQuery = queryTranslate(req.query)
-    const products = await browseProducts(retrieveSecret)(searchQuery)
-    const filters = groupFilters(products.items)
+    const result = await browseProducts(retrieveSecret)(searchQuery)
 
-    res.status(200).json({
-      ...products,
-      filters
-    })
+    res.status(200).json({...result})
   } catch (err) {
     res.status(500).json({
       type: '', 
