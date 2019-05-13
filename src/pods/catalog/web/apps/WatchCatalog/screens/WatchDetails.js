@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, Space } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
-import { ProductSpecificationsWeb } from '../components'
+import { ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
 
 const images = [{ key: 'img1', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img2', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img3', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img4', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}]
 
@@ -159,6 +159,11 @@ const WatchDetails = () => {
             </Card>
           </Space>
         </AddToCartContainer>
+        <Hide lg>
+          <Space px={4}>
+            <ProductSpecificationsMobile width={1} />
+          </Space>
+        </Hide>
         <Hide xs sm md>
           <Space mt={1}>
             <Space px={4}>

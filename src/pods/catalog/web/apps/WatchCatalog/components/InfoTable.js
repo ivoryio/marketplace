@@ -7,8 +7,8 @@ import {
   Space
 } from '@ivoryio/kogaio'
 
-const InfoTable = ({ options, ...props }) => (
-  <Table {...props}>
+const InfoTable = ({ columnsWidth, options, ...props }) => (
+  <Table columnsWidth={columnsWidth} {...props}>
     {
       options.map(option => {
         const { name, value } = option
@@ -29,7 +29,7 @@ const InfoTable = ({ options, ...props }) => (
 
 const Table = styled.div`
   display: grid;
-  grid-template-columns: 0.3fr 0.7fr;
+  grid-template-columns: ${props => `${props.columnsWidth[0]}fr ${props.columnsWidth[1]}fr`};
   grid-gap: 0;
   & :not(:nth-child(-n+2)) {
     border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')}
@@ -47,7 +47,12 @@ const OptionValue = styled(Typography)`
 `
 
 InfoTable.propTypes = {
+  columnsWidth: PropTypes.arrayOf(PropTypes.number),
   options: PropTypes.arrayOf(PropTypes.object)
+}
+
+InfoTable.defaultProps = {
+  columnsWidth: [0.3, 0.7]
 }
 
 export default InfoTable
