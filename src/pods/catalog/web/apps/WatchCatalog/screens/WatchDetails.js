@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
+import { Region } from 'frint-react'
 import { Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, Space } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
@@ -160,27 +161,27 @@ const WatchDetails = () => {
           </Space>
         </AddToCartContainer>
         <Hide lg>
-          <Space px={4}>
+          <Space px={4} mt={6}>
             <ProductSpecificationsMobile width={1} />
           </Space>
         </Hide>
         <Hide xs sm md>
-          <Space mt={1}>
-            <Space px={4}>
+            <Space px={4} mt={2}>
               <ProductSpecificationsWeb width={ 2 / 5 } />
             </Space>
             <Flex width={1 / 4} />
-          </Space>
         </Hide>
+        <Space py={{ xs: 6, lg: 15  }} mt={10}>
+          <NewestWatchesWrapper bg='ghost-white' width={1}>
+            <Region name='newest-watches' />
+          </NewestWatchesWrapper>
+        </Space>
     </Flex>
   )
 }
 
-const AvailableImages = styled(Flex)`
-`
-const AddToCartContainer = styled(Box)`
-
-`
+const AvailableImages = styled(Flex)``
+const AddToCartContainer = styled(Box)``
 const CardContent = styled(Flex)``
 const WatchTitle = styled(Typography)`
   overflow: hidden;
@@ -200,6 +201,9 @@ const ImageContainer = styled(Flex)`
 `
 const WebScrollingItem = styled(Box)`
   border-top: ${themeGet('borders.1')} ${themeGet('colors.brand-disabled')};
+`
+const NewestWatchesWrapper = styled(Box)`
+  border: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
 `
 
 export default WatchDetails

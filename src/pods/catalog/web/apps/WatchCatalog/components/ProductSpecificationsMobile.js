@@ -30,12 +30,12 @@ const TablesOnMobileAndTablet = ({ options, ...props }) => (
   <Flex {...props}>
     <StyledHide md lg xlg>
       <Box width={1}>
-        <InfoTable width='100%' columnsWidth={[0.4, 0.6]} options={options} />
+        <InfoTable width={1} columnsWidth={[0.45, 0.55]} options={options} />
       </Box>
     </StyledHide>
-    <StyledHide width={1} xs sm lg xlg>
+    <StyledHide xs sm lg xlg>
       <Box width={1}>
-        <InfoTable width='100%' options={options} />
+        <InfoTable width={1} options={options} />
       </Box>
     </StyledHide>
   </Flex>

@@ -14,10 +14,10 @@ const InfoTable = ({ columnsWidth, options, ...props }) => (
         const { name, value } = option
         return (
           <>
-              <Space pl={4} py={3}>
+              <Space pl={{ xs: 2, md: 5, lg: 4 }} py={3}>
                 <OptionName color='gunmetal' fontSize={1} fontWeight={1}>{name}</OptionName>
               </Space>
-              <Space pr={4} py={3}>
+              <Space pr={{ xs: 2, md: 5, lg: 4 }} py={3}>
                 <OptionValue textAlign='right' alignItems='center' color='gunmetal' fontSize={1} fontWeight={0}>{value}</OptionValue>
               </Space>
           </>
