@@ -6,7 +6,7 @@ import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
-import { sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
+import { filters, sortOptions, initialActiveFilters, initialSearchResults, itemsPerPageOptions } from '../services/constants'
 import { composeSearchTerm, makeSlices, transformActiveFiltersToArray, sortWatches } from './helpers'
 
 export const DataContext = createContext()
@@ -67,11 +67,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       const response = await api.getSearchResults(searchTerm)
       if (isResponseOk(response.status)) {
         const { data } = response
-        const { data: { filters: stateFilters } } = results
         const sortedItems = sortWatches(sortType, data.items)
-        const filters = stateFilters.length === 0 ? data.filters : stateFilters
-
-        setResults({ data: {...data, items: sortedItems, filters}, isFetching: false, error: null })
+        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -93,12 +90,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
   const slicedWatches = makeSlices(results.data.items, Number(resultsPerPage))
 
-  const {
-    isFetching,
-    data: {
-      filters
-    }
-  } = results
+  const { isFetching } = results
 
   const data = {
     activeFilters,
