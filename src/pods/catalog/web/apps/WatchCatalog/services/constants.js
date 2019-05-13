@@ -42,8 +42,7 @@ export const initialActiveFilters = {
 export const initialSearchResults = {
   data: {
     items: [],
-    itemsCount: 0,
-    filters: {}
+    itemsCount: 0
   },
   isFetching: false,
   error: null
