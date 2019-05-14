@@ -13,6 +13,8 @@ const WatchDetails = () => {
   const [quantity, setQuantity ] = useState(1)
   const {
     currentScreen,
+    NavigateTo,
+    setActiveWatchId,
     watchDetails: {
       data: {
         imgSrc,
@@ -31,6 +33,11 @@ const WatchDetails = () => {
     }
   }
 
+  const handleBackClick = () => {
+    setActiveWatchId('')
+    NavigateTo('watch-list')
+  }
+
   if (!currentScreen.includes('watch-details')) {
     return null
   }
@@ -47,6 +54,15 @@ const WatchDetails = () => {
   }
   return (
     <Flex justifyContent='center' flexWrap='wrap'>
+      <Flex width={1}>
+        <Space ml={4}>
+          <Button
+            bg='pastel-blue'
+            title='Go Back'
+            onClick={handleBackClick}
+          />
+        </Space>
+      </Flex>
       <Flex flexWrap='wrap' width={{ xs: 1, lg: 4 / 10 }}>
         <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
           <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
