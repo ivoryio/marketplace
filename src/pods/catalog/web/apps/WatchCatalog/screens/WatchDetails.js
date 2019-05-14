@@ -5,15 +5,17 @@ import { Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, 
 
 import { NavigationContext } from '../WatchCatalogEntry'
 import { ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
+import { formatPrice } from '../services/helpers'
 
 const images = [{ key: 'img1', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img2', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img3', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img4', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}]
 
 const WatchDetails = () => {
-  const [quantity, setQuantity ] = useState(0)
+  const [quantity, setQuantity ] = useState(1)
   const {
     currentScreen,
     watchDetails: {
       data: {
+        imgSrc,
         brand,
         model,
         imgList,
@@ -23,7 +25,7 @@ const WatchDetails = () => {
   } = useContext(NavigationContext)
 
   const _decrementQuantity = () => {
-    if(quantity !== 0) {
+    if(quantity !== 1) {
       setQuantity(quantity - 1)
     }
   }
@@ -31,12 +33,16 @@ const WatchDetails = () => {
   if (!currentScreen.includes('watch-details')) {
     return null
   }
+
+  const formattedPrice = price ?  `$${formatPrice(Number(price))}` : null
+
   return (
     <Flex justifyContent='center' flexWrap='wrap'>
       <Flex flexWrap='wrap' width={{ xs: 1, lg: 4 / 10 }}>
         <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
           <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
             <Image
+              src={imgSrc}
               width={1}
               height={{ xs: 248, md: 328 }}
               objectFit='contain'
@@ -47,9 +53,9 @@ const WatchDetails = () => {
         <Space px={{ xs: 2 }} py={{ xs: 2 }}>
           <AvailableImages flexWrap='wrap' width={{ xs:1, md: 1 / 2, lg: 1 }}>
             {
-              (imgList || images).map(image => (
+              (imgList || images).map((imgSrc, index) => (
                 <Space
-                  key={image.key}
+                  key={`detail-image-${index}`}
                   p={{xs: 2}}>
                   <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
                     <ImageContainer
@@ -59,7 +65,7 @@ const WatchDetails = () => {
                       width={1}
                     >
                       <Image
-                        src={image.src}
+                        src={imgSrc}
                         width={1}
                         height={{ xs: 70, md: 156, lg: 133 }}
                         objectFit='contain'
@@ -104,7 +110,7 @@ const WatchDetails = () => {
                       fontSize={4}
                       fontWeight={2}
                     >
-                      ${price}
+                      {formattedPrice}
                     </Typography>
                     <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
                       <Touchable
@@ -163,7 +169,7 @@ const WatchDetails = () => {
                     </Space>
                     <Space px={6} py={4}>
                       <WebScrollingItem width={1}>
-                        <Typography>Details</Typography>
+                        <Typography>Info & Stats</Typography>
                       </WebScrollingItem>
                     </Space>
                   </>
