@@ -28,10 +28,24 @@ const TablesOnMobileAndTablet = ({ options, ...props }) => (
   </Flex>
 )
 
-const ProductSpecificationsMobile = ({...props}) => {
+const ProductSpecificationsMobile = ({ ...props }) => {
   const [activeSection, setActiveSection] = useState('details')
-  const { watchDetails: { data: { caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
-  const tableData = { Caliber, Case, Strap }
+  const { watchDetails: { data: { listingNumber, referenceNumber, brand, model, movement, year, gender, caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
+  
+  const caseMaterial = Case ? Case.caseMaterial : null
+  const braceletMaterial = Case ? Strap.braceletMaterial : null
+  const infoSectionData = {
+    listingNumber,
+    referenceNumber,
+    brand,
+    model,
+    movement,
+    caseMaterial,
+    braceletMaterial,
+    year,
+    gender
+  }
+  const tableData = { Info: infoSectionData, Caliber, Case, Strap }
   const tableKeys = Object.keys(tableData)
 
   return (
@@ -47,7 +61,7 @@ const ProductSpecificationsMobile = ({...props}) => {
             }
           </Flex>
         </Touchable>
-        <Space ml={{xs: 8, md: 15}}>
+        <Space ml={{ xs: 8, md: 15 }}>
           <Touchable onClick={() => setActiveSection('info&stats')}>
             <Flex flexDirection='column'>
               <Typography color='gunmetal' fontSize={3} fontWeight={0}>
@@ -61,18 +75,18 @@ const ProductSpecificationsMobile = ({...props}) => {
         </Space>
       </Flex>
       <Space mt={{ xs: 4, md: 5 }}>
-        { activeSection.includes('details')
+        {activeSection.includes('details')
           ? <Typography lineHeight='26px' color='gunmetal' fontSize={2} fontWeight={0}>{description}</Typography>
-            : tableKeys.map(key => (
-                <>
-                  <Space mt={2}>
-                    <Typography color='pastel-blue' fontSize={0}>{key}</Typography>
-                  </Space>
-                  <Space mt={2}>
-                    <TablesOnMobileAndTablet options={tableData[key]} />
-                  </Space>
-                </>
-              ))
+          : tableKeys.map(key => (
+            <>
+              <Space mt={4}>
+                <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{key}</Typography>
+              </Space>
+              <Space mt={2}>
+                <TablesOnMobileAndTablet options={tableData[key]} />
+              </Space>
+            </>
+          ))
         }
       </Space>
     </Flex>
@@ -83,7 +97,7 @@ const StyledHide = styled(Hide)`
   width: 100%;
 `
 
-TablesOnMobileAndTablet.propTypes  = {
+TablesOnMobileAndTablet.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object)
 }
 

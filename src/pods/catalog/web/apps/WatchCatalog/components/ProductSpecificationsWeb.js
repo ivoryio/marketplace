@@ -5,8 +5,28 @@ import { NavigationContext } from '../WatchCatalogEntry'
 import { InfoTable } from '.'
 
 const ProductSpecificationsWeb =  props => {
-  const { watchDetails: { data: { caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
-  const tableData = { Caliber, Case, Strap }
+  const { watchDetails: { data: { listingNumber, referenceNumber, brand, model, movement, year, gender, caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
+
+  const caseMaterial = Case ? Case.caseMaterial : null
+  const braceletMaterial = Case ? Strap.braceletMaterial : null
+  const infoSectionData = {
+    listingNumber,
+    referenceNumber,
+    brand,
+    model,
+    movement,
+    caseMaterial,
+    braceletMaterial,
+    year,
+    gender
+  }
+  const tableData = {
+    Info: infoSectionData,
+    Caliber,
+    Case,
+    Strap
+  }
+
   const tableKeys = Object.keys(tableData)
   
   return (
@@ -21,8 +41,8 @@ const ProductSpecificationsWeb =  props => {
       {
         tableKeys.map(key => (
           <>
-            <Space mt={2}>
-              <Typography color='pastel-blue' fontSize={0}>{key}</Typography>
+            <Space mt={4}>
+              <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{key}</Typography>
             </Space>
             <Space mt={2}>
               <InfoTable options={tableData[key]} />
