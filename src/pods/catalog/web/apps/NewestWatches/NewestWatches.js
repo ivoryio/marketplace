@@ -116,7 +116,7 @@ const NewestWatches = () => {
                   <Box>
                     <CardWatch
                       animated={isFetching}
-                      buttonLabel='Button Label'
+                      buttonLabel='View Details'
                       title={`${brand} ${model}`}
                       type='newest'
                       description={description}
