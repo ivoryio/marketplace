@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
 import { Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, Space } from '@ivoryio/kogaio'
 
-// import api from '../../../services/catalog.dataservice'
 import { NavigationContext } from '../WatchCatalogEntry'
 import { ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
 
@@ -11,35 +10,24 @@ const images = [{ key: 'img1', src: 'https://images-na.ssl-images-amazon.com/ima
 
 const WatchDetails = () => {
   const [quantity, setQuantity ] = useState(0)
-
-  useEffect(() => {
-    // _fetchWatchDetails('4d8ef1e1-724e-11e9-9ed5-658de3b853f5')
-  }, [])
-
-  // const _fetchWatchDetails = async (id) => {
-  //   try {
-  //     const response = await api.getWatchDetails(id)
-  //     if (isResponseOk(response.status)) {
-  //       const { data } = response
-  //       const { data: { filters: stateFilters } } = results
-  //       const sortedItems = sortWatches(sortType, data.items)
-  //       const filters = stateFilters.length === 0 ? data.filters : stateFilters
-
-  //       setResults({ data: {...data, items: sortedItems, filters}, isFetching: false, error: null })
-  //     } else {
-  //       setResults({ ...results, isFetching: false, error: response.error })
-  //     }
-  //   } catch (err) {
-  //     setResults({ ...results.data, isFetching: false, error: err })
-  //   }
-  // }
+  const {
+    currentScreen,
+    watchDetails: {
+      data: {
+        brand,
+        model,
+        imgList,
+        price
+      }
+    }
+  } = useContext(NavigationContext)
 
   const _decrementQuantity = () => {
     if(quantity !== 0) {
       setQuantity(quantity - 1)
     }
   }
-  const { currentScreen } = useContext(NavigationContext)
+
   if (!currentScreen.includes('watch-details')) {
     return null
   }
@@ -59,7 +47,7 @@ const WatchDetails = () => {
         <Space px={{ xs: 2 }} py={{ xs: 2 }}>
           <AvailableImages flexWrap='wrap' width={{ xs:1, md: 1 / 2, lg: 1 }}>
             {
-              images.map(image => (
+              (imgList || images).map(image => (
                 <Space
                   key={image.key}
                   p={{xs: 2}}>
@@ -103,7 +91,7 @@ const WatchDetails = () => {
                     color='gunmetal'
                     fontSize={4}
                   >
-                    Rolex Day-Date 36
+                    {brand} {model}
                   </WatchTitle>
                 </Space>
                 <Space mt={6} px={{ xs: 6, md: 0, lg: 6 }}>
@@ -116,7 +104,7 @@ const WatchDetails = () => {
                       fontSize={4}
                       fontWeight={2}
                     >
-                      $21.000.00
+                      ${price}
                     </Typography>
                     <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
                       <Touchable

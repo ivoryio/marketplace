@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {
@@ -10,21 +10,8 @@ import {
   Touchable
 } from '@ivoryio/kogaio'
 
+import { NavigationContext } from '../WatchCatalogEntry'
 import { InfoTable } from '.'
-
-const longDescription = 'WatchShopping.com buys and sells brand new prestigous watches from all around the world. All our products are inspected and purchased directly from countries all around the world to provide the lowest cost, yet, best service quality for our customers. We sell brands such as Rolex, Cartier, Omega, Tudor, Vacheron Constantin, Audemars Piguet, Patek Philippe, Officine Panerai, Hublot and more. If you have a specific watch brand and model that you are looking for, please feel free to talk to us and we will assist you to search for it. Please feel free to talk to us for any questions or concerns. '
-const options = [
-  {
-    id: 'movement-option',
-    name: 'Movement',
-    value: 'Automatic'
-  },
-  {
-    id: 'power-option',
-    name: 'Power reserve',
-    value: '48h'
-  }
-]
 
 const TablesOnMobileAndTablet = ({ options, ...props }) => (
   <Flex {...props}>
@@ -43,6 +30,10 @@ const TablesOnMobileAndTablet = ({ options, ...props }) => (
 
 const ProductSpecificationsMobile = ({...props}) => {
   const [activeSection, setActiveSection] = useState('details')
+  const { watchDetails: { data: { caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
+  const tableData = { Caliber, Case, Strap }
+  const tableKeys = Object.keys(tableData)
+
   return (
     <Flex flexDirection='column' {...props}>
       <Flex>
@@ -70,9 +61,18 @@ const ProductSpecificationsMobile = ({...props}) => {
         </Space>
       </Flex>
       <Space mt={{ xs: 4, md: 5 }}>
-        {activeSection.includes('details')
-          ? <Typography lineHeight='26px' color='gunmetal' fontSize={2} fontWeight={0}>{longDescription}</Typography>
-            : <TablesOnMobileAndTablet options={options} />
+        { activeSection.includes('details')
+          ? <Typography lineHeight='26px' color='gunmetal' fontSize={2} fontWeight={0}>{description}</Typography>
+            : tableKeys.map(key => (
+                <>
+                  <Space mt={2}>
+                    <Typography color='pastel-blue' fontSize={0}>{key}</Typography>
+                  </Space>
+                  <Space mt={2}>
+                    <TablesOnMobileAndTablet options={tableData[key]} />
+                  </Space>
+                </>
+              ))
         }
       </Space>
     </Flex>

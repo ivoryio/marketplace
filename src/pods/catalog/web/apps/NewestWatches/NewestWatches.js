@@ -21,9 +21,10 @@ const NewestWatches = () => {
     isFetching: true,
     error: null
   })
+
   useEffect(() => {
     fetchWatches()
-  }, [])
+  }, [fetchWatches])
 
   const fetchWatches = async () => {
     try {

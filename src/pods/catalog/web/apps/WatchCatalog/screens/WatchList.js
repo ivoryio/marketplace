@@ -5,6 +5,7 @@ import {
   Box,
   Dropdown,
   Flex,
+  Option,
   Space,
   themeGet,
   Typography
@@ -52,8 +53,8 @@ const WatchList = () => {
             pr={{ xs: 4, md: 24, lg: 6 }}
           >
             <Typography color='gunmetal' variant='h1'>
-              { isFetching ? 'Searching products...'
-                  : `Browsing products for ${searchTerm} - ${itemsCount} results`
+              {isFetching ? 'Searching products...'
+                : `Browsing products for ${searchTerm} - ${itemsCount} results`
               }
             </Typography>
           </Space>
@@ -62,27 +63,39 @@ const WatchList = () => {
               <Space mx={{ xs: 2, lg: 0 }}>
                 <Box width={{ xs: 1 / 2, sm: 1 / 3, md: 1 / 4 }}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='sort-by'
+                    id='sort-dropdown'
                     label='Sort by'
-                    onChangeOption={setSortType}
-                    options={sortOptions}
-                    selectedOption={sortType}
+                    onChange={setSortType}
+                    value={sortType}
                     width={1}
-                  />
+                  >
+                    {
+                      sortOptions.map(option =>
+                        <Option key={option.id} value={option.name}>
+                          {option.name}
+                        </Option>
+                      )
+                    }
+                  </Dropdown>
                 </Box>
               </Space>
               <Space ml={{ xs: 2, lg: 4 }} mr={{ xs: 2, lg: 0 }}>
                 <Box width={{ xs: 1 / 2, sm: 1 / 3, md: 1 / 4 }}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='results-per-page'
+                    id='results-per-page-dropdown'
                     label='Results per page'
-                    onChangeOption={setResultsPerPage}
-                    options={itemsPerPageOptions}
-                    selectedOption={resultsPerPage}
+                    onChange={setResultsPerPage}
+                    value={resultsPerPage}
                     width={1}
-                  />
+                  >
+                    {
+                      itemsPerPageOptions.map(option =>
+                        <Option key={option.id} value={option.name}>
+                          {option.name}
+                        </Option>
+                      )
+                    }
+                  </Dropdown>
                 </Box>
               </Space>
             </Flex>
@@ -110,13 +123,19 @@ const WatchList = () => {
                   </Typography>
                   <Space ml={{ xs: 2, md: 3 }}>
                     <Dropdown
-                      colors='dropdown-white'
-                      id='results-per-page1'
-                      onChangeOption={setResultsPerPage}
-                      options={itemsPerPageOptions}
-                      selectedOption={resultsPerPage}
+                      id='results-per-page-dropdown-2'
+                      onChange={setResultsPerPage}
+                      value={resultsPerPage}
                       width='73px'
-                    />
+                    >
+                      {
+                        itemsPerPageOptions.map(option =>
+                          <Option key={option.id} value={option.name}>
+                            {option.name}
+                          </Option>
+                        )
+                      }
+                    </Dropdown>
                   </Space>
                 </Flex>
               </Space>

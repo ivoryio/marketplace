@@ -27,6 +27,7 @@ const ProductList = ({ watches, isFetching }) => (
                 justifyContent='center'
               >
                 <ProductCard
+                  id={id}
                   imgSrc={imgSrc}
                   price={`$${price}`}
                   description={description}

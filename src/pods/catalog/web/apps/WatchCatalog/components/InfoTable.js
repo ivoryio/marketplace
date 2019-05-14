@@ -7,32 +7,40 @@ import {
   Space
 } from '@ivoryio/kogaio'
 
-const InfoTable = ({ columnsWidth, options, ...props }) => (
-  <Table columnsWidth={columnsWidth} {...props}>
-    {
-      options.map(option => {
-        const { name, value } = option
-        return (
-          <>
+const InfoTable = ({ columnsWidth, options, ...props }) => {
+  if (!options) {
+    return null
+  }
+  const optionsKeys = Object.keys(options)
+  const optionsValues = Object.values(options)
+  return (
+    <Table columnsWidth={columnsWidth} {...props}>
+      {
+        optionsKeys.map((name, index) => (
+            <>
               <Space pl={{ xs: 2, md: 5, lg: 4 }} py={3}>
                 <OptionName color='gunmetal' fontSize={1} fontWeight={1}>{name}</OptionName>
               </Space>
               <Space pr={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionValue textAlign='right' alignItems='center' color='gunmetal' fontSize={1} fontWeight={0}>{value}</OptionValue>
+                <OptionValue textAlign='right' alignItems='center' color='gunmetal' fontSize={1} fontWeight={0}>{optionsValues[index]}</OptionValue>
               </Space>
-          </>
+            </>
+          )
         )
-      })
-    }
-  </Table>
-)
+      }
+    </Table>
+  )
+}
 
 const Table = styled.div`
   display: grid;
   grid-template-columns: ${props => `${props.columnsWidth[0]}fr ${props.columnsWidth[1]}fr`};
   grid-gap: 0;
-  & :not(:nth-child(-n+2)) {
-    border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')}
+  & :last-child {
+    border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
+  }
+  & :nth-last-child(2) {
+    border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   }
 `
 const OptionName = styled(Typography)`
@@ -48,7 +56,7 @@ const OptionValue = styled(Typography)`
 
 InfoTable.propTypes = {
   columnsWidth: PropTypes.arrayOf(PropTypes.number),
-  options: PropTypes.arrayOf(PropTypes.object)
+  options: PropTypes.object
 }
 
 InfoTable.defaultProps = {

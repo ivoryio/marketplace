@@ -11,13 +11,17 @@ import {
 
 import { NavigationContext } from '../WatchCatalogEntry'
 
-const ProductCard = ({ imgSrc, price, description, ...props }) => {
-  const { NavigateTo } = useContext(NavigationContext)
+const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
+  const { NavigateTo, setActiveWatchId } = useContext(NavigationContext)
+  const handleCardClick = () => {
+    setActiveWatchId(id)
+    NavigateTo('watch-details')
+  }
 
   return (
     <Space pb={4}>
       <Card
-        onClick={() => NavigateTo('watch-details')}
+        onClick={handleCardClick}
         borderRadius={4}
         display='flex'
         flexDirection='column'
@@ -59,6 +63,7 @@ const ProductDescription = styled(Typography)`
 `
 
 ProductCard.propTypes = {
+  id: PropTypes.string,
   imgSrc: PropTypes.string,
   description: PropTypes.string,
   price: PropTypes.string
