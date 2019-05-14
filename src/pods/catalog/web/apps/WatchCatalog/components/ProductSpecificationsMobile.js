@@ -32,16 +32,14 @@ const ProductSpecificationsMobile = ({ ...props }) => {
   const [activeSection, setActiveSection] = useState('details')
   const { watchDetails: { data: { listingNumber, referenceNumber, brand, model, movement, year, gender, caliber: Caliber, case: Case, strap: Strap, description } } } = useContext(NavigationContext)
   
-  const caseMaterial = Case ? Case.caseMaterial : null
-  const braceletMaterial = Case ? Strap.braceletMaterial : null
   const infoSectionData = {
     listingNumber,
     referenceNumber,
     brand,
     model,
     movement,
-    caseMaterial,
-    braceletMaterial,
+    caseMaterial: Case.caseMaterial,
+    braceletMaterial: Strap.braceletMaterial,
     year,
     gender
   }

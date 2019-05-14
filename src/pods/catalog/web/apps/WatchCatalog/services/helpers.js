@@ -73,3 +73,10 @@ export const categoryProvenience = (filter, activeFilters) => {
 
 export const capitalizeFirstChar = string => string.charAt(0).toUpperCase() + string.slice(1)
 export const formatPrice = number => number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+export const transformCamelToSentence = text => {
+  let result = text.replace( /([A-Z])/g, " $1" )
+  let indexOfBackslash = result.indexOf('/')
+  result = indexOfBackslash === -1 ? result : result.slice(0, indexOfBackslash + 1) + result[indexOfBackslash + 1].toUpperCase() + result.slice(indexOfBackslash + 2)
+  let finalResult = capitalizeFirstChar (result)
+  return finalResult
+}

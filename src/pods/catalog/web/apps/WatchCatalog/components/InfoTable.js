@@ -6,6 +6,7 @@ import {
   themeGet,
   Space
 } from '@ivoryio/kogaio'
+import { transformCamelToSentence } from '../services/helpers'
 
 const InfoTable = ({ columnsWidth, options, ...props }) => {
   if (!options) {
@@ -16,16 +17,19 @@ const InfoTable = ({ columnsWidth, options, ...props }) => {
   return (
     <Table columnsWidth={columnsWidth} {...props}>
       {
-        optionsKeys.map((name, index) => (
+        optionsKeys.map((name, index) => {
+          const specificationName = transformCamelToSentence(name)
+          return (
             <>
               <Space pl={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionName color='gunmetal' fontSize={1} fontWeight={1}>{name}</OptionName>
+                <OptionName color='gunmetal' fontSize={1} fontWeight={1}>{specificationName}</OptionName>
               </Space>
               <Space pr={{ xs: 2, md: 5, lg: 4 }} py={3}>
                 <OptionValue textAlign='right' alignItems='center' color='gunmetal' fontSize={1} fontWeight={0}>{optionsValues[index]}</OptionValue>
               </Space>
             </>
           )
+        }
         )
       }
     </Table>

@@ -15,7 +15,9 @@ const WatchCatalogEntry = () => {
   }
 
   useEffect(() => {
-    _fetchWatchDetails(activeWatchId)
+    if (activeWatchId) {
+      _fetchWatchDetails(activeWatchId)
+    }
   }, [_fetchWatchDetails, activeWatchId])
 
   const _fetchWatchDetails = async (id) => {

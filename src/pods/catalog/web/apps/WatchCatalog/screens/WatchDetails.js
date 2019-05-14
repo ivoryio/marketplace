@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
-import { Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, Space } from '@ivoryio/kogaio'
+import { ActivityIndicator, Box, Button, Card, Flex, Hide, Image, Touchable, themeGet, Typography, Space } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
 import { ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
@@ -20,7 +20,8 @@ const WatchDetails = () => {
         model,
         imgList,
         price
-      }
+      },
+      isFetching
     }
   } = useContext(NavigationContext)
 
@@ -34,8 +35,16 @@ const WatchDetails = () => {
     return null
   }
 
-  const formattedPrice = price ?  `$${formatPrice(Number(price))}` : null
+  const formattedPrice = `$${formatPrice(Number(price))}`
 
+  if (isFetching) {
+    return <Space mx='auto' mt={{ xs: 3, md: 6, lg: 4 }}>
+      <ActivityIndicator
+        colors={{ background: 'white', primary: 'gunmetal' }}
+        size='32px'
+      />
+    </Space>
+  }
   return (
     <Flex justifyContent='center' flexWrap='wrap'>
       <Flex flexWrap='wrap' width={{ xs: 1, lg: 4 / 10 }}>
