@@ -146,7 +146,7 @@ describe('translate()', () => {
             gender: 'men',
             limit: 5,
             start: 15,
-            isspotlight: 'true'
+            isSpotlight: 'true'
         }
 
         const result = translate(queryString)
@@ -159,7 +159,7 @@ describe('translate()', () => {
     })
     it('should return params filtered by spotlight', () => {
         const queryString = { 
-            isspotlight: 'true'
+            isSpotlight: 'true'
         }
 
         const result = translate(queryString)

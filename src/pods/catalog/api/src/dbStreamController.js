@@ -1,4 +1,4 @@
-const { unmarshall } = require('lib/dynamodb/converter')
+const DynamoDB = require('aws-sdk/clients/dynamodb')
 const CloudSearchDomain = require('aws-sdk/clients/cloudsearchdomain')
 
 const retrieveSecret = require('./services/retrieveSecret')
@@ -34,7 +34,7 @@ exports.handler = async (event, contex) => {
 
 const updateDocument = async NewImage => {
   try {
-    const fieldsToInsert = normalize(unmarshall(NewImage))
+    const fieldsToInsert = normalize(DynamoDB.Converter.unmarshall(NewImage))
 
     const document = [
       {
@@ -56,7 +56,7 @@ const updateDocument = async NewImage => {
 }
 
 const removeDocument = async OldImage => {
-  const { id } = unmarshall(OldImage)
+  const { id } = DynamoDB.Converter.unmarshall(OldImage)
 
   const document = [
     {

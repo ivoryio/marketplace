@@ -77,6 +77,12 @@ Resources:
             RestApiId: !Ref CatalogApi
             Path: /{proxy+}
             Method: GET
+        ProxyPost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CatalogApi
+            Path: /{proxy+}
+            Method: POST
         ProxyOptions:
           Type: Api
           Properties:

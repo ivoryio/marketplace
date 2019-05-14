@@ -10,6 +10,11 @@ module.exports = async (id) => {
   }
 
   const result = await documentClient.get(params).promise()
+
+  if(Object.entries(result).length === 0) {
+    throw new RangeError(`The product with the id ${id} was not found.`)
+  }
+
   return result.Item
 }
 

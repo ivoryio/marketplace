@@ -26,8 +26,8 @@ module.exports = (queryString) => {
         const genders = queryString.gender.split(',')
         genders.forEach(gender => query.push(`(and field='gender' '${gender}')`))
       }
-      if(queryString.isspotlight) {
-        query.push(`(and field='isspotlight' '${queryString.isspotlight}')`)
+      if(queryString.isSpotlight) {
+        query.push(`(and field='isspotlight' '${queryString.isSpotlight}')`)
       }
       if(query.length > 1) {
         query.unshift('(or ')
