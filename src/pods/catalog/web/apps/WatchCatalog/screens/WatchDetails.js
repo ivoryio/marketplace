@@ -10,14 +10,15 @@ import { formatPrice } from '../services/helpers'
 const images = [{ key: 'img1', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img2', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img3', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}, { key: 'img4', src: 'https://images-na.ssl-images-amazon.com/images/I/71gdBQP%2BqGL._UL1500_.jpg'}]
 
 const WatchDetails = () => {
-  const [quantity, setQuantity ] = useState(1)
+  const [activeImageSrc, setActiveImageSrc] = useState('')
+  const [quantity, setQuantity] = useState(1)
+
   const {
     currentScreen,
     NavigateTo,
     setActiveWatchId,
     watchDetails: {
       data: {
-        imgSrc,
         brand,
         model,
         imgList,
@@ -54,11 +55,6 @@ const WatchDetails = () => {
   }
   return (
     <Flex flexDirection='column' alignItems='center'>
-      {/* <Flex flexDirection='column' width={1} height={100}>
-        <Box width={1} height={400} bg='yellow' />
-        <Box width={1} height={10} bg='red' position='sticky' top={0} />
-        <Box width={1} height={400} bg='blue' />
-      </Flex> */}
       <Flex width={1}>
         <Space ml={4}>
           <Button
@@ -74,7 +70,7 @@ const WatchDetails = () => {
             <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
               <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
                 <Image
-                  src={imgSrc}
+                  src={activeImageSrc || imgList[0]}
                   width={1}
                   height={{ xs: 248, md: 328 }}
                   objectFit='contain'
@@ -88,21 +84,24 @@ const WatchDetails = () => {
                   (imgList || images).map((imgSrc, index) => (
                     <Space
                       key={`detail-image-${index}`}
-                      p={{xs: 2}}>
+                      p={{xs: 2}}
+                    >
                       <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
-                        <ImageContainer
-                          bg='white'
-                          alignItems='center'
-                          justifyContent='center'
-                          width={1}
-                        >
-                          <Image
-                            src={imgSrc}
+                        <Touchable effect='opacity' onClick={() => setActiveImageSrc(imgSrc)}>
+                          <ImageContainer
+                            bg='white'
+                            alignItems='center'
+                            justifyContent='center'
                             width={1}
-                            height={{ xs: 70, md: 156, lg: 133 }}
-                            objectFit='contain'
-                          />
-                        </ImageContainer>
+                          >
+                            <Image
+                              src={imgSrc}
+                              width={1}
+                              height={{ xs: 70, md: 156, lg: 133 }}
+                              objectFit='contain'
+                            />
+                          </ImageContainer>
+                        </Touchable>
                       </Box>
                     </Space>
                   ))
