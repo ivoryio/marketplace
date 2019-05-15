@@ -10,11 +10,11 @@ import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
 const categories = ['New Arrivals', 'Mens Watches', 'Ladies Watches', 'Sale']
 const NavMenu = props => (
-  <Space px={{ xs: 0, sm: '5%', md: '7.5%' }}>
+  <Space mx='auto' px={{ xs: 0, md: '7.5%' }}>
     <NavContainer
       id='landing-nav-menu'
       justifyContent='space-between'
-      width={1}
+      width={{ xs: 1, sm: 9 / 10, md: 1 }}
       {...props}>
       <NavArrow
         direction='right'

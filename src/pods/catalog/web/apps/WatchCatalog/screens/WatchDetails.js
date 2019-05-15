@@ -33,7 +33,7 @@ const WatchDetails = () => {
     }
   }
 
-  const handleBackClick = () => {
+  const goBack = () => {
     setActiveWatchId('')
     NavigateTo('watch-list')
   }
@@ -53,167 +53,180 @@ const WatchDetails = () => {
     </Space>
   }
   return (
-    <Flex justifyContent='center' flexWrap='wrap'>
+    <Flex flexDirection='column' alignItems='center'>
+      {/* <Flex flexDirection='column' width={1} height={100}>
+        <Box width={1} height={400} bg='yellow' />
+        <Box width={1} height={10} bg='red' position='sticky' top={0} />
+        <Box width={1} height={400} bg='blue' />
+      </Flex> */}
       <Flex width={1}>
         <Space ml={4}>
           <Button
             bg='pastel-blue'
             title='Go Back'
-            onClick={handleBackClick}
+            onClick={goBack}
           />
         </Space>
       </Flex>
-      <Flex flexWrap='wrap' width={{ xs: 1, lg: 4 / 10 }}>
-        <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
-          <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
-            <Image
-              src={imgSrc}
-              width={1}
-              height={{ xs: 248, md: 328 }}
-              objectFit='contain'
-              borderRadius={1}
-            />
-          </Flex>
-        </Space>
-        <Space px={{ xs: 2 }} py={{ xs: 2 }}>
-          <AvailableImages flexWrap='wrap' width={{ xs:1, md: 1 / 2, lg: 1 }}>
-            {
-              (imgList || images).map((imgSrc, index) => (
-                <Space
-                  key={`detail-image-${index}`}
-                  p={{xs: 2}}>
-                  <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
-                    <ImageContainer
-                      bg='white'
-                      alignItems='center'
-                      justifyContent='center'
-                      width={1}
-                    >
-                      <Image
-                        src={imgSrc}
-                        width={1}
-                        height={{ xs: 70, md: 156, lg: 133 }}
-                        objectFit='contain'
-                      />
-                    </ImageContainer>
-                  </Box>
-                </Space>
-              ))
-            }
-          </AvailableImages>
-        </Space>
-      </Flex>
-      <AddToCartContainer zIndex={2} width={{xs: 1, lg: 1 / 4}}>
-          <Space pt={4} pb={{ xs: 4, lg: 0 }}>
-            <Card
-              width={1}
-              position='sticky'
-              bg='white'
-              boxShadow='card-simple'
-              display='flex'
-              justifyContent='center' 
-            >
-              <CardContent
-                flexDirection='column'
-                width={{ xs: 1, md: 7 / 10, lg: 1 }}
+      <Space mt={{ xs: 4, lg: 5 }}>
+        <Flex flexWrap='wrap' width={{ xs: 1, lg: 2 / 3 }}>
+          <Flex flexWrap='wrap' width={{ xs: 1, lg: 6 / 10 }}>
+            <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
+              <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
+                <Image
+                  src={imgSrc}
+                  width={1}
+                  height={{ xs: 248, md: 328 }}
+                  objectFit='contain'
+                  borderRadius={1}
+                />
+              </Flex>
+            </Space>
+            <Space px={{ xs: 2 }} py={{ xs: 2 }}>
+              <AvailableImages flexWrap='wrap' width={{ xs:1, md: 1 / 2, lg: 1 }}>
+                {
+                  (imgList || images).map((imgSrc, index) => (
+                    <Space
+                      key={`detail-image-${index}`}
+                      p={{xs: 2}}>
+                      <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
+                        <ImageContainer
+                          bg='white'
+                          alignItems='center'
+                          justifyContent='center'
+                          width={1}
+                        >
+                          <Image
+                            src={imgSrc}
+                            width={1}
+                            height={{ xs: 70, md: 156, lg: 133 }}
+                            objectFit='contain'
+                          />
+                        </ImageContainer>
+                      </Box>
+                    </Space>
+                  ))
+                }
+              </AvailableImages>
+            </Space>
+            <Hide lg>
+            <Space px={4} mt={6}>
+              <ProductSpecificationsMobile width={1} />
+            </Space>
+          </Hide>
+          <Hide xs sm md>
+              <Space px={4} mt={2}>
+                <ProductSpecificationsWeb width={1} />
+              </Space>
+              <Flex width={1 / 4} />
+          </Hide>
+        </Flex>
+        <Space mt={{ xs: 2, lg: 0 }}>
+          <Box position={{ xs: 'sticky', lg: 'block' }} bottom={0} width={{ xs: 1, lg: 4 / 10 }}>
+            <Space pt={4} pb={{ xs: 4, lg: 0 }}>
+              <Card
+                zIndex={2}
+                width={1}
+                position={{ xs: 'block', lg: 'sticky' }}
+                top={0}
+                bg='white'
+                boxShadow='card-simple'
+                display='flex'
+                justifyContent='center' 
               >
-                <Space px={{ xs: 6, md: 0, lg: 4 }}>
-                  <WatchTitle
-                    color='gunmetal'
-                    fontSize={4}
-                  >
-                    {brand} {model}
-                  </WatchTitle>
-                </Space>
-                <Space mt={6} px={{ xs: 6, md: 0, lg: 6 }}>
-                  <Flex
-                    alignItems='center'
-                    justifyContent='space-between'
-                  >
-                    <Typography
+                <CardContent
+                  flexDirection='column'
+                  width={{ xs: 1, md: 7 / 10, lg: 1 }}
+                >
+                  <Space px={{ xs: 6, md: 0, lg: 4 }}>
+                    <WatchTitle
                       color='gunmetal'
                       fontSize={4}
-                      fontWeight={2}
                     >
-                      {formattedPrice}
-                    </Typography>
-                    <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
-                      <Touchable
-                        width={3 / 10}
-                        effect='highlight'
-                        onClick={_decrementQuantity}
+                      {brand} {model}
+                    </WatchTitle>
+                  </Space>
+                  <Space mt={6} px={{ xs: 6, md: 0, lg: 6 }}>
+                    <Flex
+                      alignItems='center'
+                      justifyContent='space-between'
+                    >
+                      <Typography
+                        color='gunmetal'
+                        fontSize={4}
+                        fontWeight={2}
                       >
-                        <QuantityModifierWrapper
+                        {formattedPrice}
+                      </Typography>
+                      <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
+                        <Touchable
+                          width={3 / 10}
+                          effect='highlight'
+                          onClick={_decrementQuantity}
+                        >
+                          <QuantityModifierWrapper
+                            alignItems='center'
+                            justifyContent='center'
+                            
+                            height='36px'
+                          >
+                            <Typography>-</Typography>
+                          </QuantityModifierWrapper>
+                        </Touchable>
+                        <QuantityWrapper
                           alignItems='center'
                           justifyContent='center'
-                          
+                          width={4 / 10}
                           height='36px'
                         >
-                          <Typography>-</Typography>
-                        </QuantityModifierWrapper>
-                      </Touchable>
-                      <QuantityWrapper
-                        alignItems='center'
-                        justifyContent='center'
-                        width={4 / 10}
-                        height='36px'
-                      >
-                        {quantity}
-                      </QuantityWrapper>
-                      <Touchable
-                        effect='highlight'
-                        onClick={() => setQuantity(prevState => prevState + 1)}
-                        width={3 / 10}
-                      >
-                        <QuantityModifierWrapper
-                          height='36px'
-                          alignItems='center'
-                          justifyContent='center'
+                          {quantity}
+                        </QuantityWrapper>
+                        <Touchable
+                          effect='highlight'
+                          onClick={() => setQuantity(prevState => prevState + 1)}
+                          width={3 / 10}
                         >
-                          <Typography>+</Typography>
-                        </QuantityModifierWrapper>
-                      </Touchable>
+                          <QuantityModifierWrapper
+                            height='36px'
+                            alignItems='center'
+                            justifyContent='center'
+                          >
+                            <Typography>+</Typography>
+                          </QuantityModifierWrapper>
+                        </Touchable>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                </Space>
-                <Space mt={5} px={{ xs: 6, md: 0, lg: 6 }}>
-                  <Box width={1}>
-                    <Button
-                      width={1}
-                      title='ADD TO MY CART'
-                      onClick={() => {}}
-                    />
-                  </Box>
-                </Space>
-                <Hide xs sm md>
-                  <>
-                    <Space mt={6} px={6} py={4}>
-                      <WebScrollingItem width={1}>
-                        <Typography>Details</Typography>
-                      </WebScrollingItem>
-                    </Space>
-                    <Space px={6} py={4}>
-                      <WebScrollingItem width={1}>
-                        <Typography>Info & Stats</Typography>
-                      </WebScrollingItem>
-                    </Space>
-                  </>
-                </Hide>
-              </CardContent>
-            </Card>
-          </Space>
-        </AddToCartContainer>
-        <Hide lg>
-          <Space px={4} mt={6}>
-            <ProductSpecificationsMobile width={1} />
-          </Space>
-        </Hide>
-        <Hide xs sm md>
-            <Space px={4} mt={2}>
-              <ProductSpecificationsWeb width={ 2 / 5 } />
+                  </Space>
+                  <Space mt={5} px={{ xs: 6, md: 0, lg: 6 }}>
+                    <Box width={1}>
+                      <Button
+                        width={1}
+                        title='ADD TO MY CART'
+                        onClick={() => {}}
+                      />
+                    </Box>
+                  </Space>
+                  <Hide xs sm md>
+                    <>
+                      <Space mt={6} px={6} py={4}>
+                        <WebScrollingItem width={1}>
+                          <Typography>Details</Typography>
+                        </WebScrollingItem>
+                      </Space>
+                      <Space px={6} py={4}>
+                        <WebScrollingItem width={1}>
+                          <Typography>Info & Stats</Typography>
+                        </WebScrollingItem>
+                      </Space>
+                    </>
+                  </Hide>
+                </CardContent>
+              </Card>
             </Space>
-            <Flex width={1 / 4} />
-        </Hide>
+            </Box>
+          </Space>
+        </Flex>
+      </Space>
         <Space py={{ xs: 6, lg: 15  }} mt={10}>
           <NewestWatchesWrapper bg='ghost-white' width={1}>
             <Region name='newest-watches' />
@@ -224,7 +237,6 @@ const WatchDetails = () => {
 }
 
 const AvailableImages = styled(Flex)``
-const AddToCartContainer = styled(Box)``
 const CardContent = styled(Flex)``
 const WatchTitle = styled(Typography)`
   overflow: hidden;
