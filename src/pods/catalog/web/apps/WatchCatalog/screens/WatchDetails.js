@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
-import { ActivityIndicator, Box, Button, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
+import { ActivityIndicator, Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
-import { AddToCart, Gallery, ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
+import { AddToCart, Gallery, BackButton, ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
 
 const WatchDetails = () => {
   const {
@@ -42,12 +42,8 @@ const WatchDetails = () => {
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Flex width={1}>
-        <Space ml={4}>
-          <Button
-            bg='pastel-blue'
-            title='Go Back'
-            onClick={goBack}
-          />
+        <Space ml={{ xs:1, md: 2, lg: 4 }} mt={{ xs: 2, md: 3, lg: 4 }}>
+          <BackButton onClick={goBack} />
         </Space>
       </Flex>
       <Space mt={{ xs: 4, lg: 5 }}>
