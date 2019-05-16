@@ -15,26 +15,25 @@ const WatchCatalogEntry = () => {
   }
 
   useEffect(() => {
+    const _fetchWatchDetails = async (id) => {
+      try {
+        const response = await api.getWatchDetails(id)
+        if (isResponseOk(response.status)) {
+          const { data } = response
+          setWatchDetails({ data, isFetching: false, error: null })
+        } else {
+          setWatchDetails({ ...watchDetails, isFetching: false, error: response.error })
+        }
+      } catch (err) {
+        setWatchDetails({ watchDetails, isFetching: false, error: err })
+      }
+    }
     if (activeWatchId) {
       _fetchWatchDetails(activeWatchId)
     } else {
       setWatchDetails({...watchDetails, isFetching: true})
     }
-  }, [_fetchWatchDetails, activeWatchId, watchDetails])
-
-  const _fetchWatchDetails = async (id) => {
-    try {
-      const response = await api.getWatchDetails(id)
-      if (isResponseOk(response.status)) {
-        const { data } = response
-        setWatchDetails({ data, isFetching: false, error: null })
-      } else {
-        setWatchDetails({ ...watchDetails, isFetching: false, error: response.error })
-      }
-    } catch (err) {
-      setWatchDetails({ watchDetails, isFetching: false, error: err })
-    }
-  }
+  }, [activeWatchId, watchDetails])
 
   return (
     <Provider>

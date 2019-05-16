@@ -23,26 +23,26 @@ const NewestWatches = () => {
   })
 
   useEffect(() => {
-    fetchWatches()
-  }, [fetchWatches])
-
-  const fetchWatches = async () => {
-    try {
-      const response = await api.getNewestProducts()
-      if (response.status === 200) {
-        setNewestWatches({ data: response.data, isFetching: false })
-      } else {
-        setNewestWatches({
-          ...watches,
-          isFetching: false,
-          error: '* Error caught while retrieving newest watches'
-        })
+    const fetchWatches = async () => {
+      try {
+        const response = await api.getNewestProducts()
+        if (response.status === 200) {
+          setNewestWatches({ data: response.data, isFetching: false })
+        } else {
+          setNewestWatches({
+            ...watches,
+            isFetching: false,
+            error: '* Error caught while retrieving newest watches'
+          })
+        }
+      } catch (error) {
+        console.error('Error caught while fetching the newest watches:', error)
+        setNewestWatches({ data: [], isFetching: false, error })
       }
-    } catch (error) {
-      console.error('Error caught while fetching the newest watches:', error)
-      setNewestWatches({ data: [], isFetching: false, error })
     }
-  }
+
+    fetchWatches()
+  }, [watches])
 
   const { data: { items }, isFetching } = watches
   return (
