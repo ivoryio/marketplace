@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import {
@@ -20,14 +20,28 @@ const InfoTable = ({ columnsWidth, options, ...props }) => {
         optionsKeys.map((name, index) => {
           const specificationName = transformCamelToSentence(name)
           return (
-            <>
+            <Fragment key={`table-row-${name}`}>
               <Space pl={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionName color='gunmetal' fontSize={1} fontWeight={1}>{specificationName}</OptionName>
+                <OptionName
+                  color='gunmetal'
+                  fontSize={1}
+                  fontWeight={1}
+                >
+                  {specificationName}
+                </OptionName>
               </Space>
               <Space pr={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionValue textAlign='right' alignItems='center' color='gunmetal' fontSize={1} fontWeight={0}>{optionsValues[index]}</OptionValue>
+                <OptionValue
+                  textAlign='right'
+                  alignItems='center'
+                  color='gunmetal'
+                  fontSize={1}
+                  fontWeight={0}
+                >
+                  {optionsValues[index]}
+                </OptionValue>
               </Space>
-            </>
+            </Fragment>
           )
         }
         )

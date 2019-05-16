@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Flex, Typography, Space } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
@@ -37,15 +37,15 @@ const ProductSpecificationsWeb =  props => {
         <Typography id='info&stats' color='gunmetal' fontSize={3} fontWeight={0}>Info & Stats</Typography>
       </Space>
       {
-        tableKeys.map(key => (
-          <>
+        tableKeys.map(keyAsName => (
+          <Fragment key={`${keyAsName}-table`}>
             <Space mt={4}>
-              <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{key}</Typography>
+              <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{keyAsName}</Typography>
             </Space>
             <Space mt={2}>
-              <InfoTable options={tableData[key]} />
+              <InfoTable options={tableData[keyAsName]} />
             </Space>
-          </>  
+          </Fragment>  
         ))
       }
     </Flex>
