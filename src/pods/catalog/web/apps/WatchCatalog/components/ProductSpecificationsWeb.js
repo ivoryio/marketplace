@@ -29,12 +29,12 @@ const ProductSpecificationsWeb =  props => {
   
   return (
     <Flex flexDirection='column' {...props}>
-      <Typography color='gunmetal' fontSize={3} fontWeight={0}>Details</Typography>
+      <Typography id='details' color='gunmetal' fontSize={3} fontWeight={0}>Details</Typography>
       <Space mt={2}>
         <Typography lineHeight='26px' color='gunmetal' fontSize={1} fontWeight={0}>{description}</Typography>
       </Space>
       <Space mt={5}>
-        <Typography color='gunmetal' fontSize={3} fontWeight={0}>Info & Stats</Typography>
+        <Typography id='info&stats' color='gunmetal' fontSize={3} fontWeight={0}>Info & Stats</Typography>
       </Space>
       {
         tableKeys.map(key => (

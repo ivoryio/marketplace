@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Button, Card, Flex, Hide,  Space, themeGet, Touchable, Typography } from '@ivoryio/kogaio'
+import { Box, Button, Card, Flex, Hide, Icon, Space, themeGet, Touchable, Typography } from '@ivoryio/kogaio'
 
 import { formatPrice } from '../services/helpers'
 
@@ -14,6 +14,12 @@ const AddToCart = ({ brand, model, price, ...props }) => {
     }
   }
 
+  const scrollTo = elementId => () => {
+    const element = document.getElementById(elementId)
+    element.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const anchors = [{ title: 'Details', scrollingId: 'details' }, {title: 'Info & Stats', scrollingId: 'info&stats'}]
   const formattedPrice = `$${formatPrice(Number(price))}`
   return (
     <Box position={{ xs: 'sticky', lg: 'block' }} bottom={0} width={{ xs: 1, lg: 4 / 10 }}>
@@ -101,18 +107,22 @@ const AddToCart = ({ brand, model, price, ...props }) => {
                     </Box>
                   </Space>
                   <Hide xs sm md>
-                    <>
-                      <Space mt={6} px={6} py={4}>
-                        <WebScrollingItem width={1}>
-                          <Typography>Details</Typography>
-                        </WebScrollingItem>
-                      </Space>
-                      <Space px={6} py={4}>
-                        <WebScrollingItem width={1}>
-                          <Typography>Info & Stats</Typography>
-                        </WebScrollingItem>
-                      </Space>
-                    </>
+                    {
+                      anchors.map(({ title, scrollingId }, index) => (
+                        <Space key={`anchor-to-${scrollingId}`} mt={index === 0 ? 6 : 0}>
+                          <Touchable effect='opacity' onClick={scrollTo(scrollingId)}>
+                            <Space px={6} py={4}>
+                              <WebScrollingItem alignItems='center' width={1}>
+                                <Typography>{title}</Typography>
+                                <Space ml={1}>
+                                  <Icon name='link' />
+                                </Space>
+                              </WebScrollingItem>
+                            </Space>
+                          </Touchable>
+                        </Space>
+                      ))
+                    }
                   </Hide>
                 </Flex>
               </Card>
@@ -128,7 +138,7 @@ const QuantityWrapper = styled(Flex)`
 const QuantityModifierWrapper = styled(Flex)`
   border: ${themeGet('borders.1')}${themeGet('colors.gunmetal')};
 `
-const WebScrollingItem = styled(Box)`
+const WebScrollingItem = styled(Flex)`
   border-top: ${themeGet('borders.1')} ${themeGet('colors.brand-disabled')};
 `
 const WatchTitle = styled(Typography)`
