@@ -1,32 +1,13 @@
-import React, { useState, useContext } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React, { Fragment, useState, useContext } from 'react'
 import {
-  Box,
   Flex,
-  Hide,
   Typography,
   Space,
   Touchable
 } from '@ivoryio/kogaio'
 
 import { NavigationContext } from '../WatchCatalogEntry'
-import { InfoTable } from '.'
-
-const TablesOnMobileAndTablet = ({ options, ...props }) => (
-  <Flex {...props}>
-    <StyledHide md lg xlg>
-      <Box width={1}>
-        <InfoTable width={1} columnsWidth={[0.45, 0.55]} options={options} />
-      </Box>
-    </StyledHide>
-    <StyledHide xs sm lg xlg>
-      <Box width={1}>
-        <InfoTable width={1} options={options} />
-      </Box>
-    </StyledHide>
-  </Flex>
-)
+import { TablesOnMobile } from '.'
 
 const ProductSpecificationsMobile = ({ ...props }) => {
   const [activeSection, setActiveSection] = useState('details')
@@ -75,28 +56,20 @@ const ProductSpecificationsMobile = ({ ...props }) => {
       <Space mt={{ xs: 4, md: 5 }}>
         {activeSection.includes('details')
           ? <Typography lineHeight='26px' color='gunmetal' fontSize={2} fontWeight={0}>{description}</Typography>
-          : tableKeys.map(key => (
-            <>
-              <Space mt={4}>
-                <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{key}</Typography>
-              </Space>
-              <Space mt={2}>
-                <TablesOnMobileAndTablet options={tableData[key]} />
-              </Space>
-            </>
-          ))
+            : tableKeys.map(keyAsName => (
+              <Fragment key={`${keyAsName}-table`}>
+                <Space mt={4}>
+                  <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{keyAsName}</Typography>
+                </Space>
+                <Space mt={2}>
+                  <TablesOnMobile options={tableData[keyAsName]} />
+                </Space>
+              </Fragment>
+            ))
         }
       </Space>
     </Flex>
   )
-}
-
-const StyledHide = styled(Hide)`
-  width: 100%;
-`
-
-TablesOnMobileAndTablet.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default ProductSpecificationsMobile
