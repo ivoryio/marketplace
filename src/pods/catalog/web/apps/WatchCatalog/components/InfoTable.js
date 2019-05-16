@@ -78,7 +78,7 @@ InfoTable.propTypes = {
 }
 
 InfoTable.defaultProps = {
-  columnsWidth: [0.3, 0.7]
+  columnsWidth: [0.35, 0.65]
 }
 
 export default InfoTable
