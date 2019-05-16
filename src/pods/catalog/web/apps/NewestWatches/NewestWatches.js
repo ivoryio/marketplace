@@ -23,26 +23,27 @@ const NewestWatches = () => {
   })
 
   useEffect(() => {
-    const fetchWatches = async () => {
-      try {
-        const response = await api.getNewestProducts()
-        if (response.status === 200) {
-          setNewestWatches({ data: response.data, isFetching: false })
-        } else {
-          setNewestWatches({
-            ...watches,
-            isFetching: false,
-            error: '* Error caught while retrieving newest watches'
-          })
-        }
-      } catch (error) {
-        console.error('Error caught while fetching the newest watches:', error)
-        setNewestWatches({ data: [], isFetching: false, error })
-      }
-    }
-
     fetchWatches()
-  }, [watches])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const fetchWatches = async () => {
+    try {
+      const response = await api.getNewestProducts()
+      if (response.status === 200) {
+        setNewestWatches({ data: response.data, isFetching: false })
+      } else {
+        setNewestWatches({
+          ...watches,
+          isFetching: false,
+          error: '* Error caught while retrieving newest watches'
+        })
+      }
+    } catch (error) {
+      console.error('Error caught while fetching the newest watches:', error)
+      setNewestWatches({ data: [], isFetching: false, error })
+    }
+  }
 
   const { data: { items }, isFetching } = watches
   return (
@@ -111,23 +112,23 @@ const NewestWatches = () => {
                 size='32px'
               />
             ) : (
-              items.map(({ id, brand, model, description, imgSrc }) => (
-                <Space key={id} px={{ xs: 2, lg: 3 }}>
-                  <Box>
-                    <CardWatch
-                      animated={isFetching}
-                      buttonLabel='View Details'
-                      title={`${brand} ${model}`}
-                      type='newest'
-                      description={description}
-                      imgSrc={imgSrc}
-                      imgHeight='140px'
-                      onClick={() => {}}
-                    />
-                  </Box>
-                </Space>
-              ))
-            )}
+                items.map(({ id, brand, model, description, imgSrc }) => (
+                  <Space key={id} px={{ xs: 2, lg: 3 }}>
+                    <Box>
+                      <CardWatch
+                        animated={isFetching}
+                        buttonLabel='View Details'
+                        title={`${brand} ${model}`}
+                        type='newest'
+                        description={description}
+                        imgSrc={imgSrc}
+                        imgHeight='140px'
+                        onClick={() => { }}
+                      />
+                    </Box>
+                  </Space>
+                ))
+              )}
           </StyledCarousel>
         </Flex>
       </Space>

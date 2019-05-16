@@ -33,7 +33,8 @@ const WatchCatalogEntry = () => {
     } else {
       setWatchDetails({...watchDetails, isFetching: true})
     }
-  }, [activeWatchId, watchDetails])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeWatchId])
 
   return (
     <Provider>
