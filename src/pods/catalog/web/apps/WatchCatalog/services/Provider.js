@@ -104,7 +104,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     setResultsPerPage,
     sortType,
     setSortType,
-    searchTerm,
+    searchTerm: activeFilters.query,
     isFetching,
     filters,
     slicedWatches
