@@ -22,18 +22,17 @@ const WatchCatalogEntry = () => {
           const { data } = response
           setWatchDetails({ data, isFetching: false, error: null })
         } else {
-          setWatchDetails({ ...watchDetails, isFetching: false, error: response.error })
+          setWatchDetails( prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: response.error }))
         }
       } catch (err) {
-        setWatchDetails({ watchDetails, isFetching: false, error: err })
+        setWatchDetails( prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: err }))
       }
     }
     if (activeWatchId) {
       _fetchWatchDetails(activeWatchId)
     } else {
-      setWatchDetails({...watchDetails, isFetching: true})
+      setWatchDetails( prevWatchDetails => ({...prevWatchDetails, isFetching: true}))
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWatchId])
 
   return (

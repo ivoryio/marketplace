@@ -23,27 +23,21 @@ const NewestWatches = () => {
   })
 
   useEffect(() => {
-    fetchWatches()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchWatches = async () => {
-    try {
-      const response = await api.getNewestProducts()
-      if (response.status === 200) {
-        setNewestWatches({ data: response.data, isFetching: false })
-      } else {
-        setNewestWatches({
-          ...watches,
-          isFetching: false,
-          error: '* Error caught while retrieving newest watches'
-        })
+    const fetchWatches = async () => {
+      try {
+        const response = await api.getNewestProducts()
+        if (response.status === 200) {
+          setNewestWatches({ data: response.data, isFetching: false })
+        } else {
+          setNewestWatches( prevWatches => ({...prevWatches, isFetching: false, error: '* Error caught while retrieving newest watches'}))
+        }
+      } catch (error) {
+        console.error('Error caught while fetching the newest watches:', error)
+        setNewestWatches({ data: [], isFetching: false, error })
       }
-    } catch (error) {
-      console.error('Error caught while fetching the newest watches:', error)
-      setNewestWatches({ data: [], isFetching: false, error })
     }
-  }
+    fetchWatches()
+  }, [])
 
   const { data: { items }, isFetching } = watches
   return (
