@@ -39,7 +39,7 @@ const WatchDetails = () => {
 
   return (
     <Flex flexDirection='column' alignItems='center'>
-      <Flex width={1}>
+      <Flex width={{ xs: 1, lg: 2 / 3}}>
         <Space ml={{ xs: 1, md: 2, lg: 4 }} mt={{ xs: 2, md: 3, lg: 4 }}>
           <BackButton onClick={goBack} />
         </Space>
