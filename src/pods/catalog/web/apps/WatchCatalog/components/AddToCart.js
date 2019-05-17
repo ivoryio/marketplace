@@ -150,9 +150,6 @@ const QuantityWrapper = styled(Flex)`
 `
 const QuantityModifierWrapper = styled(Flex)`
   border: ${themeGet('borders.1')}${themeGet('colors.gunmetal')};
-  & :disabled {
-    border: ${themeGet('borders.1')}${themeGet('colors.pastel-blue')};
-  }
 `
 const WebScrollingItem = styled(Flex)`
   border-top: ${themeGet('borders.1')} ${themeGet('colors.brand-disabled')};
