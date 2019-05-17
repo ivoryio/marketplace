@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Button, Flex, Hide, Icon, Input, Space, Touchable } from '@ivoryio/kogaio'
 
-const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
+import { initialActiveFilters } from '../services/constants'
+
+const SearchBox = ({ initialValue, searchWatches, setActiveFilters, ...rest }) => {
   const [searchValue, setSearchValue] = useState(initialValue)
 
   const updateSearchValue = ev => {
@@ -10,6 +12,15 @@ const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
     ev.preventDefault()
     setSearchValue(value)
   }
+
+  const handleSearch = () => {
+    setActiveFilters({
+      ...initialActiveFilters,
+      query: searchValue
+    })
+    searchWatches(searchValue)
+  }
+
   return (
     <Space px={{ xs: 4, lg: 378 }}>
       <Flex
@@ -32,7 +43,7 @@ const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
           <Touchable
             activeOpacity={.75}
             effect='opacity'
-            onClick={searchWatches(searchValue)}
+            onClick={handleSearch}
           >
             <Flex
               width='36px'
@@ -49,7 +60,7 @@ const SearchBox = ({ initialValue, searchWatches, ...rest }) => {
           <Button
             width={1 / 5}
             fontSize={0}
-            onClick={searchWatches(searchValue)}
+            onClick={handleSearch}
             title='Search' />
         </Hide>
       </Flex>

@@ -25,7 +25,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   })
 
   useEffect(() => {
-    _search(searchTerm)
+    search(searchTerm)
     return () => {
       _resetSearchResults()
     }
@@ -43,7 +43,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   useEffect(() => {
     setResults({...results, isFetching: true})
     const searchTerm = composeSearchTerm(activeFilters)
-    _search(searchTerm)
+    search(searchTerm)
     setCurrentPage(1)
   }, [activeFilters])
 
@@ -62,7 +62,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     })
   }
 
-  const _search = async (searchTerm) => {
+  const search = async (searchTerm) => {
     try {
       const response = await api.getSearchResults(searchTerm)
       if (isResponseOk(response.status)) {
@@ -78,14 +78,6 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   }
 
   const _resetSearchResults = () => setResults(initialSearchResults)
-
-  const handleSearch = searchTerm => () => {
-    setActiveFilters({
-      ...initialActiveFilters,
-      query: searchTerm
-    })
-    _search(searchTerm)
-  }
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
   const slicedWatches = makeSlices(results.data.items, Number(resultsPerPage))
@@ -115,7 +107,8 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
   >
     <SearchBox
       initialValue={searchTerm}
-      searchWatches={handleSearch}
+      searchWatches={search}
+      setActiveFilters={setActiveFilters}
     />
     {children}
   </DataContext.Provider>
