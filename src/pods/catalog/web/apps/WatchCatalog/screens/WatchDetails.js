@@ -48,7 +48,7 @@ const WatchDetails = () => {
         <Flex flexWrap='wrap' width={{ xs: 1, lg: 2 / 3 }}>
           <Flex flexWrap='wrap' width={{ xs: 1, lg: 6 / 10 }}>
             <Gallery imgList={imgList} />
-            <Hide lg>
+            <Hide lg xlg>
               <Space px={4} mt={6}>
                 <ProductSpecificationsMobile width={1} />
               </Space>
