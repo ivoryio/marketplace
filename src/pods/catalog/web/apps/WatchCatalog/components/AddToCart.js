@@ -74,7 +74,7 @@ const AddToCart = ({ ...props }) => {
                   <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
                     <Touchable
                       width={3 / 10}
-                      effect='highlight'
+                      effect={ quantity === 1 ? 'no-feedback' : 'highlight'}
                       onClick={_decrementQuantity}
                     >
                       <QuantityModifierWrapper
@@ -82,7 +82,7 @@ const AddToCart = ({ ...props }) => {
                         justifyContent='center'
                         height='36px'
                       >
-                        <Typography>-</Typography>
+                        <Typography fontSize={1} color={ quantity === 1 ? 'brand-disabled' : 'gunmetal'}>-</Typography>
                       </QuantityModifierWrapper>
                     </Touchable>
                     <QuantityWrapper
@@ -103,7 +103,7 @@ const AddToCart = ({ ...props }) => {
                         alignItems='center'
                         justifyContent='center'
                       >
-                        <Typography>+</Typography>
+                        <Typography color='gunmetal' fontSize={1}>+</Typography>
                       </QuantityModifierWrapper>
                     </Touchable>
                   </Flex>
@@ -150,6 +150,9 @@ const QuantityWrapper = styled(Flex)`
 `
 const QuantityModifierWrapper = styled(Flex)`
   border: ${themeGet('borders.1')}${themeGet('colors.gunmetal')};
+  & :disabled {
+    border: ${themeGet('borders.1')}${themeGet('colors.pastel-blue')};
+  }
 `
 const WebScrollingItem = styled(Flex)`
   border-top: ${themeGet('borders.1')} ${themeGet('colors.brand-disabled')};
