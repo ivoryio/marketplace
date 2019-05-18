@@ -19,8 +19,8 @@ const TablesOnMobile = ({ options, ...props }) => (
   </Flex>
 )
 
-  TablesOnMobile.propTypes = {
-    options: PropTypes.object
-  }
+TablesOnMobile.propTypes = {
+  options: PropTypes.object
+}
 
-  export default TablesOnMobile
+export default TablesOnMobile

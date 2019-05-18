@@ -15,7 +15,7 @@ import { capitalizeFirstChar } from '../services/helpers'
 const ProductSpecificationsMobile = ({ ...props }) => {
   const [activeSection, setActiveSection] = useState('details')
   const { watchDetails: { data: { listingNumber, referenceNumber, brand, model, movement, year, gender, caliber, case: watchCase, strap, description } } } = useContext(NavigationContext)
-  
+
   const infoSectionData = {
     listingNumber,
     referenceNumber,
@@ -55,9 +55,9 @@ const ProductSpecificationsMobile = ({ ...props }) => {
       <Space mt={{ xs: 4, md: 5 }}>
         {activeSection.includes('details')
           ? <Typography lineHeight={2} color='gunmetal' fontSize={2} fontWeight={0}>{description}</Typography>
-            : tableKeys.map(keyAsName => {
-              const name = keyAsName.includes('watchCase') ? 'Case' : capitalizeFirstChar(keyAsName)
-              return (
+          : tableKeys.map(keyAsName => {
+            const name = keyAsName.includes('watchCase') ? 'Case' : capitalizeFirstChar(keyAsName)
+            return (
               <Fragment key={`${keyAsName}-table`}>
                 <Space mt={4}>
                   <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{name}</Typography>
@@ -66,7 +66,8 @@ const ProductSpecificationsMobile = ({ ...props }) => {
                   <TablesOnMobile options={tableData[keyAsName]} />
                 </Space>
               </Fragment>
-            )})
+            )
+          })
         }
       </Space>
     </Flex>

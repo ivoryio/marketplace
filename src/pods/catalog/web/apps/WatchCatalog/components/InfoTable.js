@@ -13,6 +13,7 @@ const InfoTable = ({ columnsWidth, options, ...props }) => {
   if (!options) {
     return null
   }
+
   const optionsKeys = Object.keys(options)
   const optionsValues = Object.values(options)
   return (

@@ -33,15 +33,15 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
 
   useEffect(() => {
     setCurrentPage(1)
-  },[resultsPerPage])
+  }, [resultsPerPage])
 
   useEffect(() => {
     const sortedItems = sortWatches(sortType, results.data.items)
-    setResults({...results, data: { ...results.data, items: sortedItems }})
+    setResults({ ...results, data: { ...results.data, items: sortedItems } })
   }, [sortType])
 
   useEffect(() => {
-    setResults({...results, isFetching: true})
+    setResults({ ...results, isFetching: true })
     const searchTerm = composeSearchTerm(activeFilters)
     search(searchTerm)
     setCurrentPage(1)
@@ -68,7 +68,7 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
       if (isResponseOk(response.status)) {
         const { data } = response
         const sortedItems = sortWatches(sortType, data.items)
-        setResults({ data: {...data, items: sortedItems}, isFetching: false, error: null })
+        setResults({ data: { ...data, items: sortedItems }, isFetching: false, error: null })
       } else {
         setResults({ ...results, isFetching: false, error: response.error })
       }
@@ -102,17 +102,17 @@ const Provider = ({ children, regionData: { searchTerm } }) => {
     slicedWatches
   }
   return (
-  <DataContext.Provider
-    value={data}
-  >
-    <SearchBox
-      initialValue={searchTerm}
-      searchWatches={search}
-      setActiveFilters={setActiveFilters}
-    />
-    {children}
-  </DataContext.Provider>
-)
+    <DataContext.Provider
+      value={data}
+    >
+      <SearchBox
+        initialValue={searchTerm}
+        searchWatches={search}
+        setActiveFilters={setActiveFilters}
+      />
+      {children}
+    </DataContext.Provider>
+  )
 }
 
 const ObservedProvider = observe((app, props$) => {

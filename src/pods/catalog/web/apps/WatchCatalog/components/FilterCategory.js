@@ -13,22 +13,22 @@ const FilterCategory = ({
 }) => {
   const { addFilter, removeFilter } = useContext(DataContext)
   return (
-      <Collapsible
-        width={1}
-        title={capitalizeFirstChar(name)}
-        {...props}
-      >
-        {options
-          ? options.map(filter => (
-              <FilterOption
-                key={`filter-${filter}`}
-                addFilter={addFilter(name)}
-                removeFilter={removeFilter(name)}
-                title={filter}
-              />
-            )) : null
-          }
-      </Collapsible>
+    <Collapsible
+      width={1}
+      title={capitalizeFirstChar(name)}
+      {...props}
+    >
+      {options
+        ? options.map(filter => (
+          <FilterOption
+            key={`filter-${filter}`}
+            addFilter={addFilter(name)}
+            removeFilter={removeFilter(name)}
+            title={filter}
+          />
+        )) : null
+      }
+    </Collapsible>
   )
 }
 

@@ -22,20 +22,20 @@ const WatchCatalogEntry = () => {
           const { data } = response
           setWatchDetails({ data, isFetching: false, error: null })
         } else {
-          setWatchDetails( prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: response.error }))
+          setWatchDetails(prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: response.error }))
         }
       } catch (err) {
-        setWatchDetails( prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: err }))
+        setWatchDetails(prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: err }))
       }
     }
-  
-    activeWatchId ? _fetchWatchDetails(activeWatchId) : setWatchDetails( prevWatchDetails => ({...prevWatchDetails, isFetching: true}))
+
+    activeWatchId ? _fetchWatchDetails(activeWatchId) : setWatchDetails(prevWatchDetails => ({ ...prevWatchDetails, isFetching: true }))
   }, [activeWatchId])
 
   return (
     <Provider>
       <NavigationContext.Provider
-        value={{currentScreen, navigateTo, activeWatchId, setActiveWatchId, watchDetails}}
+        value={{ currentScreen, navigateTo, activeWatchId, setActiveWatchId, watchDetails }}
       >
         <WatchList />
         <WatchDetails />

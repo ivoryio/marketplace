@@ -5,9 +5,9 @@ import { NavigationContext } from '../WatchCatalogEntry'
 import { InfoTable } from '.'
 import { capitalizeFirstChar } from '../services/helpers'
 
-const ProductSpecificationsWeb =  props => {
+const ProductSpecificationsWeb = props => {
   const { watchDetails: { data: { listingNumber, referenceNumber, brand, model, movement, year, gender, caliber, case: watchCase, strap, description } } } = useContext(NavigationContext)
-  
+
   const infoSectionData = {
     listingNumber,
     referenceNumber,
@@ -19,6 +19,7 @@ const ProductSpecificationsWeb =  props => {
     year,
     gender
   }
+
   const tableData = {
     info: infoSectionData,
     caliber,
@@ -27,7 +28,7 @@ const ProductSpecificationsWeb =  props => {
   }
 
   const tableKeys = Object.keys(tableData)
-  
+
   return (
     <Flex flexDirection='column' {...props}>
       <Typography id='details' color='gunmetal' fontSize={3} fontWeight={0}>Details</Typography>
@@ -41,15 +42,16 @@ const ProductSpecificationsWeb =  props => {
         tableKeys.map(keyAsName => {
           const name = keyAsName.includes('watchCase') ? 'Case' : capitalizeFirstChar(keyAsName)
           return (
-          <Fragment key={`${keyAsName}-table`}>
-            <Space mt={4}>
-              <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{name}</Typography>
-            </Space>
-            <Space mt={2}>
-              <InfoTable options={tableData[keyAsName]} />
-            </Space>
-          </Fragment>  
-        )})
+            <Fragment key={`${keyAsName}-table`}>
+              <Space mt={4}>
+                <Typography color='pastel-blue' fontSize={0} fontWeight={2}>{name}</Typography>
+              </Space>
+              <Space mt={2}>
+                <InfoTable options={tableData[keyAsName]} />
+              </Space>
+            </Fragment>
+          )
+        })
       }
     </Flex>
   )

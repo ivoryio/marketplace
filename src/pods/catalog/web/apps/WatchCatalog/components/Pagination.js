@@ -7,7 +7,7 @@ import { DataContext } from '../services/Provider'
 
 const Pagination = ({ maxPages }) => {
   const { currentPage, setCurrentPage } = useContext(DataContext)
-  
+
   const _decrement = ev => {
     if (currentPage === 1) {
       return ev.preventDefault()
@@ -17,7 +17,7 @@ const Pagination = ({ maxPages }) => {
 
   const _jump = direction => ev => {
     const HOPPER = 10
-    if (direction ==='back') {
+    if (direction === 'back') {
       if (currentPage - HOPPER < 1) {
         return setCurrentPage(1)
       }
@@ -76,35 +76,35 @@ const Pagination = ({ maxPages }) => {
       </SquaredBox>
       {
         maxPages !== 1 ?
-      <SquaredBox
-        bg={currentPage === 2 && maxPages === 2 ? 'green' : 'transparent'}
-        onClick={!isOneOfLastTwo || maxPages === 2 ? _increment : _jumpToPage(maxPages - 2)}
-      >
-        <Typography color='pastel-blue' fontSize={1}>
-          {_pickContentOfSecondBox()}
-        </Typography>
-      </SquaredBox> : null
+          <SquaredBox
+            bg={currentPage === 2 && maxPages === 2 ? 'green' : 'transparent'}
+            onClick={!isOneOfLastTwo || maxPages === 2 ? _increment : _jumpToPage(maxPages - 2)}
+          >
+            <Typography color='pastel-blue' fontSize={1}>
+              {_pickContentOfSecondBox()}
+            </Typography>
+          </SquaredBox> : null
       }
       {
         !isMaxPagesOneOrTwo
-        ? <>
-          <SquaredBox
-        bg={ currentPage === maxPages - 1 ? 'green' : 'transparent'}
-        onClick={ !isOneOfLastTwo ? _jump('forward') : _decrement}
-      >
-        <Typography color='pastel-blue' fontSize={1}>
-          { !isOneOfLastTwo ? '...' : maxPages - 1 }
-        </Typography>
-      </SquaredBox>
-      <SquaredBox
-        bg={ currentPage === maxPages ? 'green' : 'transparent'}
-        onClick={_jumpToPage(maxPages)}
-      >
-        <Typography color='pastel-blue' fontSize={1}>
-          {maxPages}
-        </Typography>
-      </SquaredBox>
-        </> : null
+          ? <>
+            <SquaredBox
+              bg={currentPage === maxPages - 1 ? 'green' : 'transparent'}
+              onClick={!isOneOfLastTwo ? _jump('forward') : _decrement}
+            >
+              <Typography color='pastel-blue' fontSize={1}>
+                {!isOneOfLastTwo ? '...' : maxPages - 1}
+              </Typography>
+            </SquaredBox>
+            <SquaredBox
+              bg={currentPage === maxPages ? 'green' : 'transparent'}
+              onClick={_jumpToPage(maxPages)}
+            >
+              <Typography color='pastel-blue' fontSize={1}>
+                {maxPages}
+              </Typography>
+            </SquaredBox>
+          </> : null
       }
       <SquaredBox onClick={_increment}>
         <Icon color='pastel-blue' fontSize={1} name='arrow_forward' />
