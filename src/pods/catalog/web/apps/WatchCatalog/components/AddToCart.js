@@ -14,8 +14,7 @@ const AddToCart = ({ ...props }) => {
       brand,
       model,
       price
-    }
-  } } = useContext(NavigationContext)
+    } } } = useContext(NavigationContext)
 
   const _decrementQuantity = () => {
     if (quantity !== 1) {
@@ -23,41 +22,42 @@ const AddToCart = ({ ...props }) => {
     }
   }
 
-  const scrollTo = elementId => () => {
-    const element = document.getElementById(elementId)
-    element.scrollIntoView({ behavior: "smooth" })
+  const scrollTo = targetId => () => {
+    const target = document.getElementById(targetId)
+    target.scrollIntoView({ behavior: "smooth" })
   }
 
-  const anchors = [{ title: 'Details', scrollingId: 'details' }, { title: 'Info & Stats', scrollingId: 'info&stats' }]
+  const anchors = [{ title: 'Details', targetId: 'details' }, { title: 'Info & Stats', targetId: 'info-stats' }]
   const formattedPrice = `$${formatPrice(Number(price))}`
   return (
-    <Space bottom={0}>
-      <Box
-        width={{ xs: 1, lg: 4 / 10 }}
-        position={{ xs: 'sticky', lg: 'block' }}
-        {...props}
-      >
-        <Space pt={4} pb={{ xs: 4, lg: 0 }} top={0}>
-          <Card
-            zIndex={2}
-            width={1}
-            position={{ xs: 'block', lg: 'sticky' }}
-            bg='white'
-            boxShadow='card-simple'
-            display='flex'
-            justifyContent='center'
-          >
+    <Box
+      bottom={0}
+      width={{ xs: 1, lg: 2 / 5 }}
+      position={{ xs: 'sticky', lg: 'block' }}
+      {...props}
+    >
+      <Space pt={4} pb={{ xs: 4, lg: 0 }}>
+        <Card
+          top={0}
+          zIndex={2}
+          width={1}
+          position={{ xs: 'block', lg: 'sticky' }}
+          bg='white'
+          boxShadow='card-simple'
+        >
+          <Space mx='auto'>
             <Flex
               flexDirection='column'
               width={{ xs: 1, md: 7 / 10, lg: 1 }}
             >
               <Space px={{ xs: 6, md: 0, lg: 4 }}>
-                <WatchTitle
+                <Typography
                   color='gunmetal'
                   fontSize={4}
+                  truncate
                 >
                   {brand} {model}
-                </WatchTitle>
+                </Typography>
               </Space>
               <Space mt={6} px={{ xs: 6, md: 0, lg: 6 }}>
                 <Flex
@@ -71,10 +71,10 @@ const AddToCart = ({ ...props }) => {
                   >
                     {formattedPrice}
                   </Typography>
-                  <Flex width={{ xs: 4 / 10, md: 1 / 4, lg: 4 / 10 }}>
+                  <Flex width={{ xs: 2 / 5, md: 1 / 4, lg: 2 / 5 }}>
                     <Touchable
                       width={3 / 10}
-                      effect={ quantity === 1 ? 'no-feedback' : 'highlight'}
+                      effect={quantity === 1 ? 'no-feedback' : 'highlight'}
                       onClick={_decrementQuantity}
                     >
                       <QuantityModifierWrapper
@@ -82,13 +82,13 @@ const AddToCart = ({ ...props }) => {
                         justifyContent='center'
                         height='36px'
                       >
-                        <Typography fontSize={1} color={ quantity === 1 ? 'brand-disabled' : 'gunmetal'}>-</Typography>
+                        <Typography fontSize={1} color={quantity === 1 ? 'brand-disabled' : 'gunmetal'}>-</Typography>
                       </QuantityModifierWrapper>
                     </Touchable>
                     <QuantityWrapper
                       alignItems='center'
                       justifyContent='center'
-                      width={4 / 10}
+                      width={2 / 5}
                       height='36px'
                     >
                       {quantity}
@@ -120,9 +120,9 @@ const AddToCart = ({ ...props }) => {
               </Space>
               <Hide xs sm md>
                 {
-                  anchors.map(({ title, scrollingId }, index) => (
-                    <Space key={`anchor-to-${scrollingId}`} mt={index === 0 ? 6 : 0}>
-                      <Touchable effect='opacity' onClick={scrollTo(scrollingId)}>
+                  anchors.map(({ title, targetId }, index) => (
+                    <Space key={`anchor-to-${targetId}`} mt={index === 0 ? 6 : 0}>
+                      <Touchable effect='opacity' onClick={scrollTo(targetId)}>
                         <Space px={6} py={4}>
                           <WebScrollingItem alignItems='center' width={1}>
                             <Typography>{title}</Typography>
@@ -137,10 +137,10 @@ const AddToCart = ({ ...props }) => {
                 }
               </Hide>
             </Flex>
-          </Card>
-        </Space>
-      </Box>
-    </Space>
+          </Space>
+        </Card>
+      </Space>
+    </Box>
   )
 }
 
@@ -153,12 +153,6 @@ const QuantityModifierWrapper = styled(Flex)`
 `
 const WebScrollingItem = styled(Flex)`
   border-top: ${themeGet('borders.1')} ${themeGet('colors.brand-disabled')};
-`
-const WatchTitle = styled(Typography)`
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 `
 
 AddToCart.propTypes = {

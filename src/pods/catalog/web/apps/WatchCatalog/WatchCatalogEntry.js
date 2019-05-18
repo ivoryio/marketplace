@@ -10,7 +10,7 @@ const WatchCatalogEntry = () => {
   const [activeWatchId, setActiveWatchId] = useState('')
   const [watchDetails, setWatchDetails] = useState({ data: {}, isFetching: true, error: null })
   const validScreens = ["watch-list", "watch-details"]
-  const NavigateTo = screenName => {
+  const navigateTo = screenName => {
     validScreens.includes(currentScreen) ? setCurrentScreen(screenName) : console.error(`Invalid screen name, expected one of ${validScreens}`)
   }
 
@@ -28,17 +28,14 @@ const WatchCatalogEntry = () => {
         setWatchDetails( prevWatchDetails => ({ ...prevWatchDetails, isFetching: false, error: err }))
       }
     }
-    if (activeWatchId) {
-      _fetchWatchDetails(activeWatchId)
-    } else {
-      setWatchDetails( prevWatchDetails => ({...prevWatchDetails, isFetching: true}))
-    }
+  
+    activeWatchId ? _fetchWatchDetails(activeWatchId) : setWatchDetails( prevWatchDetails => ({...prevWatchDetails, isFetching: true}))
   }, [activeWatchId])
 
   return (
     <Provider>
       <NavigationContext.Provider
-        value={{currentScreen, NavigateTo, activeWatchId, setActiveWatchId, watchDetails}}
+        value={{currentScreen, navigateTo, activeWatchId, setActiveWatchId, watchDetails}}
       >
         <WatchList />
         <WatchDetails />

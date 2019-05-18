@@ -96,8 +96,7 @@ const SpotlightWatches = () => {
 
   useEffect(() => {
     fetchWatches()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchWatches])
 
   const fetchWatches = async () => {
     try {

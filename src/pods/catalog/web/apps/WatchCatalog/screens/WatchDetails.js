@@ -9,7 +9,7 @@ import { AddToCart, Gallery, BackButton, ProductSpecificationsMobile, ProductSpe
 const WatchDetails = () => {
   const {
     currentScreen,
-    NavigateTo,
+    navigateTo,
     setActiveWatchId,
     watchDetails: {
       data: {
@@ -21,7 +21,7 @@ const WatchDetails = () => {
 
   const goBack = () => {
     setActiveWatchId('')
-    NavigateTo('watch-list')
+    navigateTo('watch-list')
   }
 
   if (!currentScreen.includes('watch-details')) {
@@ -46,7 +46,7 @@ const WatchDetails = () => {
       </Flex>
       <Space mt={{ xs: 4, lg: 5 }}>
         <Flex flexWrap='wrap' width={{ xs: 1, lg: 2 / 3 }}>
-          <Flex flexWrap='wrap' width={{ xs: 1, lg: 6 / 10 }}>
+          <Flex flexWrap='wrap' width={{ xs: 1, lg: 3 / 5 }}>
             <Gallery imgList={imgList} />
             <Hide lg xlg>
               <Space px={4} mt={6}>

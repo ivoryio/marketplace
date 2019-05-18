@@ -12,10 +12,10 @@ import {
 import { NavigationContext } from '../WatchCatalogEntry'
 
 const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
-  const { NavigateTo, setActiveWatchId } = useContext(NavigationContext)
+  const { navigateTo, setActiveWatchId } = useContext(NavigationContext)
   const handleCardClick = () => {
     setActiveWatchId(id)
-    NavigateTo('watch-details')
+    navigateTo('watch-details')
   }
 
   return (

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import {
+  Box,
   Typography,
   themeGet,
   Space
@@ -22,23 +23,27 @@ const InfoTable = ({ columnsWidth, options, ...props }) => {
           return (
             <Fragment key={`table-row-${name}`}>
               <Space pl={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionName
-                  color='gunmetal'
-                  fontSize={1}
-                  fontWeight={1}
-                >
-                  {specificationName}
+                <OptionName>
+                  <Typography
+                    color='gunmetal'
+                    fontSize={1}
+                    fontWeight={1}
+                  >
+                    {specificationName}
+                  </Typography>
                 </OptionName>
               </Space>
               <Space pr={{ xs: 2, md: 5, lg: 4 }} py={3}>
-                <OptionValue
-                  textAlign='right'
-                  alignItems='center'
-                  color='gunmetal'
-                  fontSize={1}
-                  fontWeight={0}
-                >
-                  {optionsValues[index]}
+                <OptionValue>
+                  <Typography
+                    textAlign='right'
+                    alignItems='center'
+                    color='gunmetal'
+                    fontSize={1}
+                    fontWeight={0}
+                  >
+                    {optionsValues[index]}
+                  </Typography>
                 </OptionValue>
               </Space>
             </Fragment>
@@ -54,20 +59,20 @@ const Table = styled.div`
   display: grid;
   grid-template-columns: ${props => `${props.columnsWidth[0]}fr ${props.columnsWidth[1]}fr`};
   grid-gap: 0;
-  & :last-child {
+  & ${Box}:last-child {
     border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   }
-  & :nth-last-child(2) {
+  & ${Box}:nth-last-child(2) {
     border-block-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   }
 `
-const OptionName = styled(Typography)`
+const OptionName = styled(Box)`
   background: ${themeGet('colors.ghost-white')};
   border-inline-start: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   border-block-start: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   border-inline-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
 `
-const OptionValue = styled(Typography)`
+const OptionValue = styled(Box)`
   border-block-start: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
   border-inline-end: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
 `
