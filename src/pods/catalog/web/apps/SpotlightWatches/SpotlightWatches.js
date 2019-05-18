@@ -95,32 +95,31 @@ const SpotlightWatches = () => {
   })
 
   useEffect(() => {
-    fetchWatches()
-  }, [fetchWatches])
-
-  const fetchWatches = async () => {
-    try {
-      const response = await api.getSpotlightWatches()
-      if (response.status === 200) {
-        const groups = groupCards(response.data.items)
-        const slides = mapGroupsToSlides(groups)
-        setSpotlightWatches({ data: slides, isFetching: false })
-      } else {
-        setSpotlightWatches({
-          ...watches,
+    const fetchWatches = async () => {
+      try {
+        const response = await api.getSpotlightWatches()
+        if (response.status === 200) {
+          const groups = groupCards(response.data.items)
+          const slides = mapGroupsToSlides(groups)
+          setSpotlightWatches({ data: slides, isFetching: false })
+        } else {
+          setSpotlightWatches(prevWatches => ({
+            ...prevWatches,
+            isFetching: false,
+            error: '* Failed to get spotlight watches'
+          }))
+        }
+      } catch (error) {
+        setSpotlightWatches(prevWatches => ({
+          ...prevWatches,
           isFetching: false,
           error: '* Failed to get spotlight watches'
-        })
+        }))
+        console.error('* Error caught while fetching spotlight watches.', error)
       }
-    } catch (error) {
-      setSpotlightWatches({
-        ...watches,
-        isFetching: false,
-        error: '* Failed to get spotlight watches'
-      })
-      console.error('* Error caught while fetching spotlight watches.', error)
     }
-  }
+    fetchWatches()
+  }, [])
 
   const { data, isFetching } = watches
   return (
