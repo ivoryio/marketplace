@@ -1,10 +1,24 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, Flex, Hide, Icon, Input, Space, Touchable } from '@ivoryio/kogaio'
+import {
+  Box,
+  Button,
+  Flex,
+  Hide,
+  Icon,
+  Input,
+  Space,
+  Touchable
+} from '@ivoryio/kogaio'
 
 import { initialActiveFilters } from '../services/constants'
 
-const SearchBox = ({ initialValue, searchWatches, setActiveFilters, ...rest }) => {
+const SearchBox = ({
+  initialValue,
+  searchWatches,
+  setActiveFilters,
+  ...rest
+}) => {
   const [searchValue, setSearchValue] = useState(initialValue)
 
   const updateSearchValue = ev => {
@@ -41,17 +55,15 @@ const SearchBox = ({ initialValue, searchWatches, setActiveFilters, ...rest }) =
         </Space>
         <Hide lg xlg>
           <Touchable
-            activeOpacity={.75}
+            activeOpacity={0.75}
             effect='opacity'
-            onClick={handleSearch}
-          >
+            onClick={handleSearch}>
             <Flex
               width='36px'
               height='36px'
               bg='brand'
               alignItems='center'
-              justifyContent='center'
-            >
+              justifyContent='center'>
               <Icon color='white' fontSize={3} name='search' />
             </Flex>
           </Touchable>
@@ -61,7 +73,8 @@ const SearchBox = ({ initialValue, searchWatches, setActiveFilters, ...rest }) =
             width={1 / 5}
             fontSize={0}
             onClick={handleSearch}
-            title='Search' />
+            title='Search'
+          />
         </Hide>
       </Flex>
     </Space>
@@ -70,7 +83,8 @@ const SearchBox = ({ initialValue, searchWatches, setActiveFilters, ...rest }) =
 
 SearchBox.propTypes = {
   initialValue: PropTypes.string,
-  searchWatches: PropTypes.func
+  searchWatches: PropTypes.func,
+  setActiveFilters: PropTypes.func
 }
 
 export default SearchBox

@@ -47,7 +47,8 @@ const Header = ({ transitionToState, user }) => (
 
 const NavButton = ({ icName, label, onClick }) => (
   <Space px={4}>
-    <Touchable effect='opacity' onClick={onClick}>
+  {/* // TODO: Enable at your earliest convenience */}
+    <Touchable effect='opacity' onClick={onClick} disabled>
       <Flex alignItems='center'>
         <Icon color='pastel-blue' fontSize={4} name={icName} />
         <Hide xs sm md>

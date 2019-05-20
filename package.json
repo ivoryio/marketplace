@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "node_modules/.bin/eslint ./",
+    "lint": "eslint .",
     "test:unit": "react-scripts test",
     "test:e2e": "./node_modules/.bin/cypress run",
     "eject": "react-scripts eject"
