@@ -8,7 +8,6 @@ import { isResponseOk } from '../../../services/helpers'
 import { SearchBox } from '../components'
 import {
   filters,
-  sortOptions,
   initialActiveFilters,
   initialSearchResults,
   itemsPerPageOptions
@@ -22,16 +21,19 @@ import {
 
 export const DataContext = createContext()
 
-const Provider = ({ children, regionData: { filter, searchTerm, sortRule = sortOptions[0].name, source } }) => {
+const Provider = ({
+  children,
+  regionData: { filter, searchTerm, sortRule, source }
+}) => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [sortType, setSortType] = useState(sortRule || '')
   const [activeFilters, setActiveFilters] = useState({
     ...initialActiveFilters,
     query: searchTerm
   })
-  const [sortType, setSortType] = useState(sortRule)
   const [resultsPerPage, setResultsPerPage] = useState(
     itemsPerPageOptions[0].name
   )
-  const [currentPage, setCurrentPage] = useState(1)
   const [results, setResults] = useState({
     ...initialSearchResults,
     isFetching: true
@@ -40,18 +42,14 @@ const Provider = ({ children, regionData: { filter, searchTerm, sortRule = sortO
   useEffect(() => {
     setActiveFilters(prevActive => ({ ...prevActive, query: searchTerm }))
   }, [searchTerm])
-  useEffect(() => { setSortType(sortRule) }, [sortRule])
 
   const _storeData = useCallback(data => {
-    const { items } = data
-    const sortedItems = sortWatches(sortType, items)
-
     setResults({
-      data: { ...data, items: sortedItems },
+      data,
       isFetching: false,
       error: null
     })
-  }, [sortType])
+  }, [])
 
   const _storeError = error => {
     setResults(results => ({
@@ -61,28 +59,40 @@ const Provider = ({ children, regionData: { filter, searchTerm, sortRule = sortO
     }))
   }
 
+  useEffect(() => {
+    setResults(prevResults => ({
+      ...prevResults,
+      data: {
+        ...prevResults.data,
+        items: sortWatches(sortType, prevResults.data.items)
+      }
+    }))
+  }, [sortType])
+
   const search = useCallback(
     async searchTerm => {
-      try {
-        const response = await api.getSearchResults(searchTerm)
-        if (isResponseOk(response.status)) {
-          const { data } = response
-          _storeData(data)
-        } else {
-          _storeError(response.error)
+      if (!filter) {
+        try {
+          setCurrentPage(1)
+          const term = composeSearchTerm(activeFilters)
+          const response = await api.getSearchResults(term)
+          if (isResponseOk(response.status)) {
+            const { data } = response
+            _storeData(data)
+          } else {
+            _storeError(response.error)
+          }
+        } catch (err) {
+          _storeError(err)
         }
-      } catch (err) {
-        _storeError(err)
       }
     },
-    [_storeData]
+    [_storeData, activeFilters, filter]
   )
 
   useEffect(() => {
-    if (filter) {
-      if (filter === 'spotlight') {
-        fetchSpotlightWatches()
-      }
+    if (filter && filter === 'spotlight') {
+      fetchSpotlightWatches()
     }
     async function fetchSpotlightWatches () {
       try {
@@ -94,7 +104,7 @@ const Provider = ({ children, regionData: { filter, searchTerm, sortRule = sortO
         }
       } catch (err) {
         _storeError(err)
-      } 
+      }
     }
   }, [_storeData, filter])
 
@@ -108,13 +118,6 @@ const Provider = ({ children, regionData: { filter, searchTerm, sortRule = sortO
   useEffect(() => {
     setCurrentPage(1)
   }, [resultsPerPage])
-
-  useEffect(() => {
-    setResults(results => ({ ...results, isFetching: true }))
-    const searchTerm = composeSearchTerm(activeFilters)
-    search(searchTerm)
-    setCurrentPage(1)
-  }, [activeFilters, search])
 
   const addFilter = category => filter => () =>
     setActiveFilters({

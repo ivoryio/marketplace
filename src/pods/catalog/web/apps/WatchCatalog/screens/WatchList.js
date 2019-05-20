@@ -40,8 +40,8 @@ const WatchList = () => {
     Hub.dispatch(
       'TransitionChannel',
       {
-        event: 'goBack',
-        message: `Request to goBack`
+        event: 'escape',
+        message: `Request to go to landing`
       },
       'WatchList'
     )

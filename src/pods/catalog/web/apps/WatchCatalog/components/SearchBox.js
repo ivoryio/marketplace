@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Hub } from '@aws-amplify/core'
 import PropTypes from 'prop-types'
 import {
   Box,
@@ -11,29 +12,27 @@ import {
   Touchable
 } from '@ivoryio/kogaio'
 
-import { initialActiveFilters } from '../services/constants'
-
-const SearchBox = ({
-  initialValue,
-  searchWatches,
-  setActiveFilters,
-  ...rest
-}) => {
+const SearchBox = ({ initialValue, ...rest }) => {
   const [searchValue, setSearchValue] = useState(initialValue)
+  useEffect(() => {
+    setSearchValue(initialValue)
+  }, [initialValue])
 
   const updateSearchValue = ev => {
     const { value } = ev.target
-    ev.preventDefault()
     setSearchValue(value)
   }
 
-  const handleSearch = () => {
-    setActiveFilters({
-      ...initialActiveFilters,
-      query: searchValue
-    })
-    searchWatches(searchValue)
-  }
+  const handleSearch = () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'transition',
+        data: { destination: 'search-results', searchTerm: searchValue },
+        message: `Request to transition to search-results`
+      },
+      'SearchBox'
+    )
 
   return (
     <Space px={{ xs: 4, lg: 378 }}>
@@ -46,7 +45,7 @@ const SearchBox = ({
         <Space pt={6} pb='2px' pr={{ xs: 0, lg: 2 }}>
           <Box width={{ xs: 1, lg: 4 / 5 }}>
             <Input
-              placeholder='Value'
+              placeholder='Search...'
               onChange={updateSearchValue}
               name='search'
               value={searchValue}
@@ -82,9 +81,7 @@ const SearchBox = ({
 }
 
 SearchBox.propTypes = {
-  initialValue: PropTypes.string,
-  searchWatches: PropTypes.func,
-  setActiveFilters: PropTypes.func
+  initialValue: PropTypes.string
 }
 
 export default SearchBox
