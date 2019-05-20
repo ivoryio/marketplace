@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useContext } from 'react'
+import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
 
 import {
@@ -11,7 +12,7 @@ import {
   Typography
 } from '@ivoryio/kogaio'
 
-import { Pagination, FilterSection } from '../components'
+import { BackButton, Pagination, FilterSection } from '../components'
 
 import { DataContext } from '../services/Provider'
 import { NavigationContext } from '../WatchCatalogEntry'
@@ -35,6 +36,16 @@ const WatchList = () => {
   const { currentScreen } = useContext(NavigationContext)
   const maxPages = slicedWatches.length
 
+  const _goBack = () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'goBack',
+        message: `Request to goBack`
+      },
+      'WatchList'
+    )
+
   if (!currentScreen.includes('watch-list')) {
     return null
   }
@@ -51,6 +62,9 @@ const WatchList = () => {
             mt={{ xs: 4, md: 6, lg: 0 }}
             pl={{ xs: 4, lg: 6 }}
             pr={{ xs: 4, md: 24, lg: 6 }}>
+            <Flex width={1}>
+              <BackButton onClick={_goBack} />
+            </Flex>
             <Typography color='gunmetal' variant='h1'>
               Browsing products {searchTerm ? `for "${searchTerm}"` : null}{' '}
               {itemsCount ? `- ${itemsCount} results` : null}
