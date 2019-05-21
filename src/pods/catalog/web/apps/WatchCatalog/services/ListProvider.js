@@ -12,7 +12,6 @@ import {
   initialSearchResults,
   itemsPerPageOptions
 } from '../services/constants'
-import { SearchBox } from '../components'
 
 export const ListContext = createContext()
 const ListProvider = ({
@@ -149,11 +148,6 @@ const ListProvider = ({
         setSortType,
         sortType
       }}>
-      <SearchBox
-        initialValue={searchTerm}
-        searchWatches={search}
-        setActiveFilters={setActiveFilters}
-      />
       {children}
     </ListContext.Provider>
   )
