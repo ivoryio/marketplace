@@ -13,33 +13,42 @@ import {
 import '@brainhubeu/react-carousel/lib/style.css'
 import { Arrow, CardWatch } from '../../components'
 import api from '../../services/catalog.dataservice'
+import { isResponseOk } from '../../services/helpers'
 
+const INITIAL_STATE = {
+  data: { items: [], itemCount: null },
+  isFetching: true,
+  error: null
+}
 const NewestWatches = () => {
   const [activeElement, setActiveElement] = useState(0)
-  const [watches, setNewestWatches] = useState({
-    data: [],
-    isFetching: true,
-    error: null
-  })
+  const [watches, setNewestWatches] = useState(INITIAL_STATE)
 
   useEffect(() => {
-    const fetchWatches = async () => {
+    fetchNewestWatches()
+    return () => setNewestWatches({ ...INITIAL_STATE, isFetching: false })
+    async function fetchNewestWatches () {
       try {
         const response = await api.getNewestProducts()
-        if (response.status === 200) {
+        if (isResponseOk(response.status)) {
           setNewestWatches({ data: response.data, isFetching: false })
         } else {
-          setNewestWatches( prevWatches => ({...prevWatches, isFetching: false, error: '* Error caught while retrieving newest watches'}))
+          setNewestWatches(prevWatches => ({
+            ...prevWatches,
+            isFetching: false,
+            error: '* Error caught while retrieving newest watches'
+          }))
         }
       } catch (error) {
         console.error('Error caught while fetching the newest watches:', error)
-        setNewestWatches({ data: [], isFetching: false, error })
+        setNewestWatches(prevRes => ({ ...prevRes, isFetching: false, error }))
       }
     }
-    fetchWatches()
   }, [])
-
-  const { data: { items }, isFetching } = watches
+  const {
+    data: { items },
+    isFetching
+  } = watches
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Space px={4}>
@@ -56,8 +65,7 @@ const NewestWatches = () => {
         <Flex
           alignItems='center'
           flexDirection='column'
-          width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}
-        >
+          width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}>
           <StyledCarousel
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
@@ -98,31 +106,30 @@ const NewestWatches = () => {
                 clickToChange: true,
                 animationSpeed: 2000
               }
-            }}
-          >
+            }}>
             {isFetching ? (
               <ActivityIndicator
                 colors={{ background: 'white', primary: 'gunmetal' }}
                 size='32px'
               />
             ) : (
-                items.map(({ id, brand, model, description, imgSrc }) => (
-                  <Space key={id} px={{ xs: 2, lg: 3 }}>
-                    <Box>
-                      <CardWatch
-                        animated={isFetching}
-                        buttonLabel='View Details'
-                        title={`${brand} ${model}`}
-                        type='newest'
-                        description={description}
-                        imgSrc={imgSrc}
-                        imgHeight='140px'
-                        onClick={() => { }}
-                      />
-                    </Box>
-                  </Space>
-                ))
-              )}
+              items.map(({ id, brand, model, description, imgSrc }) => (
+                <Space key={id} px={{ xs: 2, lg: 3 }}>
+                  <Box>
+                    <CardWatch
+                      animated={isFetching}
+                      buttonLabel='View Details'
+                      title={`${brand} ${model}`}
+                      type='newest'
+                      description={description}
+                      imgSrc={imgSrc}
+                      imgHeight='140px'
+                      onClick={() => {}}
+                    />
+                  </Box>
+                </Space>
+              ))
+            )}
           </StyledCarousel>
         </Flex>
       </Space>

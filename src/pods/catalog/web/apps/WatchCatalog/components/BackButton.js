@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Flex, Icon, Touchable, Typography } from '@ivoryio/kogaio'
 
 const BackButton = ({ onClick, ...props }) => (
-  <Touchable effect='highlight' onClick={onClick} {...props}>
+  <Touchable effect='opacity' onClick={onClick} {...props}>
     <Flex alignItems='center'>
       <Icon
         color='pastel-blue'

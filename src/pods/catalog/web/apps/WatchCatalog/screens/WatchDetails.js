@@ -1,42 +1,77 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
-import { ActivityIndicator, Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
+import {
+  ActivityIndicator,
+  Box,
+  Flex,
+  Hide,
+  themeGet,
+  Space
+} from '@ivoryio/kogaio'
+import api from '../../../services/catalog.dataservice'
+import { isResponseOk } from '../../../services/helpers'
 
-import { NavigationContext } from '../WatchCatalogEntry'
-import { AddToCart, Gallery, BackButton, ProductSpecificationsMobile, ProductSpecificationsWeb } from '../components'
+import { RootContext } from '../CatalogEntry'
+import { DataContext } from '../services/DataProvider'
+
+import {
+  AddToCart,
+  Gallery,
+  BackButton,
+  ProductSpecificationsMobile,
+  ProductSpecificationsWeb
+} from '../components'
 
 const WatchDetails = () => {
+  const { navigateTo } = useContext(RootContext)
   const {
-    currentScreen,
-    navigateTo,
-    setActiveWatchId,
+    selectWatch,
+    clearDetails,
     watchDetails: {
-      data: {
-        imgList
-      },
-      isFetching
+      details,
+      imgList,
+      isFetchingDetails: isFetching,
+      selectedWatch,
+      storeDetails,
+      storeDetailsError
     }
-  } = useContext(NavigationContext)
+  } = useContext(DataContext)
+
+  useEffect(() => {
+    const hasNoDetails = !Object.keys(details).length
+    if (selectedWatch && hasNoDetails) fetchDetails(selectedWatch)
+
+    async function fetchDetails (watchId) {
+      try {
+        const response = await api.getWatchDetails(watchId)
+        if (isResponseOk(response.status)) {
+          return storeDetails(response.data)
+        } else {
+          return storeDetailsError(response.error)
+        }
+      } catch (err) {
+        storeDetailsError(err)
+      }
+    }
+  }, [details, selectedWatch, storeDetails, storeDetailsError])
 
   const goBack = () => {
-    setActiveWatchId('')
     navigateTo('watch-list')
-  }
-
-  if (!currentScreen.includes('watch-details')) {
-    return null
+    selectWatch('')
+    clearDetails()
   }
 
   if (isFetching) {
-    return <Space mx='auto' mt={{ xs: 3, md: 6, lg: 4 }}>
-      <ActivityIndicator
-        colors={{ background: 'white', primary: 'gunmetal' }}
-        size='32px'
-      />
-    </Space>
+    return (
+      <Space mx='auto' mt={{ xs: 3, md: 6, lg: 4 }}>
+        <ActivityIndicator
+          colors={{ background: 'white', primary: 'gunmetal' }}
+          size='32px'
+        />
+      </Space>
+    )
   }
-
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Flex width={{ xs: 1, lg: 2 / 3 }}>

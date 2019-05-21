@@ -1,20 +1,17 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import {
-  Card,
-  Flex,
-  Image,
-  Space,
-  Typography
-} from '@ivoryio/kogaio'
+import { Card, Flex, Image, Space, Typography } from '@ivoryio/kogaio'
 
-import { NavigationContext } from '../WatchCatalogEntry'
+import { RootContext } from '../CatalogEntry'
+import { DataContext } from '../services/DataProvider'
 
 const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
-  const { navigateTo, setActiveWatchId } = useContext(NavigationContext)
+  const { navigateTo } = useContext(RootContext)
+  const { selectWatch } = useContext(DataContext)
+
   const handleCardClick = () => {
-    setActiveWatchId(id)
+    selectWatch(id)
     navigateTo('watch-details')
   }
 
@@ -26,27 +23,19 @@ const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
         display='flex'
         flexDirection='column'
         variant='white'
-        {...props}
-      >
+        {...props}>
         <Flex alignItems='center' justifyContent='center' width={1}>
           <Image src={imgSrc} dimensions={['100%', 155]} objectFit='contain' />
         </Flex>
         <Space mt={3} px={{ xs: 4, lg: 6 }}>
           <Flex alignItems='center' height='34px'>
-            <ProductDescription
-              color='gunmetal'
-              fontSize={1}
-            >
+            <ProductDescription color='gunmetal' fontSize={1}>
               {description}
             </ProductDescription>
           </Flex>
         </Space>
         <Space mt={1} px={{ xs: 4, lg: 6 }}>
-          <Typography
-            color='gunmetal'
-            fontSize={4}
-            fontWeight={2}
-          >
+          <Typography color='gunmetal' fontSize={4} fontWeight={2}>
             {price}
           </Typography>
         </Space>

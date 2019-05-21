@@ -9,7 +9,10 @@ const Gallery = ({ imgList, ...props }) => {
   return (
     <>
       <Space pl={{ xs: 4 }} pr={{ xs: 4, md: 0 }}>
-        <Flex alignItems='center' justifyContent='center' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
+        <Flex
+          alignItems='center'
+          justifyContent='center'
+          width={{ xs: 1, md: 1 / 2, lg: 1 }}>
           <Image
             src={activeImageSrc || imgList[0]}
             width={1}
@@ -21,31 +24,23 @@ const Gallery = ({ imgList, ...props }) => {
       </Space>
       <Space px={{ xs: 2 }} py={{ xs: 2 }}>
         <Flex flexWrap='wrap' width={{ xs: 1, md: 1 / 2, lg: 1 }}>
-          {
-            imgList.map((imgSrc, index) => (
-              <Space
-                key={`gallery-image-${index}`}
-                p={{ xs: 2 }}
-              >
-                <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
-                  <Touchable effect='opacity' onClick={() => setActiveImageSrc(imgSrc)}>
-                    <ImageContainer
-                      bg='white'
-                      alignItems='center'
-                      justifyContent='center'
-                      width={1}
-                    >
-                      <Image
-                        src={imgSrc}
-                        width={1}
-                        objectFit='contain'
-                      />
-                    </ImageContainer>
-                  </Touchable>
-                </Box>
-              </Space>
-            ))
-          }
+          {imgList.map((imgSrc, index) => (
+            <Space key={`gallery-image-${index}`} p={{ xs: 2 }}>
+              <Box width={{ xs: 1 / 4, md: 1 / 2, lg: 1 / 4 }}>
+                <Touchable
+                  effect='opacity'
+                  onClick={() => setActiveImageSrc(imgSrc)}>
+                  <ImageContainer
+                    bg='white'
+                    alignItems='center'
+                    justifyContent='center'
+                    width={1}>
+                    <Image src={imgSrc} width={1} objectFit='contain' />
+                  </ImageContainer>
+                </Touchable>
+              </Box>
+            </Space>
+          ))}
         </Flex>
       </Space>
     </>

@@ -98,7 +98,9 @@ const NavArrow = ({ direction, name, htmlFor, scrollValue, ...rest }) => {
 }
 
 const Category = ({ isActive, name, onClick }) => (
-  <CategoryContainer isActive={isActive} minWidth={{ xs: '33.3333%', lg: '15%' }}>
+  <CategoryContainer
+    isActive={isActive}
+    minWidth={{ xs: '33.3333%', lg: '15%' }}>
     <Touchable effect='opacity' onClick={onClick} width={1}>
       <Typography variant='list'>{name}</Typography>
     </Touchable>
@@ -129,13 +131,14 @@ const ArrowContainer = styled(Flex)`
   z-index: 2;
 `
 
-const isActive = style => ({ isActive }) => isActive ? style : null
+const isActive = style => ({ isActive }) => (isActive ? style : null)
 const CategoryContainer = styled(Flex)`
   align-items: center;
   justify-content: center;
-  border-bottom: ${props => isActive(
-    `${themeGet('borders.1')(props)} ${themeGet('colors.brand')(props)}`
-  )};
+  border-bottom: ${props =>
+    isActive(
+      `${themeGet('borders.1')(props)} ${themeGet('colors.gunmetal')(props)}`
+    )};
 `
 NavMenu.propTypes = {
   statePayload: PropTypes.object

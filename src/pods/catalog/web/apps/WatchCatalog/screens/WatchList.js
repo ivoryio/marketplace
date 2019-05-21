@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useContext } from 'react'
 import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
+import { makeSlices } from '../services/helpers'
 
 import {
   Box,
@@ -14,26 +15,32 @@ import {
 
 import { BackButton, Pagination, FilterSection } from '../components'
 
-import { DataContext } from '../services/Provider'
-import { NavigationContext } from '../WatchCatalogEntry'
+import { DataContext } from '../services/DataProvider'
 
 import { sortOptions, itemsPerPageOptions } from '../services/constants'
 const LazyProductList = lazy(() => import('../components/ProductList'))
 
 const WatchList = () => {
   const {
-    currentPage,
-    slicedWatches,
-    sortType,
-    setSortType,
-    resultsPerPage,
-    setResultsPerPage,
-    searchTerm,
-    isFetching,
-    itemsCount
+    watchList: {
+      addFilter,
+      activeFilters,
+      currentPage,
+      filters,
+      isFetching,
+      itemsCount,
+      removeFilter,
+      resultsPerPage,
+      setResultsPerPage,
+      searchTerm,
+      setCurrentPage,
+      setSortType,
+      sortType,
+      watches
+    }
   } = useContext(DataContext)
 
-  const { currentScreen } = useContext(NavigationContext)
+  const slicedWatches = makeSlices(watches, Number(resultsPerPage))
   const maxPages = slicedWatches.length
 
   const _goBack = () =>
@@ -46,14 +53,16 @@ const WatchList = () => {
       'WatchList'
     )
 
-  if (!currentScreen.includes('watch-list')) {
-    return null
-  }
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
-          <FilterSection />
+          <FilterSection
+            addFilter={addFilter}
+            activeFilters={activeFilters}
+            removeFilter={removeFilter}
+            filters={filters}
+          />
         </Box>
       </Space>
       <Space mt={{ lg: 10 }}>
@@ -182,7 +191,11 @@ const WatchList = () => {
                   <PaginationWrapper
                     width={{ xs: 1, md: 'auto' }}
                     justifyContent={{ xs: 'center', md: 'flex-end' }}>
-                    <Pagination maxPages={maxPages} />
+                    <Pagination
+                      currentPage={currentPage}
+                      maxPages={maxPages}
+                      setCurrentPage={setCurrentPage}
+                    />
                   </PaginationWrapper>
                 </Space>
               </Flex>

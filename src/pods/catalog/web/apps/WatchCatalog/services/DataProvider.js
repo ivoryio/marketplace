@@ -3,25 +3,26 @@ import PropTypes from 'prop-types'
 import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
 
+import { SearchBox } from '../components'
+
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
-import { SearchBox } from '../components'
+import { composeSearchTerm, sortWatches } from './helpers'
+import { transformActiveFiltersToArray } from '../services/helpers'
 import {
   filters,
   initialActiveFilters,
   initialSearchResults,
   itemsPerPageOptions
 } from '../services/constants'
-import {
-  composeSearchTerm,
-  makeSlices,
-  transformActiveFiltersToArray,
-  sortWatches
-} from './helpers'
 
+const INITIAL_DETAILS = {
+  data: {},
+  isFetching: true,
+  error: null
+}
 export const DataContext = createContext()
-
-const Provider = ({
+const DataProvider = ({
   children,
   regionData: { filter, searchTerm, sortRule, source }
 }) => {
@@ -38,6 +39,8 @@ const Provider = ({
     ...initialSearchResults,
     isFetching: true
   })
+  const [selectedWatch, setSelectedWatch] = useState('')
+  const [details, setWatchDetails] = useState(INITIAL_DETAILS)
 
   useEffect(() => {
     if (sortRule) {
@@ -49,10 +52,10 @@ const Provider = ({
     setActiveFilters(prevActive => ({ ...prevActive, query: searchTerm }))
   }, [searchTerm])
 
-  const _setLoading = newStatus =>
+  const _setFetchingList = newStatus =>
     setResults(prevResults => ({ ...prevResults, isFetching: newStatus }))
 
-  const _storeData = useCallback(data => {
+  const _storeWatches = useCallback(data => {
     setResults({
       data,
       isFetching: false,
@@ -60,7 +63,7 @@ const Provider = ({
     })
   }, [])
 
-  const _storeError = error => {
+  const _storeFetchListError = error => {
     setResults(results => ({
       ...results,
       isFetching: false,
@@ -82,24 +85,24 @@ const Provider = ({
     async searchTerm => {
       if (!filter) {
         try {
-          _setLoading(true)
+          _setFetchingList(true)
           setCurrentPage(1)
           setSortType(sortRule || '')
           const term = composeSearchTerm(activeFilters)
           const response = await api.getSearchResults(term)
           if (isResponseOk(response.status)) {
-            _storeData(response.data)
+            _storeWatches(response.data)
           } else {
-            _storeError(response.error)
+            _storeFetchListError(response.error)
           }
         } catch (err) {
-          _storeError(err)
+          _storeFetchListError(err)
         } finally {
-          _setLoading(false)
+          _setFetchingList(false)
         }
       }
     },
-    [_storeData, activeFilters, filter, sortRule]
+    [_storeWatches, activeFilters, filter, sortRule]
   )
 
   useEffect(() => {
@@ -110,15 +113,15 @@ const Provider = ({
       try {
         const response = await api.getSpotlightWatches()
         if (isResponseOk(response.status)) {
-          _storeData(response.data)
+          _storeWatches(response.data)
         } else {
-          _storeError(response.error)
+          _storeFetchListError(response.error)
         }
       } catch (err) {
-        _storeError(err)
+        _storeFetchListError(err)
       }
     }
-  }, [_storeData, filter])
+  }, [_storeWatches, filter])
 
   useEffect(() => {
     search(searchTerm)
@@ -131,46 +134,66 @@ const Provider = ({
     setCurrentPage(1)
   }, [resultsPerPage])
 
-  const addFilter = category => filter => () =>
-    setActiveFilters({
-      ...activeFilters,
-      [category]: [...activeFilters[category], filter]
-    })
-
-  const removeFilter = category => filter => () => {
-    const updatedCategory = activeFilters[category].filter(
-      item => item !== filter
-    )
-    setActiveFilters({
-      ...activeFilters,
-      [category]: updatedCategory
-    })
-  }
-
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
-  const slicedWatches = makeSlices(results.data.items, Number(resultsPerPage))
 
-  const { isFetching } = results
+  const selectWatch = watchId => setSelectedWatch(watchId)
 
-  const data = {
-    activeFilters,
-    activeFiltersAsArray,
-    addFilter,
-    removeFilter,
-    currentPage,
-    setCurrentPage,
-    itemsCount: results.data.itemsCount,
-    resultsPerPage,
-    setResultsPerPage,
-    sortType,
-    setSortType,
-    searchTerm: activeFilters.query,
+  const setIsFetchingDetails = status =>
+    setWatchDetails(prevDetails => ({ ...prevDetails, isFetching: status }))
+
+  const storeDetails = details =>
+    setWatchDetails(prevDetails => ({
+      ...prevDetails,
+      data: details,
+      isFetching: false
+    }))
+  const storeDetailsError = err =>
+    setWatchDetails(prevDetails => ({
+      ...prevDetails,
+      isFetching: false,
+      error: err
+    }))
+  const clearDetails = () => setWatchDetails(INITIAL_DETAILS)
+
+  const {
     isFetching,
-    filters,
-    slicedWatches
-  }
+    data: { items, itemsCount }
+  } = results
+  const {
+    data: { imgList },
+    isFetching: isFetchingDetails
+  } = details
   return (
-    <DataContext.Provider value={data}>
+    <DataContext.Provider
+      value={{
+        watchList: {
+          activeFilters,
+          activeFiltersAsArray,
+          currentPage,
+          filters,
+          isFetching,
+          watches: items,
+          itemsCount,
+          resultsPerPage,
+          searchTerm: activeFilters.query,
+          setActiveFilters,
+          setCurrentPage,
+          setResultsPerPage,
+          setSortType,
+          sortType
+        },
+        watchDetails: {
+          imgList,
+          isFetchingDetails,
+          selectedWatch,
+          setIsFetchingDetails,
+          storeDetails,
+          storeDetailsError,
+          details: details.data
+        },
+        selectWatch,
+        clearDetails
+      }}>
       <SearchBox
         initialValue={searchTerm}
         searchWatches={search}
@@ -187,14 +210,14 @@ const ObservedProvider = observe((app, props$) => {
     .getData$()
     .pipe(map(regionData => ({ regionData })))
   return regionData$
-})(Provider)
+})(DataProvider)
 
 ObservedProvider.propTypes = {
   regionData: PropTypes.object
 }
 
-Provider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+DataProvider.propTypes = {
+  children: PropTypes.node,
   regionData: PropTypes.object
 }
 
