@@ -13,7 +13,7 @@ import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 
 import { RootContext } from '../CatalogEntry'
-import { DataContext } from '../services/DataProvider'
+import { DetailsContext } from '../services/DetailsProvider'
 
 import {
   AddToCart,
@@ -24,19 +24,15 @@ import {
 } from '../components'
 
 const WatchDetails = () => {
-  const { navigateTo } = useContext(RootContext)
+  const { navigateTo, selectWatch, selectedWatch } = useContext(RootContext)
   const {
-    selectWatch,
     clearDetails,
-    watchDetails: {
-      details,
-      imgList,
-      isFetchingDetails: isFetching,
-      selectedWatch,
-      storeDetails,
-      storeDetailsError
-    }
-  } = useContext(DataContext)
+    details,
+    imgList,
+    isFetching,
+    storeDetails,
+    storeDetailsError
+  } = useContext(DetailsContext)
 
   useEffect(() => {
     const hasNoDetails = !Object.keys(details).length

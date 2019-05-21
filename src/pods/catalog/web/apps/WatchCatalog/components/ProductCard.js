@@ -4,11 +4,9 @@ import styled from 'styled-components'
 import { Card, Flex, Image, Space, Typography } from '@ivoryio/kogaio'
 
 import { RootContext } from '../CatalogEntry'
-import { DataContext } from '../services/DataProvider'
 
 const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
-  const { navigateTo } = useContext(RootContext)
-  const { selectWatch } = useContext(DataContext)
+  const { navigateTo, selectWatch } = useContext(RootContext)
 
   const handleCardClick = () => {
     selectWatch(id)

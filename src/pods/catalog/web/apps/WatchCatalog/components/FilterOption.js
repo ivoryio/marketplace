@@ -1,12 +1,10 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { DataContext } from '../services/DataProvider'
+import { ListContext } from '../services/ListProvider'
 import { Checkbox, Space } from '@ivoryio/kogaio'
 
 const FilterOption = ({ title, addFilter, removeFilter }) => {
-  const {
-    watchList: { activeFiltersAsArray }
-  } = useContext(DataContext)
+  const { activeFiltersAsArray } = useContext(ListContext)
 
   const handleCheck = ev => {
     if (activeFiltersAsArray.includes(title)) {

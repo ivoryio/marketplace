@@ -1,28 +1,26 @@
 import React, { Fragment, useContext } from 'react'
 import { Flex, Typography, Space } from '@ivoryio/kogaio'
 
-import { DataContext } from '../services/DataProvider'
+import { DetailsContext } from '../services/DetailsProvider'
 import { InfoTable } from '.'
 import { capitalizeFirstChar } from '../services/helpers'
 
 const ProductSpecificationsWeb = props => {
   const {
-    watchDetails: {
-      details: {
-        listingNumber,
-        referenceNumber,
-        brand,
-        model,
-        movement,
-        year,
-        gender,
-        caliber,
-        case: watchCase,
-        strap,
-        description
-      }
+    details: {
+      listingNumber,
+      referenceNumber,
+      brand,
+      model,
+      movement,
+      year,
+      gender,
+      caliber,
+      case: watchCase,
+      strap,
+      description
     }
-  } = useContext(DataContext)
+  } = useContext(DetailsContext)
 
   const infoSectionData = {
     listingNumber,

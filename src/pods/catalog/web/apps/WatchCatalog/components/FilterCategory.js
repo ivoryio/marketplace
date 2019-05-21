@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import { Collapsible } from '@ivoryio/kogaio'
 
 import { FilterOption } from '.'
-import { DataContext } from '../services/DataProvider'
+import { ListContext } from '../services/ListProvider'
 import { capitalizeFirstChar } from '../services/helpers'
 
 const FilterCategory = ({ name, options, removeFilter, ...props }) => {
-  const {
-    watchList: { activeFilters, setActiveFilters }
-  } = useContext(DataContext)
+  const { activeFilters, setActiveFilters } = useContext(ListContext)
   const addFilter = category => filter => () =>
     setActiveFilters(prevActive => ({
       ...prevActive,

@@ -2,9 +2,6 @@ import React, { createContext, useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { map } from 'rxjs/operators'
 import { observe } from 'frint-react'
-
-import { SearchBox } from '../components'
-
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { composeSearchTerm, sortWatches } from './helpers'
@@ -15,14 +12,10 @@ import {
   initialSearchResults,
   itemsPerPageOptions
 } from '../services/constants'
+import { SearchBox } from '../components'
 
-const INITIAL_DETAILS = {
-  data: {},
-  isFetching: true,
-  error: null
-}
-export const DataContext = createContext()
-const DataProvider = ({
+export const ListContext = createContext()
+const ListProvider = ({
   children,
   regionData: { filter, searchTerm, sortRule, source }
 }) => {
@@ -39,8 +32,6 @@ const DataProvider = ({
     ...initialSearchResults,
     isFetching: true
   })
-  const [selectedWatch, setSelectedWatch] = useState('')
-  const [details, setWatchDetails] = useState(INITIAL_DETAILS)
 
   useEffect(() => {
     if (sortRule) {
@@ -52,7 +43,7 @@ const DataProvider = ({
     setActiveFilters(prevActive => ({ ...prevActive, query: searchTerm }))
   }, [searchTerm])
 
-  const _setFetchingList = newStatus =>
+  const _setIsFetching = newStatus =>
     setResults(prevResults => ({ ...prevResults, isFetching: newStatus }))
 
   const _storeWatches = useCallback(data => {
@@ -63,7 +54,7 @@ const DataProvider = ({
     })
   }, [])
 
-  const _storeFetchListError = error => {
+  const _storeError = error => {
     setResults(results => ({
       ...results,
       isFetching: false,
@@ -85,7 +76,7 @@ const DataProvider = ({
     async searchTerm => {
       if (!filter) {
         try {
-          _setFetchingList(true)
+          _setIsFetching(true)
           setCurrentPage(1)
           setSortType(sortRule || '')
           const term = composeSearchTerm(activeFilters)
@@ -93,12 +84,12 @@ const DataProvider = ({
           if (isResponseOk(response.status)) {
             _storeWatches(response.data)
           } else {
-            _storeFetchListError(response.error)
+            _storeError(response.error)
           }
         } catch (err) {
-          _storeFetchListError(err)
+          _storeError(err)
         } finally {
-          _setFetchingList(false)
+          _setIsFetching(false)
         }
       }
     },
@@ -115,10 +106,10 @@ const DataProvider = ({
         if (isResponseOk(response.status)) {
           _storeWatches(response.data)
         } else {
-          _storeFetchListError(response.error)
+          _storeError(response.error)
         }
       } catch (err) {
-        _storeFetchListError(err)
+        _storeError(err)
       }
     }
   }, [_storeWatches, filter])
@@ -136,63 +127,27 @@ const DataProvider = ({
 
   const activeFiltersAsArray = transformActiveFiltersToArray(activeFilters)
 
-  const selectWatch = watchId => setSelectedWatch(watchId)
-
-  const setIsFetchingDetails = status =>
-    setWatchDetails(prevDetails => ({ ...prevDetails, isFetching: status }))
-
-  const storeDetails = details =>
-    setWatchDetails(prevDetails => ({
-      ...prevDetails,
-      data: details,
-      isFetching: false
-    }))
-  const storeDetailsError = err =>
-    setWatchDetails(prevDetails => ({
-      ...prevDetails,
-      isFetching: false,
-      error: err
-    }))
-  const clearDetails = () => setWatchDetails(INITIAL_DETAILS)
-
   const {
     isFetching,
     data: { items, itemsCount }
   } = results
-  const {
-    data: { imgList },
-    isFetching: isFetchingDetails
-  } = details
   return (
-    <DataContext.Provider
+    <ListContext.Provider
       value={{
-        watchList: {
-          activeFilters,
-          activeFiltersAsArray,
-          currentPage,
-          filters,
-          isFetching,
-          watches: items,
-          itemsCount,
-          resultsPerPage,
-          searchTerm: activeFilters.query,
-          setActiveFilters,
-          setCurrentPage,
-          setResultsPerPage,
-          setSortType,
-          sortType
-        },
-        watchDetails: {
-          imgList,
-          isFetchingDetails,
-          selectedWatch,
-          setIsFetchingDetails,
-          storeDetails,
-          storeDetailsError,
-          details: details.data
-        },
-        selectWatch,
-        clearDetails
+        activeFilters,
+        activeFiltersAsArray,
+        currentPage,
+        filters,
+        isFetching,
+        watches: items,
+        itemsCount,
+        resultsPerPage,
+        searchTerm: activeFilters.query,
+        setActiveFilters,
+        setCurrentPage,
+        setResultsPerPage,
+        setSortType,
+        sortType
       }}>
       <SearchBox
         initialValue={searchTerm}
@@ -200,7 +155,7 @@ const DataProvider = ({
         setActiveFilters={setActiveFilters}
       />
       {children}
-    </DataContext.Provider>
+    </ListContext.Provider>
   )
 }
 
@@ -210,13 +165,13 @@ const ObservedProvider = observe((app, props$) => {
     .getData$()
     .pipe(map(regionData => ({ regionData })))
   return regionData$
-})(DataProvider)
+})(ListProvider)
 
 ObservedProvider.propTypes = {
   regionData: PropTypes.object
 }
 
-DataProvider.propTypes = {
+ListProvider.propTypes = {
   children: PropTypes.node,
   regionData: PropTypes.object
 }

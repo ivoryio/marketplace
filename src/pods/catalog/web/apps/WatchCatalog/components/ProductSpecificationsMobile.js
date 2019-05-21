@@ -2,29 +2,27 @@ import React, { Fragment, useState, useContext } from 'react'
 import styled, { css } from 'styled-components'
 import { Flex, Typography, Space, themeGet, Touchable } from '@ivoryio/kogaio'
 
-import { DataContext } from '../services/DataProvider'
+import { DetailsContext } from '../services/DetailsProvider'
 import { TablesOnMobile } from '.'
 import { capitalizeFirstChar } from '../services/helpers'
 
 const ProductSpecificationsMobile = ({ ...props }) => {
   const [activeSection, setActiveSection] = useState('details')
   const {
-    watchDetails: {
-      details: {
-        listingNumber,
-        referenceNumber,
-        brand,
-        model,
-        movement,
-        year,
-        gender,
-        caliber,
-        case: watchCase,
-        strap,
-        description
-      }
+    details: {
+      listingNumber,
+      referenceNumber,
+      brand,
+      model,
+      movement,
+      year,
+      gender,
+      caliber,
+      case: watchCase,
+      strap,
+      description
     }
-  } = useContext(DataContext)
+  } = useContext(DetailsContext)
 
   const infoSectionData = {
     listingNumber,

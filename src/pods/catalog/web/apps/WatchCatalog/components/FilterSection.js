@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { categoryProvenience } from '../services/helpers'
-import { DataContext } from '../services/DataProvider'
+import { ListContext } from '../services/ListProvider'
 import { FilterCategory } from '.'
 
 import {
@@ -17,13 +17,11 @@ import {
 
 const FilterSection = props => {
   const {
-    watchList: {
-      activeFilters,
-      activeFiltersAsArray,
-      filters,
-      setActiveFilters
-    }
-  } = useContext(DataContext)
+    activeFilters,
+    activeFiltersAsArray,
+    filters,
+    setActiveFilters
+  } = useContext(ListContext)
 
   const removeFilter = category => filter => () => {
     const updatedCategory = activeFilters[category].filter(

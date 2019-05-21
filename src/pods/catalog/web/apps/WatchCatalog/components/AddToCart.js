@@ -14,17 +14,15 @@ import {
   Typography
 } from '@ivoryio/kogaio'
 
-import { DataContext } from '../services/DataProvider'
 import { formatPrice } from '../services/helpers'
+import { DetailsContext } from '../services/DetailsProvider'
 
 const AddToCart = ({ ...props }) => {
   const [quantity, setQuantity] = useState(1)
 
   const {
-    watchDetails: {
-      details: { brand, model, price }
-    }
-  } = useContext(DataContext)
+    details: { brand, model, price }
+  } = useContext(DetailsContext)
 
   const _decrementQuantity = () => {
     if (quantity !== 1) {

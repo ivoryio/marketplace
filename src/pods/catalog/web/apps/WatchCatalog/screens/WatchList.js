@@ -15,30 +15,28 @@ import {
 
 import { BackButton, Pagination, FilterSection } from '../components'
 
-import { DataContext } from '../services/DataProvider'
+import { ListContext } from '../services/ListProvider'
 
 import { sortOptions, itemsPerPageOptions } from '../services/constants'
 const LazyProductList = lazy(() => import('../components/ProductList'))
 
 const WatchList = () => {
   const {
-    watchList: {
-      addFilter,
-      activeFilters,
-      currentPage,
-      filters,
-      isFetching,
-      itemsCount,
-      removeFilter,
-      resultsPerPage,
-      setResultsPerPage,
-      searchTerm,
-      setCurrentPage,
-      setSortType,
-      sortType,
-      watches
-    }
-  } = useContext(DataContext)
+    addFilter,
+    activeFilters,
+    currentPage,
+    filters,
+    isFetching,
+    itemsCount,
+    removeFilter,
+    resultsPerPage,
+    setResultsPerPage,
+    searchTerm,
+    setCurrentPage,
+    setSortType,
+    sortType,
+    watches
+  } = useContext(ListContext)
 
   const slicedWatches = makeSlices(watches, Number(resultsPerPage))
   const maxPages = slicedWatches.length
