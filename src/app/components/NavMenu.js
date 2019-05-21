@@ -34,7 +34,7 @@ const NavMenu = ({
       {
         event: 'transition',
         data: { destination: 'product-catalog', filter, searchTerm, sortRule },
-        message: `Request to transition to WatchList`
+        message: `Request to transition to ProductCatalog`
       },
       'NavMenu'
     )

@@ -40,8 +40,17 @@ const Provider = ({
   })
 
   useEffect(() => {
+    if (sortRule) {
+      setSortType(sortRule)
+    }
+  }, [sortRule])
+
+  useEffect(() => {
     setActiveFilters(prevActive => ({ ...prevActive, query: searchTerm }))
   }, [searchTerm])
+
+  const _setLoading = newStatus =>
+    setResults(prevResults => ({ ...prevResults, isFetching: newStatus }))
 
   const _storeData = useCallback(data => {
     setResults({
@@ -73,21 +82,24 @@ const Provider = ({
     async searchTerm => {
       if (!filter) {
         try {
+          _setLoading(true)
           setCurrentPage(1)
+          setSortType(sortRule || '')
           const term = composeSearchTerm(activeFilters)
           const response = await api.getSearchResults(term)
           if (isResponseOk(response.status)) {
-            const { data } = response
-            _storeData(data)
+            _storeData(response.data)
           } else {
             _storeError(response.error)
           }
         } catch (err) {
           _storeError(err)
+        } finally {
+          _setLoading(false)
         }
       }
     },
-    [_storeData, activeFilters, filter]
+    [_storeData, activeFilters, filter, sortRule]
   )
 
   useEffect(() => {
