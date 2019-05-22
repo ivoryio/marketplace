@@ -1,22 +1,25 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Card, Flex, Image, Space, Typography } from '@ivoryio/kogaio'
+import {
+  Card,
+  Flex,
+  Image,
+  Space,
+  Touchable,
+  Typography
+} from '@ivoryio/kogaio'
 
 import { RootContext } from '../CatalogEntry'
 
 const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
-  const { navigateTo, selectWatch } = useContext(RootContext)
+  const { selectWatch } = useContext(RootContext)
 
-  const handleCardClick = () => {
-    selectWatch(id)
-    navigateTo('watch-details')
-  }
+  const checkWatchDetails = () => selectWatch(id)
 
   return (
-    <Space pb={4}>
+    <Touchable effect='opacity' onClick={checkWatchDetails}>
       <Card
-        onClick={handleCardClick}
         borderRadius={4}
         display='flex'
         flexDirection='column'
@@ -38,7 +41,7 @@ const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
           </Typography>
         </Space>
       </Card>
-    </Space>
+    </Touchable>
   )
 }
 

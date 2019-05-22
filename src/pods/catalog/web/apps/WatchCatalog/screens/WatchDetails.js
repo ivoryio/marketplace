@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
 import { Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
-import api from '../../../services/catalog.dataservice'
-import { isResponseOk } from '../../../services/helpers'
 
 import { RootContext } from '../CatalogEntry'
+import api from '../../../services/catalog.dataservice'
+import { scrollToTop } from '../services/helpers'
+import { isResponseOk } from '../../../services/helpers'
 import { DetailsContext } from '../services/DetailsProvider'
 
 import {
@@ -17,7 +18,7 @@ import {
 } from '../components'
 
 const WatchDetails = () => {
-  const { navigateTo, selectWatch, selectedWatch } = useContext(RootContext)
+  const { clearSelectedWatch, selectedWatch } = useContext(RootContext)
   const {
     clearDetails,
     details,
@@ -26,6 +27,10 @@ const WatchDetails = () => {
     storeDetails,
     storeDetailsError
   } = useContext(DetailsContext)
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
 
   useEffect(() => {
     const hasNoDetails = !Object.keys(details).length
@@ -46,8 +51,7 @@ const WatchDetails = () => {
   }, [details, selectedWatch, storeDetails, storeDetailsError])
 
   const goBack = () => {
-    navigateTo('watch-list')
-    selectWatch('')
+    clearSelectedWatch()
     clearDetails()
   }
 
@@ -83,15 +87,15 @@ const WatchDetails = () => {
         </Flex>
       </Space>
       <Space py={{ xs: 6, lg: 15 }} mt={10}>
-        <NewestWatchesWrapper bg='ghost-white' width={1}>
+        <NewestWatchesContainer bg='ghost-white' width={1}>
           <Region name='newest-watches' />
-        </NewestWatchesWrapper>
+        </NewestWatchesContainer>
       </Space>
     </Flex>
   )
 }
 
-const NewestWatchesWrapper = styled(Box)`
+const NewestWatchesContainer = styled(Box)`
   border: ${themeGet('borders.1')} ${themeGet('colors.pastel-blue')};
 `
 

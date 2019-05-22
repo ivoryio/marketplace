@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
 import { makeSlices } from '../services/helpers'
@@ -13,12 +13,16 @@ import {
   Typography
 } from '@ivoryio/kogaio'
 
-import { BackButton, Pagination, FilterSection } from '../components'
+import {
+  BackButton,
+  FilterSection,
+  Pagination,
+  ProductList
+} from '../components'
 
+import { scrollToTop } from '../services/helpers'
 import { ListContext } from '../services/ListProvider'
-
 import { sortOptions, itemsPerPageOptions } from '../services/constants'
-const LazyProductList = lazy(() => import('../components/ProductList'))
 
 const WatchList = () => {
   const {
@@ -37,6 +41,10 @@ const WatchList = () => {
     sortType,
     watches
   } = useContext(ListContext)
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
 
   const slicedWatches = makeSlices(watches, Number(resultsPerPage))
   const maxPages = slicedWatches.length
@@ -114,12 +122,10 @@ const WatchList = () => {
             </Flex>
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList
-                watches={slicedWatches[currentPage - 1]}
-                isFetching={isFetching}
-              />
-            </Suspense>
+            <ProductList
+              watches={slicedWatches[currentPage - 1]}
+              isFetching={isFetching}
+            />
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
             <Flex
