@@ -20,9 +20,7 @@ import { DetailsContext } from '../services/DetailsProvider'
 const AddToCart = ({ isAwaitingData, ...props }) => {
   const [quantity, setQuantity] = useState(1)
 
-  const {
-    details: { brand, model, price }
-  } = useContext(DetailsContext)
+  const { details: { brand, model, price } } = useContext(DetailsContext)
   const anchors = [
     { title: 'Details', targetId: 'details' },
     { title: 'Info & Stats', targetId: 'info-stats' }
@@ -38,6 +36,7 @@ const AddToCart = ({ isAwaitingData, ...props }) => {
   }
 
   const isQuantityOne = quantity === 1
+
   return (
     <Box
       bottom={0}

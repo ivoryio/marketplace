@@ -62,7 +62,7 @@ const ProductSpecificationsMobile = ({ ...props }) => {
       <Space mt={{ xs: 4, md: 5 }}>
         {activeSection.includes('details') ? (
           isAwaitingData ? (
-            DescriptionPlaceholder
+            <DescriptionPlaceholder />
           ) : (
             <Typography
               lineHeight={2}

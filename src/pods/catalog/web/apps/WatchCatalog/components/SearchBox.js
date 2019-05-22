@@ -8,9 +8,10 @@ import {
   Hide,
   Icon,
   Input,
-  Space,
-  Touchable
+  Space
 } from '@ivoryio/kogaio'
+
+import { SquaredBox } from '.'
 
 const SearchBox = ({ initialValue, ...rest }) => {
   const [searchValue, setSearchValue] = useState(initialValue)
@@ -53,19 +54,9 @@ const SearchBox = ({ initialValue, ...rest }) => {
           </Box>
         </Space>
         <Hide lg xlg>
-          <Touchable
-            activeOpacity={0.75}
-            effect='opacity'
-            onClick={handleSearch}>
-            <Flex
-              width='36px'
-              height='36px'
-              bg='brand'
-              alignItems='center'
-              justifyContent='center'>
-              <Icon color='white' fontSize={3} name='search' />
-            </Flex>
-          </Touchable>
+          <SquaredBox bg='brand' onClick={handleSearch} size={34}>
+            <Icon color='white' fontSize={3} name='search' />
+          </SquaredBox>
         </Hide>
         <Hide xs sm md>
           <Button

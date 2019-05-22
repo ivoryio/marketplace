@@ -13,15 +13,12 @@ import {
 import { RootContext } from '../CatalogEntry'
 
 const ProductCard = ({ id, imgSrc, price, description, ...props }) => {
-  const { navigateTo, selectWatch } = useContext(RootContext)
+  const { selectWatch } = useContext(RootContext)
 
-  const handleCardClick = () => {
-    navigateTo('watch-details')
-    selectWatch(id)
-  }
+  const checkWatchDetails = () => selectWatch(id)
 
   return (
-    <Touchable effect='opacity' onMouseUp={handleCardClick}>
+    <Touchable effect='opacity' onClick={checkWatchDetails}>
       <Card
         borderRadius={4}
         display='flex'

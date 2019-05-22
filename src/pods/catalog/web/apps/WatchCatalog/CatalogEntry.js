@@ -32,7 +32,15 @@ const CatalogEntry = ({
     }
   }, [currentScreen, filter, prevProps, searchTerm, sortRule])
 
-  const selectWatch = watchId => setSelectedWatch(watchId)
+  const selectWatch = watchId => {
+    setSelectedWatch(watchId)
+    navigateTo('watch-details')
+  }
+
+  const clearSelectedWatch = () => {
+    selectWatch('')
+    navigateTo('watch-list')
+  }
 
   const navigateTo = screenName =>
     validScreens.includes(currentScreen)
@@ -43,7 +51,8 @@ const CatalogEntry = ({
     currentScreen !== 'watch-list' ? setCurrentScreen('watch-list') : null
 
   return (
-    <RootContext.Provider value={{ navigateTo, selectedWatch, selectWatch }}>
+    <RootContext.Provider
+      value={{ clearSelectedWatch, navigateTo, selectedWatch, selectWatch }}>
       <SearchBox initialValue={searchTerm} returnToList={returnToList} />
       {currentScreen.includes('watch-list') ? (
         <ListProvider>
