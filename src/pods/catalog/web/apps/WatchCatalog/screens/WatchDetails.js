@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
 import { Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
-import api from '../../../services/catalog.dataservice'
-import { isResponseOk } from '../../../services/helpers'
 
 import { RootContext } from '../CatalogEntry'
+import api from '../../../services/catalog.dataservice'
+import { scrollToTop } from '../services/helpers'
+import { isResponseOk } from '../../../services/helpers'
 import { DetailsContext } from '../services/DetailsProvider'
 
 import {
@@ -26,6 +27,10 @@ const WatchDetails = () => {
     storeDetails,
     storeDetailsError
   } = useContext(DetailsContext)
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
 
   useEffect(() => {
     const hasNoDetails = !Object.keys(details).length
