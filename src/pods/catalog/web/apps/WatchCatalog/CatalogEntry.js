@@ -13,32 +13,41 @@ import DetailsProvider from './services/DetailsProvider'
 
 export const RootContext = createContext()
 const CatalogEntry = ({
-  regionData: { filter, searchTerm, sortRule, source }
+  regionData: { filter, searchTerm, sortRule, source },
+  ...props
 }) => {
   const validScreens = ['watch-list', 'watch-details']
   const [selectedWatch, setSelectedWatch] = useState('')
   const [currentScreen, setCurrentScreen] = useState('watch-list')
+
   const prevProps = usePrevious({ filter, searchTerm, sortRule })
   useEffect(() => {
     if (prevProps) {
-      if (!_.isEqual(prevProps, { filter, searchTerm, sortRule })) {
+      if (
+        currentScreen !== 'watch-list' &&
+        !_.isEqual(prevProps, { filter, searchTerm, sortRule })
+      ) {
         setCurrentScreen('watch-list')
       }
     }
-  }, [filter, prevProps, searchTerm, sortRule])
+  }, [currentScreen, filter, prevProps, searchTerm, sortRule])
+
+  const selectWatch = watchId => setSelectedWatch(watchId)
+
   const navigateTo = screenName =>
     validScreens.includes(currentScreen)
       ? setCurrentScreen(screenName)
       : console.error(`Invalid screen name. Expected one of ${validScreens}`)
 
-  const selectWatch = watchId => setSelectedWatch(watchId)
+  const returnToList = () =>
+    currentScreen !== 'watch-list' ? setCurrentScreen('watch-list') : null
 
   return (
     <RootContext.Provider value={{ navigateTo, selectedWatch, selectWatch }}>
-      <SearchBox initialValue={searchTerm} />
+      <SearchBox initialValue={searchTerm} returnToList={returnToList} />
       {currentScreen.includes('watch-list') ? (
         <ListProvider>
-          <WatchList />{' '}
+          <WatchList />
         </ListProvider>
       ) : null}
 

@@ -1,12 +1,12 @@
 export const makeSlices = (items, sliceLength) => {
   let result = []
   let slicingStart = 0
-  while(slicingStart < items.length) {
+  while (slicingStart < items.length) {
     let slice = items.slice(slicingStart, slicingStart + sliceLength)
     result.push(slice)
     slicingStart += sliceLength
-	}
-  return result 
+  }
+  return result
 }
 
 export const composeSearchTerm = activeFilters => {
@@ -21,36 +21,38 @@ export const composeSearchTerm = activeFilters => {
 export const sortWatches = (sortType, watches) => {
   if (sortType === 'Price Low - High') {
     const items = [...watches]
-    items.sort(function (a,b) {
+    items.sort(function (a, b) {
       return Number(a.price) - Number(b.price)
     })
     return items
   } else if (sortType === 'Price High - Low') {
     const items = [...watches]
-    items.sort(function (a,b) {
+    items.sort(function (a, b) {
       return Number(b.price) - Number(a.price)
     })
     return items
   } else if (sortType === 'Newest') {
     const items = [...watches]
-    items.sort(function (a,b) {
+    items.sort(function (a, b) {
       let dateA = new Date(a.createdAt),
-          dateB = new Date(b.createdAt)
+        dateB = new Date(b.createdAt)
       return dateB - dateA
     })
     return items
   }
-    const items = [...watches]
-    items.sort(function (a,b) {
-      let dateA = new Date(a.createdAt),
-          dateB = new Date(b.createdAt)
-      return dateA - dateB
-    })
-    return items
+  const items = [...watches]
+  items.sort(function (a, b) {
+    let dateA = new Date(a.createdAt),
+      dateB = new Date(b.createdAt)
+    return dateA - dateB
+  })
+  return items
 }
 
 export const transformActiveFiltersToArray = activeFilters => {
-  const filterCategories = Object.keys(activeFilters).filter(category => category !== "query")
+  const filterCategories = Object.keys(activeFilters).filter(
+    category => category !== 'query'
+  )
   let array = []
   filterCategories.forEach(category => {
     if (category.length !== 0) {
@@ -64,19 +66,35 @@ export const categoryProvenience = (filter, activeFilters) => {
   let result = null
   const filterCategories = Object.keys(activeFilters)
   filterCategories.forEach(category => {
-    if(activeFilters[category].includes(filter)){
+    if (activeFilters[category].includes(filter)) {
       result = category
     }
   })
   return result
 }
 
-export const capitalizeFirstChar = string => string.charAt(0).toUpperCase() + string.slice(1)
-export const formatPrice = number => number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+export const capitalizeFirstChar = string =>
+  string.charAt(0).toUpperCase() + string.slice(1)
+export const formatPrice = number =>
+  number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 export const transformCamelToSentence = text => {
-  let result = text.replace( /([A-Z])/g, " $1" )
+  let result = text.replace(/([A-Z])/g, ' $1')
   let indexOfBackslash = result.indexOf('/')
-  result = indexOfBackslash === -1 ? result : result.slice(0, indexOfBackslash + 1) + result[indexOfBackslash + 1].toUpperCase() + result.slice(indexOfBackslash + 2)
-  let finalResult = capitalizeFirstChar (result)
+  result =
+    indexOfBackslash === -1
+      ? result
+      : result.slice(0, indexOfBackslash + 1) +
+        result[indexOfBackslash + 1].toUpperCase() +
+        result.slice(indexOfBackslash + 2)
+  let finalResult = capitalizeFirstChar(result)
   return finalResult
+}
+
+export const scrollToTop = () => {
+  if (window.scrollY !== 0) {
+    setTimeout(function () {
+      window.scrollTo(0, window.scrollY - 30)
+      scrollToTop()
+    }, 5)
+  }
 }

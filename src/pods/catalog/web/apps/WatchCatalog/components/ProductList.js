@@ -23,12 +23,14 @@ const ProductList = ({ watches, isFetching }) => (
             <Flex
               width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}
               justifyContent='center'>
-              <ProductCard
-                id={id}
-                imgSrc={imgSrc}
-                price={`$${price}`}
-                description={description}
-              />
+              <Space pb={4}>
+                <ProductCard
+                  id={id}
+                  imgSrc={imgSrc}
+                  price={`$${price}`}
+                  description={description}
+                />
+              </Space>
             </Flex>
           </Space>
         ))
