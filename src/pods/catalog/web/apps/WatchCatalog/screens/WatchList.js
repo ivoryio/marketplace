@@ -82,7 +82,7 @@ const WatchList = () => {
             </Flex>
             <Typography color='gunmetal' variant='h1'>
               Browsing products {searchTerm ? `for "${searchTerm}"` : null}{' '}
-              {itemsCount ? `- ${itemsCount} results` : '- 0 results'}
+              {itemsCount ? `- ${itemsCount} results` : null}
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
