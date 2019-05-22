@@ -31,7 +31,6 @@ const mapGroupsToSlides = arr =>
       <Space mt={3} px={{ xs: 2, lg: 3 }}>
         <Box width={{ xs: 1, md: 3 / 5, lg: 1 / 2 }}>
           <CardWatch
-            borderRadius={3}
             key={first.id}
             description={first.description}
             descriptionFontStyle='h4'
@@ -48,7 +47,6 @@ const mapGroupsToSlides = arr =>
       <Space mt={3} px={{ xs: 2, lg: 3 }}>
         <Box width={{ xs: 1 / 2, md: 2 / 5, lg: 1 / 4 }}>
           <CardWatch
-            borderRadius={3}
             key={second.id}
             description={second.description}
             imgHeight='250px'
@@ -64,7 +62,6 @@ const mapGroupsToSlides = arr =>
         <Space mt={3} px={{ xs: 2, lg: 3 }}>
           <Box width={{ xs: 1 / 2, lg: 1 / 4 }}>
             <CardWatch
-              borderRadius={3}
               key={third.id}
               description={third.description}
               imgHeight='250px'
@@ -128,7 +125,7 @@ const SpotlightWatches = () => {
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
-      <Space mt={4}>
+      <Space mt={4} px={8}>
         <Flex justifyContent='center' width={1}>
           <SpotlightCarousel
             addArrowClickHandler
@@ -187,8 +184,7 @@ const LoadingPlaceholder = () => (
         <Box
           bg='ice-white'
           borderRadius={3}
-          height={{ xs: '322px', md: '374px' }}
-          maxHeight='374px'
+          height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
           width={1}
         />
       </Box>
@@ -198,7 +194,7 @@ const LoadingPlaceholder = () => (
         <Box
           bg='ice-white'
           borderRadius={3}
-          height={{ xs: '322px', md: '374px' }}
+          height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
           width={1}
         />
       </Box>
@@ -209,7 +205,7 @@ const LoadingPlaceholder = () => (
           <Box
             bg='ice-white'
             borderRadius={3}
-            height={{ xs: '322px', md: '374px' }}
+            height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
             width={1}
           />
         </Box>
