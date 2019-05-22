@@ -1,6 +1,7 @@
 export { default as ProductCard } from './ProductCard'
 export { default as SquaredBox } from './SquaredBox'
 export { default as FilterCategory } from './FilterCategory'
+export { default as DescriptionPlaceholder } from './DescriptionPlaceholder'
 export { default as FilterOption } from './FilterOption'
 export { default as FilterSection } from './FilterSection'
 export { default as Pagination } from './Pagination'

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import { Flex, Typography, Space, themeGet, Touchable } from '@ivoryio/kogaio'
 
 import { DetailsContext } from '../services/DetailsProvider'
-import { TablesOnMobile } from '.'
+import { TablesOnMobile, DescriptionPlaceholder } from '.'
 import { capitalizeFirstChar } from '../services/helpers'
 
 const ProductSpecificationsMobile = ({ ...props }) => {
@@ -21,23 +21,24 @@ const ProductSpecificationsMobile = ({ ...props }) => {
       case: watchCase,
       strap,
       description
-    }
+    },
+    isFetching: isAwaitingData
   } = useContext(DetailsContext)
 
-  const infoSectionData = {
-    listingNumber,
-    referenceNumber,
-    brand,
-    model,
-    movement,
-    caseMaterial: watchCase.caseMaterial,
-    braceletMaterial: strap.braceletMaterial,
-    year,
-    gender
-  }
+  const infoSectionData = isAwaitingData
+    ? {}
+    : {
+        listingNumber,
+        referenceNumber,
+        brand,
+        model,
+        movement,
+        caseMaterial: watchCase.caseMaterial,
+        braceletMaterial: strap.braceletMaterial,
+        year,
+        gender
+      }
   const tableData = { info: infoSectionData, caliber, watchCase, strap }
-  const tableKeys = Object.keys(tableData)
-
   return (
     <Flex flexDirection='column' {...props}>
       <Flex>
@@ -60,15 +61,19 @@ const ProductSpecificationsMobile = ({ ...props }) => {
       </Flex>
       <Space mt={{ xs: 4, md: 5 }}>
         {activeSection.includes('details') ? (
-          <Typography
-            lineHeight={2}
-            color='gunmetal'
-            fontSize={2}
-            fontWeight={0}>
-            {description}
-          </Typography>
+          isAwaitingData ? (
+            DescriptionPlaceholder
+          ) : (
+            <Typography
+              lineHeight={2}
+              color='gunmetal'
+              fontSize={2}
+              fontWeight={0}>
+              {description}
+            </Typography>
+          )
         ) : (
-          tableKeys.map(keyAsName => {
+          Object.keys(tableData).map(keyAsName => {
             const name = keyAsName.includes('watchCase')
               ? 'Case'
               : capitalizeFirstChar(keyAsName)

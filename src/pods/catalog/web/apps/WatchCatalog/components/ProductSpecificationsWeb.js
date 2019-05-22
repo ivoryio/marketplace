@@ -1,9 +1,10 @@
 import React, { Fragment, useContext } from 'react'
 import { Flex, Typography, Space } from '@ivoryio/kogaio'
 
-import { DetailsContext } from '../services/DetailsProvider'
-import { InfoTable } from '.'
 import { capitalizeFirstChar } from '../services/helpers'
+import { DetailsContext } from '../services/DetailsProvider'
+
+import { InfoTable, DescriptionPlaceholder } from '.'
 
 const ProductSpecificationsWeb = props => {
   const {
@@ -19,29 +20,28 @@ const ProductSpecificationsWeb = props => {
       case: watchCase,
       strap,
       description
-    }
+    },
+    isFetching: isAwaitingData
   } = useContext(DetailsContext)
 
-  const infoSectionData = {
-    listingNumber,
-    referenceNumber,
-    brand,
-    model,
-    movement,
-    caseMaterial: watchCase.caseMaterial,
-    braceletMaterial: strap.braceletMaterial,
-    year,
-    gender
-  }
-
-  const tableData = {
-    info: infoSectionData,
-    caliber,
-    watchCase,
-    strap
-  }
-
-  const tableKeys = Object.keys(tableData)
+  const tableData = isAwaitingData
+    ? {}
+    : {
+        info: {
+          listingNumber,
+          referenceNumber,
+          brand,
+          model,
+          movement,
+          caseMaterial: watchCase.caseMaterial,
+          braceletMaterial: strap.braceletMaterial,
+          year,
+          gender
+        },
+        caliber,
+        watchCase,
+        strap
+      }
 
   return (
     <Flex flexDirection='column' {...props}>
@@ -49,9 +49,17 @@ const ProductSpecificationsWeb = props => {
         Details
       </Typography>
       <Space mt={2}>
-        <Typography lineHeight={2} color='gunmetal' fontSize={1} fontWeight={0}>
-          {description}
-        </Typography>
+        {isAwaitingData ? (
+          <DescriptionPlaceholder />
+        ) : (
+          <Typography
+            lineHeight={2}
+            color='gunmetal'
+            fontSize={1}
+            fontWeight={0}>
+            {description}
+          </Typography>
+        )}
       </Space>
       <Space mt={5}>
         <Typography
@@ -62,25 +70,28 @@ const ProductSpecificationsWeb = props => {
           Info & Stats
         </Typography>
       </Space>
-      {tableKeys.map(keyAsName => {
-        const name = keyAsName.includes('watchCase')
-          ? 'Case'
-          : capitalizeFirstChar(keyAsName)
-        return (
-          <Fragment key={`${keyAsName}-table`}>
-            <Space mt={4}>
-              <Typography color='pastel-blue' fontSize={0} fontWeight={2}>
-                {name}
-              </Typography>
-            </Space>
-            <Space mt={2}>
-              <InfoTable options={tableData[keyAsName]} />
-            </Space>
-          </Fragment>
-        )
-      })}
+      <Info isAwaitingData={isAwaitingData} tableData={tableData} />
     </Flex>
   )
 }
+
+const Info = ({ isAwaitingData, tableData }) =>
+  Object.keys(tableData).map(key => {
+    const sectionName = key.includes('watchCase')
+      ? 'Case'
+      : capitalizeFirstChar(key)
+    return (
+      <Fragment key={`${key}-table`}>
+        <Space mt={4}>
+          <Typography color='pastel-blue' fontSize={0} fontWeight={2}>
+            {sectionName}
+          </Typography>
+        </Space>
+        <Space mt={2}>
+          <InfoTable options={tableData[key]} isAwaitingData={isAwaitingData} />
+        </Space>
+      </Fragment>
+    )
+  })
 
 export default ProductSpecificationsWeb

@@ -17,29 +17,26 @@ import {
 import { formatPrice } from '../services/helpers'
 import { DetailsContext } from '../services/DetailsProvider'
 
-const AddToCart = ({ ...props }) => {
+const AddToCart = ({ isAwaitingData, ...props }) => {
   const [quantity, setQuantity] = useState(1)
 
   const {
     details: { brand, model, price }
   } = useContext(DetailsContext)
+  const anchors = [
+    { title: 'Details', targetId: 'details' },
+    { title: 'Info & Stats', targetId: 'info-stats' }
+  ]
+  const formattedPrice = `$${formatPrice(Number(price))}`
 
-  const _decrementQuantity = () => {
-    if (quantity !== 1) {
-      setQuantity(quantity - 1)
-    }
-  }
+  const _decrementQuantity = () =>
+    quantity !== 1 ? setQuantity(quantity - 1) : null
 
   const scrollTo = targetId => () => {
     const target = document.getElementById(targetId)
     target.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const anchors = [
-    { title: 'Details', targetId: 'details' },
-    { title: 'Info & Stats', targetId: 'info-stats' }
-  ]
-  const formattedPrice = `$${formatPrice(Number(price))}`
   return (
     <Box
       bottom={0}
@@ -57,15 +54,25 @@ const AddToCart = ({ ...props }) => {
           <Space mx='auto'>
             <Flex flexDirection='column' width={{ xs: 1, md: 7 / 10, lg: 1 }}>
               <Space px={{ xs: 6, md: 0, lg: 4 }}>
-                <Typography color='gunmetal' fontSize={4} truncate>
-                  {brand} {model}
-                </Typography>
+                {isAwaitingData ? (
+                  <Space mx={{ xs: 6, md: 0, lg: 4 }}>
+                    <Box width={4 / 5} height='28px' bg='ice-white' />
+                  </Space>
+                ) : (
+                  <Typography color='gunmetal' fontSize={4} truncate>
+                    {brand} {model}
+                  </Typography>
+                )}
               </Space>
               <Space mt={6} px={{ xs: 6, md: 0, lg: 6 }}>
                 <Flex alignItems='center' justifyContent='space-between'>
-                  <Typography color='gunmetal' fontSize={4} fontWeight={2}>
-                    {formattedPrice}
-                  </Typography>
+                  {isAwaitingData ? (
+                    <Box width={2 / 5} height='28px' bg='ice-white' />
+                  ) : (
+                    <Typography color='gunmetal' fontSize={4} fontWeight={2}>
+                      {formattedPrice}
+                    </Typography>
+                  )}
                   <Flex width={{ xs: 2 / 5, md: 1 / 4, lg: 2 / 5 }}>
                     <Touchable
                       width={3 / 10}
@@ -149,6 +156,7 @@ const WebScrollingItem = styled(Flex)`
 
 AddToCart.propTypes = {
   brand: PropTypes.string,
+  isAwaitingData: PropTypes.bool,
   model: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

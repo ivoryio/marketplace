@@ -1,14 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
-import {
-  ActivityIndicator,
-  Box,
-  Flex,
-  Hide,
-  themeGet,
-  Space
-} from '@ivoryio/kogaio'
+import { Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 
@@ -29,7 +22,7 @@ const WatchDetails = () => {
     clearDetails,
     details,
     imgList,
-    isFetching,
+    isFetching: isAwaitingData,
     storeDetails,
     storeDetailsError
   } = useContext(DetailsContext)
@@ -58,16 +51,6 @@ const WatchDetails = () => {
     clearDetails()
   }
 
-  if (isFetching) {
-    return (
-      <Space mx='auto' mt={{ xs: 3, md: 6, lg: 4 }}>
-        <ActivityIndicator
-          colors={{ background: 'white', primary: 'gunmetal' }}
-          size='32px'
-        />
-      </Space>
-    )
-  }
   return (
     <Flex flexDirection='column' alignItems='center'>
       <Flex width={{ xs: 1, lg: 2 / 3 }}>
@@ -78,10 +61,13 @@ const WatchDetails = () => {
       <Space mt={{ xs: 4, lg: 5 }}>
         <Flex flexWrap='wrap' width={{ xs: 1, lg: 2 / 3 }}>
           <Flex flexWrap='wrap' width={{ xs: 1, lg: 3 / 5 }}>
-            <Gallery imgList={imgList} />
+            <Gallery isAwaitingData={isAwaitingData} imgList={imgList} />
             <Hide lg xlg>
               <Space px={4} mt={6}>
-                <ProductSpecificationsMobile width={1} />
+                <ProductSpecificationsMobile
+                  isAwaitingData={isAwaitingData}
+                  width={1}
+                />
               </Space>
             </Hide>
             <Hide xs sm md>
@@ -92,7 +78,7 @@ const WatchDetails = () => {
             </Hide>
           </Flex>
           <Space mt={{ xs: 2, lg: 0 }}>
-            <AddToCart />
+            <AddToCart isAwaitingData={isAwaitingData} />
           </Space>
         </Flex>
       </Space>

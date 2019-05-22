@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Carousel from '@brainhubeu/react-carousel'
 import styled from 'styled-components'
 
-import {
-  ActivityIndicator,
-  Box,
-  Flex,
-  Space,
-  Typography
-} from '@ivoryio/kogaio'
+import { Box, Flex, Space, Typography } from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
 import { Arrow, CardWatch } from '../../components'
@@ -66,54 +60,51 @@ const NewestWatches = () => {
           alignItems='center'
           flexDirection='column'
           width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}>
-          <StyledCarousel
-            arrowLeft={<Arrow direction='left' />}
-            arrowRight={<Arrow direction='right' />}
-            addArrowClickHandler
-            infinite
-            value={activeElement}
-            onChange={setActiveElement}
-            slidesPerPage={4}
-            slidesPerScroll={1}
-            breakpoints={{
-              1279: {
-                slidesPerPage: 4,
-                slidesPerScroll: 1,
-                clickToChange: false,
-                animationSpeed: 2000
-              },
-              768: {
-                arrowLeft: null,
-                arrowRight: null,
-                slidesPerPage: 3,
-                slidesPerScroll: 1,
-                clickToChange: false,
-                animationSpeed: 2000
-              },
-              480: {
-                arrowLeft: null,
-                arrowRight: null,
-                slidesPerPage: 2,
-                slidesPerScroll: 1,
-                clickToChange: false,
-                animationSpeed: 2000
-              },
-              360: {
-                arrowLeft: null,
-                arrowRight: null,
-                slidesPerPage: 1.5,
-                slidesPerScroll: 1,
-                clickToChange: true,
-                animationSpeed: 2000
-              }
-            }}>
-            {isFetching ? (
-              <ActivityIndicator
-                colors={{ background: 'white', primary: 'gunmetal' }}
-                size='32px'
-              />
-            ) : (
-              items.map(({ id, brand, model, description, imgSrc }) => (
+          {isFetching ? (
+            <Typography variant='h5'>Fetching watches...</Typography>
+          ) : (
+            <StyledCarousel
+              arrowLeft={<Arrow direction='left' />}
+              arrowRight={<Arrow direction='right' />}
+              addArrowClickHandler
+              infinite
+              value={activeElement}
+              onChange={setActiveElement}
+              slidesPerPage={4}
+              slidesPerScroll={1}
+              breakpoints={{
+                1279: {
+                  slidesPerPage: 4,
+                  slidesPerScroll: 1,
+                  clickToChange: false,
+                  animationSpeed: 2000
+                },
+                768: {
+                  arrowLeft: null,
+                  arrowRight: null,
+                  slidesPerPage: 3,
+                  slidesPerScroll: 1,
+                  clickToChange: false,
+                  animationSpeed: 2000
+                },
+                480: {
+                  arrowLeft: null,
+                  arrowRight: null,
+                  slidesPerPage: 2,
+                  slidesPerScroll: 1,
+                  clickToChange: false,
+                  animationSpeed: 2000
+                },
+                360: {
+                  arrowLeft: null,
+                  arrowRight: null,
+                  slidesPerPage: 1.5,
+                  slidesPerScroll: 1,
+                  clickToChange: true,
+                  animationSpeed: 2000
+                }
+              }}>
+              {items.map(({ id, brand, model, description, imgSrc }) => (
                 <Space key={id} px={{ xs: 2, lg: 3 }}>
                   <Box>
                     <CardWatch
@@ -128,9 +119,9 @@ const NewestWatches = () => {
                     />
                   </Box>
                 </Space>
-              ))
-            )}
-          </StyledCarousel>
+              ))}
+            </StyledCarousel>
+          )}
         </Flex>
       </Space>
     </Flex>
