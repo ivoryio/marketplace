@@ -10,11 +10,11 @@ export const makeSlices = (items, sliceLength) => {
 }
 
 export const composeSearchTerm = activeFilters => {
-  const { query, brands, models, genders  } = activeFilters
+  const { query, brands, models, genders } = activeFilters
   const brandsTerm = brands.length !== 0 ? `&brand=${brands.join()}` : ''
   const modelsTerm = models.length !== 0 ? `&model=${models.join()}` : ''
   const gendersTerm = genders.length !== 0 ? `&gender=${genders.join()}` : ''
-  
+
   return `${query}${brandsTerm}${modelsTerm}${gendersTerm}`
 }
 

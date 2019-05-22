@@ -45,8 +45,8 @@ const RootEntry = () => {
         return <Profile />
       case 'cart':
         return <Cart />
-      case 'search-results':
-      case 'product-catalog':
+        case 'product-catalog':
+        case 'search-results':
         return (
           <ProductsOverview
             filter={payload.filter}

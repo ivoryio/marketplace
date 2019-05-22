@@ -97,7 +97,7 @@ const SpotlightWatches = () => {
   useEffect(() => {
     const fetchWatches = async () => {
       try {
-        const response = await api.getSpotlightWatches()
+        const response = await api.getFewSpotlightWatches()
         if (response.status === 200) {
           const groups = groupCards(response.data.items)
           const slides = mapGroupsToSlides(groups)

@@ -73,7 +73,7 @@ const ListProvider = ({
 
   const search = useCallback(
     async searchTerm => {
-      if (!filter) {
+      if (!filter && activeFilters.query === searchTerm) {
         try {
           _setIsFetching(true)
           setCurrentPage(1)
@@ -101,7 +101,12 @@ const ListProvider = ({
     }
     async function fetchSpotlightWatches () {
       try {
-        const response = await api.getSpotlightWatches()
+        _setIsFetching(true)
+        setCurrentPage(1)
+        setSortType(sortRule || '')
+        const spotlightFilters = { ...activeFilters, query: '' }
+        const term = composeSearchTerm(spotlightFilters)
+        const response = await api.getAllSpotlightWatches(term)
         if (isResponseOk(response.status)) {
           _storeWatches(response.data)
         } else {
@@ -109,9 +114,11 @@ const ListProvider = ({
         }
       } catch (err) {
         _storeError(err)
+      } finally {
+        _setIsFetching(false)
       }
     }
-  }, [_storeWatches, filter])
+  }, [_storeWatches, activeFilters, filter, sortRule])
 
   useEffect(() => {
     search(searchTerm)

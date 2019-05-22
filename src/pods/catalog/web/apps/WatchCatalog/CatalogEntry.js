@@ -38,7 +38,7 @@ const CatalogEntry = ({
       <SearchBox initialValue={searchTerm} />
       {currentScreen.includes('watch-list') ? (
         <ListProvider>
-          ? <WatchList />{' '}
+          <WatchList />{' '}
         </ListProvider>
       ) : null}
 
