@@ -45,8 +45,7 @@ const RootEntry = () => {
         return <Profile />
       case 'cart':
         return <Cart />
-        case 'product-catalog':
-        case 'search-results':
+      case 'search-results':
         return (
           <ProductsOverview
             filter={payload.filter}
@@ -65,7 +64,7 @@ const RootEntry = () => {
       {['landing', 'search-results', 'product-catalog'].includes(
         currentState.name
       ) ? (
-        <NavMenu statePayload={currentState.payload} />
+        <NavMenu currScreen={currentState.name} />
       ) : null}
       {CurrentScreen}
     </Flex>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Hub } from '@aws-amplify/core'
@@ -10,35 +10,36 @@ import Typography from '@ivoryio/kogaio/Typography'
 import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
 const NavMenu = ({
-  statePayload: { filter, searchTerm, sortRule },
+  currScreen,
   ...props
 }) => {
+  const [activeCategory, setActiveCategory] = useState('')
   const categories = [
-    {
-      name: 'New Arrivals',
-      sortRule: 'Newest',
-      isActive: sortRule === 'Newest'
-    },
-    { name: 'Mens Watches', searchTerm: 'men', isActive: searchTerm === 'men' },
-    {
-      name: 'Ladies Watches',
-      searchTerm: 'women',
-      isActive: searchTerm === 'women'
-    },
-    { name: 'Spotlight', filter: 'spotlight', isActive: filter === 'spotlight' }
+    { name: 'New Arrivals', sortRule: 'Newest' },
+    { name: 'Mens Watches', searchTerm: 'men' },
+    { name: 'Ladies Watches', searchTerm: 'women'},
+    { name: 'Spotlight', filter: 'spotlight' }
   ]
-  const _requestTransitionToCategory = category => () => {
+  const _requestTransitionToCategory = category => {
     const { filter = '', searchTerm = '', sortRule = '' } = category
     Hub.dispatch(
       'TransitionChannel',
       {
         event: 'transition',
-        data: { destination: 'product-catalog', filter, searchTerm, sortRule },
-        message: `Request to transition to ProductCatalog`
+        data: { destination: 'search-results', filter, searchTerm, sortRule },
+        message: `Request to transition to SearchResults`
       },
       'NavMenu'
     )
   }
+  const handleCategoryClick = category => () => {
+    setActiveCategory(category.name)
+    _requestTransitionToCategory(category)
+  }
+  useEffect(() => {
+    if (currScreen !== 'search-results')
+      setActiveCategory('')
+  }, [currScreen, setActiveCategory])
   return (
     <Space px={{ xs: 0, md: '7.5%' }}>
       <NavContainer
@@ -55,10 +56,10 @@ const NavMenu = ({
         />
         {categories.map(category => (
           <Category
-            isActive={category.isActive}
+            isActive={activeCategory === category.name}
             key={category.name}
             name={category.name}
-            onClick={_requestTransitionToCategory(category)}
+            onClick={handleCategoryClick(category)}
           />
         ))}
         <NavArrow
@@ -141,7 +142,7 @@ const CategoryContainer = styled(Flex)`
     )};
 `
 NavMenu.propTypes = {
-  statePayload: PropTypes.object
+  currScreen: PropTypes.string
 }
 
 Category.propTypes = {
