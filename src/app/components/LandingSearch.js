@@ -18,7 +18,7 @@ const LandingSearch = () => {
     )
 
   return (
-    <Space px={6} py={{ xs: 9, md: 12, lg: 13 }} mt={0}>
+    <Space px={6} py={{ xs: 12, md: 16, xlg: 32 }} mt={0}>
       <HeroSearch
         backgroundImage={icons.heroBanner}
         subtitle='You look like you need to update your watch. Type your desires below.'

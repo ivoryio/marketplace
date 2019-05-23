@@ -1,47 +1,73 @@
-import React, { lazy, Suspense, useContext } from "react"
-import styled from "styled-components"
+import React, { useContext, useEffect } from 'react'
+import { Hub } from '@aws-amplify/core'
+import styled from 'styled-components'
+import { makeSlices } from '../services/helpers'
 
 import {
   Box,
   Dropdown,
   Flex,
+  Option,
   Space,
   themeGet,
   Typography
-} from "@ivoryio/kogaio"
+} from '@ivoryio/kogaio'
 
-import { Pagination, FilterSection } from "../components"
+import {
+  BackButton,
+  FilterSection,
+  Pagination,
+  ProductList
+} from '../components'
 
-import { DataContext } from "../services/Provider"
-import { NavigationContext } from '../WatchCatalogEntry'
-
-import { sortOptions, itemsPerPageOptions } from "../services/constants"
-const LazyProductList = lazy(() => import("../components/ProductList"))
+import { scrollToTop } from '../services/helpers'
+import { ListContext } from '../services/ListProvider'
+import { sortOptions, itemsPerPageOptions } from '../services/constants'
 
 const WatchList = () => {
   const {
+    addFilter,
+    activeFilters,
     currentPage,
-    slicedWatches,
-    sortType,
-    setSortType,
+    filters,
+    isFetching,
+    itemsCount,
+    removeFilter,
     resultsPerPage,
     setResultsPerPage,
     searchTerm,
-    isFetching,
-    itemsCount
-  } = useContext(DataContext)
+    setCurrentPage,
+    setSortType,
+    sortType,
+    watches
+  } = useContext(ListContext)
 
-  const { currentScreen } = useContext(NavigationContext)
+  useEffect(() => {
+    scrollToTop()
+  }, [])
+
+  const slicedWatches = makeSlices(watches, Number(resultsPerPage))
   const maxPages = slicedWatches.length
 
-  if (!currentScreen.includes('watch-list')) {
-    return null
-  }
+  const _goBack = () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'escape',
+        message: `Request to go to landing`
+      },
+      'WatchList'
+    )
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
         <Box width={{ xs: 1, lg: 1 / 4 }}>
-          <FilterSection />
+          <FilterSection
+            addFilter={addFilter}
+            activeFilters={activeFilters}
+            removeFilter={removeFilter}
+            filters={filters}
+          />
         </Box>
       </Space>
       <Space mt={{ lg: 10 }}>
@@ -49,12 +75,13 @@ const WatchList = () => {
           <Space
             mt={{ xs: 4, md: 6, lg: 0 }}
             pl={{ xs: 4, lg: 6 }}
-            pr={{ xs: 4, md: 24, lg: 6 }}
-          >
+            pr={{ xs: 4, md: 24, lg: 6 }}>
+            <Flex width={1}>
+              <BackButton onClick={_goBack} />
+            </Flex>
             <Typography color='gunmetal' variant='h1'>
-              { isFetching ? 'Searching products...'
-                  : `Browsing products for ${searchTerm} - ${itemsCount} results`
-              }
+              Browsing products {searchTerm ? `for "${searchTerm}"` : null}{' '}
+              {itemsCount ? `- ${itemsCount} results` : null}
             </Typography>
           </Space>
           <Space mt={{ xs: 4, md: 6 }} px={{ xs: 2, lg: 6 }}>
@@ -62,61 +89,69 @@ const WatchList = () => {
               <Space mx={{ xs: 2, lg: 0 }}>
                 <Box width={{ xs: 1 / 2, sm: 1 / 3, md: 1 / 4 }}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='sort-by'
+                    id='sort-dropdown'
                     label='Sort by'
-                    onChangeOption={setSortType}
-                    options={sortOptions}
-                    selectedOption={sortType}
-                    width={1}
-                  />
+                    onChange={setSortType}
+                    value={sortType}
+                    width={1}>
+                    {sortOptions.map(option => (
+                      <Option key={option.id} value={option.name}>
+                        {option.name}
+                      </Option>
+                    ))}
+                  </Dropdown>
                 </Box>
               </Space>
               <Space ml={{ xs: 2, lg: 4 }} mr={{ xs: 2, lg: 0 }}>
                 <Box width={{ xs: 1 / 2, sm: 1 / 3, md: 1 / 4 }}>
                   <Dropdown
-                    colors='dropdown-white'
-                    id='results-per-page'
+                    id='results-per-page-dropdown'
                     label='Results per page'
-                    onChangeOption={setResultsPerPage}
-                    options={itemsPerPageOptions}
-                    selectedOption={resultsPerPage}
-                    width={1}
-                  />
+                    onChange={setResultsPerPage}
+                    value={resultsPerPage}
+                    width={1}>
+                    {itemsPerPageOptions.map(option => (
+                      <Option key={option.id} value={option.name}>
+                        {option.name}
+                      </Option>
+                    ))}
+                  </Dropdown>
                 </Box>
               </Space>
             </Flex>
           </Space>
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyProductList watches={slicedWatches[currentPage - 1]} isFetching={isFetching} />
-            </Suspense>
+            <ProductList
+              watches={slicedWatches[currentPage - 1]}
+              isAwaitingData={isFetching}
+            />
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
             <Flex
-              width={1}
               flexDirection='row'
               alignItems='center'
               flexWrap='wrap'
-            >
+              width={1}>
               <Space pl={{ md: 1, lg: 0 }}>
                 <Flex
-                  width={{ xs: 1, md: 1 / 3 }}
                   alignItems='center'
-                  justifyContent={{ xs: "center", md: "flex-start" }}
-                >
+                  justifyContent={{ xs: 'center', md: 'flex-start' }}
+                  width={{ xs: 1, md: 1 / 3 }}>
                   <Typography color='gunmetal' fontSize={1}>
                     Results per page
                   </Typography>
                   <Space ml={{ xs: 2, md: 3 }}>
                     <Dropdown
-                      colors='dropdown-white'
-                      id='results-per-page1'
-                      onChangeOption={setResultsPerPage}
-                      options={itemsPerPageOptions}
-                      selectedOption={resultsPerPage}
-                      width='73px'
-                    />
+                      id='results-per-page-dropdown-2'
+                      onChange={setResultsPerPage}
+                      value={resultsPerPage}
+                      width='73px'>
+                      {itemsPerPageOptions.map(option => (
+                        <Option key={option.id} value={option.name}>
+                          {option.name}
+                        </Option>
+                      ))}
+                    </Dropdown>
                   </Space>
                 </Flex>
               </Space>
@@ -124,12 +159,11 @@ const WatchList = () => {
                 width={{ xs: 1, md: 2 / 3 }}
                 alignItems='center'
                 justifyContent={{
-                  xs: "center",
-                  md: "space-between",
-                  lg: "flex-end"
+                  xs: 'center',
+                  md: 'space-between',
+                  lg: 'flex-end'
                 }}
-                flexWrap='wrap'
-              >
+                flexWrap='wrap'>
                 <Space mt={{ xs: 6, md: 0 }}>
                   <PaginationDescription color='pastel-blue' fontSize={1}>
                     Showing
@@ -137,9 +171,11 @@ const WatchList = () => {
                       <Typography
                         color='pastel-blue'
                         fontSize={1}
-                        fontWeight={2}
-                      >
-                        {(currentPage - 1) * resultsPerPage + 1}-{currentPage === maxPages ? itemsCount : currentPage * resultsPerPage}
+                        fontWeight={2}>
+                        {(currentPage - 1) * resultsPerPage + 1}-
+                        {currentPage === maxPages
+                          ? itemsCount
+                          : currentPage * resultsPerPage}
                       </Typography>
                     </Space>
                     of
@@ -147,8 +183,7 @@ const WatchList = () => {
                       <Typography
                         color='pastel-blue'
                         fontSize={1}
-                        fontWeight={2}
-                      >
+                        fontWeight={2}>
                         {itemsCount}
                       </Typography>
                     </Space>
@@ -157,11 +192,12 @@ const WatchList = () => {
                 </Space>
                 <Space mt={{ xs: 3, md: 0 }} ml={{ lg: 6 }}>
                   <PaginationWrapper
-                    width={{ xs: 1, md: "auto" }}
-                    justifyContent={{ xs: "center", md: "flex-end" }}
-                  >
+                    justifyContent={{ xs: 'center', md: 'flex-end' }}
+                    width={{ xs: 1, md: 'auto' }}>
                     <Pagination
+                      currentPage={currentPage}
                       maxPages={maxPages}
+                      setCurrentPage={setCurrentPage}
                     />
                   </PaginationWrapper>
                 </Space>
@@ -175,14 +211,14 @@ const WatchList = () => {
 }
 
 const PaginationDescription = styled(Typography)`
+  align-self: center;
   display: flex;
-  flexdirection: row;
-  alignself: center;
+  flex-direction: row;
 `
 
 const PaginationWrapper = styled(Flex)`
   & button:not(:last-child) {
-    margin-right: ${themeGet("space.2")}px;
+    margin-right: ${themeGet('space.2')}px;
   }
 `
 

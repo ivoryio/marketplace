@@ -8,13 +8,23 @@ const getNewestProducts = () =>
 const getSearchResults = searchTerm =>
   API.get('catalog', `/products?q=${searchTerm}`, { response: true })
 
-const getSpotlightWatches = () =>
+const getFewSpotlightWatches = () =>
   API.get('catalog', 'products?isspotlight=true&sortBy=createdat.desc&limit=9', {
+    response: true
+  })
+const getAllSpotlightWatches = searchTerm =>
+  API.get('catalog', `products?isspotlight=true${searchTerm}`, {
+    response: true
+  })
+const getWatchDetails = id =>
+  API.get('catalog', `products/${id}`, {
     response: true
   })
 
 export default {
   getNewestProducts,
   getSearchResults,
-  getSpotlightWatches
+  getFewSpotlightWatches,
+  getAllSpotlightWatches,
+  getWatchDetails
 }

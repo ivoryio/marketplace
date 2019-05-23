@@ -2,50 +2,49 @@ import React, { useState, useEffect } from 'react'
 import Carousel from '@brainhubeu/react-carousel'
 import styled from 'styled-components'
 
-import {
-  ActivityIndicator,
-  Box,
-  Flex,
-  Space,
-  Typography
-} from '@ivoryio/kogaio'
+import { Box, Flex, Space, Typography } from '@ivoryio/kogaio'
 
 import '@brainhubeu/react-carousel/lib/style.css'
 import { Arrow, CardWatch } from '../../components'
 import api from '../../services/catalog.dataservice'
+import { isResponseOk } from '../../services/helpers'
 
+const INITIAL_STATE = {
+  data: { items: Array(4).fill(''), itemCount: null },
+  isFetching: true,
+  error: null
+}
 const NewestWatches = () => {
   const [activeElement, setActiveElement] = useState(0)
-  const [watches, setNewestWatches] = useState({
-    data: [],
-    isFetching: true,
-    error: null
-  })
+  const [watches, setNewestWatches] = useState(INITIAL_STATE)
+
   useEffect(() => {
-    fetchWatches()
-  }, [])
-
-  const fetchWatches = async () => {
-    try {
-      const response = await api.getNewestProducts()
-      if (response.status === 200) {
-        setNewestWatches({ data: response.data, isFetching: false })
-      } else {
-        setNewestWatches({
-          ...watches,
-          isFetching: false,
-          error: '* Error caught while retrieving newest watches'
-        })
+    fetchNewestWatches()
+    return () => setNewestWatches({ ...INITIAL_STATE, isFetching: false })
+    async function fetchNewestWatches () {
+      try {
+        const response = await api.getNewestProducts()
+        if (isResponseOk(response.status)) {
+          setNewestWatches({ data: response.data, isFetching: false })
+        } else {
+          setNewestWatches(prevWatches => ({
+            ...prevWatches,
+            isFetching: false,
+            error: '* Error caught while retrieving newest watches'
+          }))
+        }
+      } catch (error) {
+        console.error('Error caught while fetching the newest watches:', error)
+        setNewestWatches(prevRes => ({ ...prevRes, isFetching: false, error }))
       }
-    } catch (error) {
-      console.error('Error caught while fetching the newest watches:', error)
-      setNewestWatches({ data: [], isFetching: false, error })
     }
-  }
-
-  const { data: { items }, isFetching } = watches
+  }, [])
+  const {
+    data: { items },
+    isFetching
+  } = watches
   return (
-    <Flex flexDirection='column' alignItems='center'>
+    <Flex flexDirection='column' alignItems='center' width={1}>
       <Space px={4}>
         <Typography color='gunmetal' textAlign='center' variant='h5'>
           Newest Watches Section
@@ -56,13 +55,9 @@ const NewestWatches = () => {
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
-      <Space px={2} mt={5}>
-        <Flex
-          alignItems='center'
-          flexDirection='column'
-          width={{ xs: 1, md: 6 / 7, lg: 3 / 4 }}
-        >
-          <StyledCarousel
+      <Space px={8} mt={4}>
+        <Flex alignItems='center' flexDirection='column' width={1}>
+          <NewestWatchesCarousel
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
             addArrowClickHandler
@@ -102,20 +97,15 @@ const NewestWatches = () => {
                 clickToChange: true,
                 animationSpeed: 2000
               }
-            }}
-          >
-            {isFetching ? (
-              <ActivityIndicator
-                colors={{ background: 'white', primary: 'gunmetal' }}
-                size='32px'
-              />
-            ) : (
-              items.map(({ id, brand, model, description, imgSrc }) => (
-                <Space key={id} px={{ xs: 2, lg: 3 }}>
-                  <Box>
+            }}>
+            {items.map(({ id, brand, model, description, imgSrc }) => (
+              <Space key={id || Math.random() * 10} px={{ xs: 2, lg: 3 }} py={1}>
+                <Box width={1}>
+                  {isFetching ? (
+                    <Box bg='ice-white' height='292px' width={1} />
+                  ) : (
                     <CardWatch
-                      animated={isFetching}
-                      buttonLabel='Button Label'
+                      buttonLabel='View Details'
                       title={`${brand} ${model}`}
                       type='newest'
                       description={description}
@@ -123,23 +113,19 @@ const NewestWatches = () => {
                       imgHeight='140px'
                       onClick={() => {}}
                     />
-                  </Box>
-                </Space>
-              ))
-            )}
-          </StyledCarousel>
+                  )}
+                </Box>
+              </Space>
+            ))}
+          </NewestWatchesCarousel>
         </Flex>
       </Space>
     </Flex>
   )
 }
 
-const StyledCarousel = styled(Carousel)`
+const NewestWatchesCarousel = styled(Carousel)`
   width: 100%;
-
-  .BrainhubCarouselItem div {
-    margin-bottom: 4px;
-  }
 `
 
 export default NewestWatches
