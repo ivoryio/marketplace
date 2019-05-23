@@ -7,14 +7,17 @@ import { RootContext } from '../CatalogEntry'
 
 const ProductList = ({ watches, isAwaitingData }) => {
   const { selectWatch } = useContext(RootContext)
-
   const checkWatchDetails = watchId => () => selectWatch(watchId)
+  const randomiseId = () =>
+    `_${Math.random()
+      .toString(36)
+      .substr(2, 9)}`
   return (
     <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
       <Flex width={1} flexWrap='wrap'>
         {watches.map(({ id, imgSrc, price, description }) => (
           <Space
-            key={`watch-${id}`}
+            key={`watch-${id || randomiseId()}`}
             pb={{ xs: 4, lg: 6 }}
             px={{ xs: 2, lg: 3 }}>
             <Flex

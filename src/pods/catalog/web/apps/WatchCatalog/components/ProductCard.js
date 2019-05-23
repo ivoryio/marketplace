@@ -22,7 +22,12 @@ const ProductCard = ({
       {isAwaitingData ? (
         <Box bg='ice-white' height='155px' width={1} />
       ) : (
-        <Image src={imgSrc} dimensions={['100%', 155]} objectFit='contain' />
+        <Image
+          alt={`watch-${id}`}
+          src={imgSrc}
+          dimensions={['100%', 155]}
+          objectFit='contain'
+        />
       )}
     </Flex>
     <Space mt={3} px={{ xs: 4, lg: 6 }}>
