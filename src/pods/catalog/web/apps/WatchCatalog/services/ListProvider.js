@@ -1,11 +1,10 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { map } from 'rxjs/operators'
-import { observe } from 'frint-react'
 import api from '../../../services/catalog.dataservice'
 import { isResponseOk } from '../../../services/helpers'
 import { composeSearchTerm, sortWatches } from './helpers'
 import { transformActiveFiltersToArray } from '../services/helpers'
+import { RootContext } from '../CatalogEntry'
 import {
   filters,
   initialActiveFilters,
@@ -15,9 +14,9 @@ import {
 
 export const ListContext = createContext()
 const ListProvider = ({
-  children,
-  regionData: { filter, searchTerm, sortRule, source }
+  children
 }) => {
+  const { filter, searchTerm, sortRule } = useContext(RootContext)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortType, setSortType] = useState(sortRule || '')
   const [activeFilters, setActiveFilters] = useState({
@@ -96,7 +95,7 @@ const ListProvider = ({
   )
 
   useEffect(() => {
-    if (filter && filter === 'spotlight') {
+    if (filter && filter === 'spotlight' && activeFilters.query === searchTerm) {
       fetchSpotlightWatches()
     }
     async function fetchSpotlightWatches () {
@@ -118,7 +117,7 @@ const ListProvider = ({
         _setIsFetching(false)
       }
     }
-  }, [_storeWatches, activeFilters, filter, sortRule])
+  }, [_storeWatches, activeFilters, filter, searchTerm, sortRule])
 
   useEffect(() => {
     search(searchTerm)
@@ -160,21 +159,8 @@ const ListProvider = ({
   )
 }
 
-const ObservedProvider = observe((app, props$) => {
-  const region = app.get('region')
-  const regionData$ = region
-    .getData$()
-    .pipe(map(regionData => ({ regionData })))
-  return regionData$
-})(ListProvider)
-
-ObservedProvider.propTypes = {
-  regionData: PropTypes.object
-}
-
 ListProvider.propTypes = {
-  children: PropTypes.node,
-  regionData: PropTypes.object
+  children: PropTypes.node
 }
 
-export default ObservedProvider
+export default ListProvider

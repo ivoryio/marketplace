@@ -52,7 +52,7 @@ const CatalogEntry = ({
 
   return (
     <RootContext.Provider
-      value={{ clearSelectedWatch, navigateTo, selectedWatch, selectWatch }}>
+      value={{ clearSelectedWatch, filter, navigateTo, searchTerm, selectedWatch, selectWatch, sortRule, source }}>
       <SearchBox initialValue={searchTerm} returnToList={returnToList} />
       {currentScreen.includes('watch-list') ? (
         <ListProvider>
