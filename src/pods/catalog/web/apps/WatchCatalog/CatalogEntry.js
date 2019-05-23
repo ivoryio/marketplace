@@ -8,17 +8,27 @@ import { usePrevious } from './services/hooks'
 
 import { SearchBox } from './components'
 import { WatchList, WatchDetails } from './screens'
+
 import ListProvider from './services/ListProvider'
 import DetailsProvider from './services/DetailsProvider'
 
 export const RootContext = createContext()
 const CatalogEntry = ({
-  regionData: { filter, searchTerm, sortRule, source },
+  regionData: { destination, filter, searchTerm, targetWatch, sortRule },
   ...props
 }) => {
   const validScreens = ['watch-list', 'watch-details']
-  const [selectedWatch, setSelectedWatch] = useState('')
-  const [currentScreen, setCurrentScreen] = useState('watch-list')
+  const [selectedWatch, setSelectedWatch] = useState(targetWatch || '')
+  const [currentScreen, setCurrentScreen] = useState(
+    targetWatch ? 'watch-details' : 'watch-list'
+  )
+
+  const prevTargetWatch = usePrevious(targetWatch)
+  useEffect(() => {
+    if (prevTargetWatch !== targetWatch) {
+      setSelectedWatch(targetWatch)
+    }
+  }, [prevTargetWatch, targetWatch])
 
   const prevProps = usePrevious({ filter, searchTerm, sortRule })
   useEffect(() => {
@@ -52,7 +62,16 @@ const CatalogEntry = ({
 
   return (
     <RootContext.Provider
-      value={{ clearSelectedWatch, filter, navigateTo, searchTerm, selectedWatch, selectWatch, sortRule, source }}>
+      value={{
+        clearSelectedWatch,
+        filter,
+        navigateTo,
+        searchTerm,
+        selectedWatch,
+        selectWatch,
+        isPeeking: !!targetWatch,
+        sortRule
+      }}>
       <SearchBox initialValue={searchTerm} returnToList={returnToList} />
       {currentScreen.includes('watch-list') ? (
         <ListProvider>

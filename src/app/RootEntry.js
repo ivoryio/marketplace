@@ -37,7 +37,10 @@ const RootEntry = () => {
   }
 
   const CurrentScreen = (() => {
-    const { name: stateName, payload } = currentState
+    const {
+      name: stateName,
+      payload: { destination, filter, searchTerm, sortRule, targetWatch }
+    } = currentState
     switch (stateName) {
       case 'landing':
         return <Landing />
@@ -45,13 +48,16 @@ const RootEntry = () => {
         return <Profile />
       case 'cart':
         return <Cart />
+      case 'watch-list':
+      case 'watch-details':
       case 'search-results':
         return (
           <ProductsOverview
-            filter={payload.filter}
-            searchTerm={payload.searchTerm}
-            sortRule={payload.sortRule}
-            source={stateName}
+            destination={destination}
+            filter={filter}
+            searchTerm={searchTerm}
+            sortRule={sortRule}
+            targetWatch={targetWatch}
           />
         )
       default:

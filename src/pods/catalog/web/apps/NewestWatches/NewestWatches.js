@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Carousel from '@brainhubeu/react-carousel'
+import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
+import Carousel from '@brainhubeu/react-carousel'
 
 import { Box, Flex, Space, Typography } from '@ivoryio/kogaio'
 
@@ -39,6 +40,20 @@ const NewestWatches = () => {
       }
     }
   }, [])
+
+  const _selectWatch = targetWatch => () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'transition',
+        data: {
+          destination: 'watch-details',
+          targetWatch
+        },
+        message: `Request to transition to WatchDetails`
+      },
+      'NewestWatches'
+    )
   const {
     data: { items },
     isFetching
@@ -99,19 +114,22 @@ const NewestWatches = () => {
               }
             }}>
             {items.map(({ id, brand, model, description, imgSrc }) => (
-              <Space key={id || Math.random() * 10} px={{ xs: 2, lg: 3 }} py={1}>
+              <Space
+                key={id || Math.random() * 10}
+                px={{ xs: 2, lg: 3 }}
+                py={1}>
                 <Box width={1}>
                   {isFetching ? (
                     <Box bg='ice-white' height='292px' width={1} />
                   ) : (
                     <CardWatch
-                      buttonLabel='View Details'
+                      buttonLabel='View'
                       title={`${brand} ${model}`}
                       type='newest'
                       description={description}
                       imgSrc={imgSrc}
                       imgHeight='140px'
-                      onClick={() => {}}
+                      onClick={_selectWatch(id)}
                     />
                   )}
                 </Box>
