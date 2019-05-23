@@ -46,14 +46,7 @@ const RootEntry = () => {
       case 'cart':
         return <Cart />
       case 'search-results':
-        return (
-          <ProductsOverview
-            filter={payload.filter}
-            searchTerm={payload.searchTerm}
-            sortRule={payload.sortRule}
-            source={stateName}
-          />
-        )
+        return <ProductsOverview searchTerm={payload.searchTerm} />
       default:
         return <NotFound />
     }
@@ -61,11 +54,7 @@ const RootEntry = () => {
   return (
     <Flex flexDirection='column'>
       <Header transitionToState={transitionToState} user={fsm.user} />
-      {['landing', 'search-results', 'product-catalog'].includes(
-        currentState.name
-      ) ? (
-        <NavMenu currScreen={currentState.name} />
-      ) : null}
+      {['landing', 'search-results'].includes(currentState.name) ? <NavMenu /> : null}
       {CurrentScreen}
     </Flex>
   )

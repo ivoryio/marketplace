@@ -41,21 +41,15 @@ export const initialActiveFilters = {
 
 export const initialSearchResults = {
   data: {
-    items: Array(25).fill(''),
-    itemsCount: null
+    items: [],
+    itemsCount: 0
   },
-  isFetching: true,
+  isFetching: false,
   error: null
 }
 
 export const filters = {
   brands: ['Rolex', 'Cartier', 'Omega'],
-  models: [
-    'Day-Date',
-    'Datejust',
-    'Constellation',
-    'Speedmaster',
-    'Planet Ocean'
-  ],
+  models: ['Day-Date', 'Datejust', 'Constellation', 'Speedmaster', 'Planet Ocean'],
   genders: ['Men', 'Women', 'Unisex']
 }

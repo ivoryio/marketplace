@@ -16,7 +16,7 @@ const SquaredBox = ({ children, onClick, size, ...props }) => (
       alignItems='center'
       {...props}
     >
-      {children}
+      { children }
     </Flex>
   </StyledTouchable>
 )

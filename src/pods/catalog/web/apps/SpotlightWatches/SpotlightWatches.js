@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Carousel from '@brainhubeu/react-carousel'
-import { Box, Flex, Hide, Space, Typography } from '@ivoryio/kogaio'
+import {
+  ActivityIndicator,
+  Box,
+  Flex,
+  Hide,
+  Space,
+  Typography
+} from '@ivoryio/kogaio'
 
 import { Arrow, CardWatch } from '../../components'
 import '@brainhubeu/react-carousel/lib/style.css'
 import api from '../../services/catalog.dataservice'
 
-const isResponseOk = statusCode => statusCode >= 200 && statusCode < 300
 const groupCards = arr => {
   const length = arr.length
   let index = 0
@@ -26,11 +32,12 @@ const mapGroupsToSlides = arr =>
       flexWrap='wrap'
       justifyContent='center'
       key={first.id}
-      pb={1}
-      width={1}>
+      width={1}
+    >
       <Space mt={3} px={{ xs: 2, lg: 3 }}>
         <Box width={{ xs: 1, md: 3 / 5, lg: 1 / 2 }}>
           <CardWatch
+            borderRadius={3}
             key={first.id}
             description={first.description}
             descriptionFontStyle='h4'
@@ -47,6 +54,7 @@ const mapGroupsToSlides = arr =>
       <Space mt={3} px={{ xs: 2, lg: 3 }}>
         <Box width={{ xs: 1 / 2, md: 2 / 5, lg: 1 / 4 }}>
           <CardWatch
+            borderRadius={3}
             key={second.id}
             description={second.description}
             imgHeight='250px'
@@ -62,6 +70,7 @@ const mapGroupsToSlides = arr =>
         <Space mt={3} px={{ xs: 2, lg: 3 }}>
           <Box width={{ xs: 1 / 2, lg: 1 / 4 }}>
             <CardWatch
+              borderRadius={3}
               key={third.id}
               description={third.description}
               imgHeight='250px'
@@ -86,38 +95,38 @@ const SpotlightWatches = () => {
   })
 
   useEffect(() => {
-    const fetchWatches = async () => {
-      try {
-        const response = await api.getFewSpotlightWatches()
-        if (isResponseOk(response.status)) {
-          const groups = groupCards(response.data.items)
-          const slides = mapGroupsToSlides(groups)
-          setSpotlightWatches({ data: slides, isFetching: false })
-        } else {
-          setSpotlightWatches(prevWatches => ({
-            ...prevWatches,
-            isFetching: false,
-            error: '* Failed to get spotlight watches'
-          }))
-        }
-      } catch (error) {
-        setSpotlightWatches(prevWatches => ({
-          ...prevWatches,
-          isFetching: false,
-          error: '* Failed to get spotlight watches'
-        }))
-        console.error('* Error caught while fetching spotlight watches.', error)
-      }
-    }
     fetchWatches()
   }, [])
 
+  const fetchWatches = async () => {
+    try {
+      const response = await api.getSpotlightWatches()
+      if (response.status === 200) {
+        const groups = groupCards(response.data.items)
+        const slides = mapGroupsToSlides(groups)
+        setSpotlightWatches({ data: slides, isFetching: false })
+      } else {
+        setSpotlightWatches({
+          ...watches,
+          isFetching: false,
+          error: '* Failed to get spotlight watches'
+        })
+      }
+    } catch (error) {
+      setSpotlightWatches({
+        ...watches,
+        isFetching: false,
+        error: '* Failed to get spotlight watches'
+      })
+      console.error('* Error caught while fetching spotlight watches.', error)
+    }
+  }
   const { data, isFetching } = watches
   return (
     <Flex width={1} flexDirection='column' alignItems='center'>
       <Space px={4}>
         <Typography color='gunmetal' textAlign='center' variant='h5'>
-          Spotlight Watches Section
+          Spotlight Section
         </Typography>
       </Space>
       <Space mt={1} px={4}>
@@ -125,13 +134,13 @@ const SpotlightWatches = () => {
           Subtitle with a call to action label goes here
         </Typography>
       </Space>
-      <Space mt={4} px={8}>
-        <Flex justifyContent='center' width={1}>
-          <SpotlightCarousel
+      <Space px={2} mt={5}>
+        <Flex justifyContent='center' width={{ xs: 1, md: 1, lg: 3 / 4 }}>
+          <StyledCarousel
             addArrowClickHandler
             arrowLeft={<Arrow direction='left' />}
             arrowRight={<Arrow direction='right' />}
-            infinite
+            infinite={true}
             value={activeElement}
             onChange={setActiveElement}
             slidesPerPage={1}
@@ -160,58 +169,29 @@ const SpotlightWatches = () => {
                 clickToChange: false,
                 animationSpeed: 2000
               }
-            }}>
+            }}
+          >
             {isFetching ? (
-              <LoadingPlaceholder />
+              <ActivityIndicator
+                colors={{ background: 'white', primary: 'gunmetal' }}
+                size='32px'
+              />
             ) : (
               data.map(cardWithWatches => cardWithWatches)
             )}
-          </SpotlightCarousel>
+          </StyledCarousel>
         </Flex>
       </Space>
     </Flex>
   )
 }
 
-const SpotlightCarousel = styled(Carousel)`
+const StyledCarousel = styled(Carousel)`
   width: 100%;
-`
 
-const LoadingPlaceholder = () => (
-  <Flex alignItems='center' flexWrap='wrap' width={1}>
-    <Space mt={3} px={{ xs: 2, lg: 3 }}>
-      <Box width={{ xs: 1, md: 3 / 5, lg: 1 / 2 }}>
-        <Box
-          bg='ice-white'
-          borderRadius={3}
-          height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
-          width={1}
-        />
-      </Box>
-    </Space>
-    <Space mt={3} px={{ xs: 2, lg: 3 }}>
-      <Box width={{ xs: 1 / 2, md: 2 / 5, lg: 1 / 4 }}>
-        <Box
-          bg='ice-white'
-          borderRadius={3}
-          height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
-          width={1}
-        />
-      </Box>
-    </Space>
-    <Hide md>
-      <Space mt={3} px={{ xs: 2, lg: 3 }}>
-        <Box width={{ xs: 1 / 2, lg: 1 / 4 }}>
-          <Box
-            bg='ice-white'
-            borderRadius={3}
-            height={{ xs: '326px', sm: '312px', md: '314px', lg: '366px' }}
-            width={1}
-          />
-        </Box>
-      </Space>
-    </Hide>
-  </Flex>
-)
+  .BrainhubCarouselItem div {
+    margin-bottom: 4px;
+  }
+`
 
 export default SpotlightWatches

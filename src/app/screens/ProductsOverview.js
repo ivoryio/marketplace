@@ -5,12 +5,9 @@ import { Flex, Space } from '@ivoryio/kogaio'
 
 import { Footer, FooterCTA } from '../components'
 
-const ProductsOverview = ({ filter, searchTerm, sortRule, source }) => (
+const ProductsOverview = ({ searchTerm }) => (
   <Flex flexDirection='column'>
-    <Region
-      name='watch-catalog'
-      data={{ filter, searchTerm, sortRule, source }}
-    />
+    <Region name='watch-catalog' data={{ searchTerm }} />
     <Space mt={10}>
       <FooterCTA />
     </Space>
@@ -19,10 +16,7 @@ const ProductsOverview = ({ filter, searchTerm, sortRule, source }) => (
 )
 
 ProductsOverview.propTypes = {
-  filter: PropTypes.string,
-  searchTerm: PropTypes.string,
-  sortRule: PropTypes.string,
-  source: PropTypes.oneOf(['search-results', 'product-catalog'])
+  searchTerm: PropTypes.string.isRequired
 }
 
 export default ProductsOverview

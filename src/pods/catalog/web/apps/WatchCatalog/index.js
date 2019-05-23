@@ -1,1 +1,1 @@
-export { default } from './CatalogEntry'
+export { default } from './WatchCatalogEntry'

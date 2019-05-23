@@ -1,66 +1,48 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Space, Touchable } from '@ivoryio/kogaio'
-import { ConditionalWrap } from '@ivoryio/kogaio/utils'
-import { ProductCard } from '.'
-import { RootContext } from '../CatalogEntry'
+import { ActivityIndicator, Flex, Space } from '@ivoryio/kogaio'
 
-const ProductList = ({ watches, isAwaitingData }) => {
-  const { selectWatch } = useContext(RootContext)
-  const checkWatchDetails = watchId => () => selectWatch(watchId)
-  const randomiseId = () =>
-    `_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`
-  return (
-    <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
-      <Flex width={1} flexWrap='wrap'>
-        {watches.map(({ id, imgSrc, price, description }) => (
-          <Space
-            key={`watch-${id || randomiseId()}`}
-            pb={{ xs: 4, lg: 6 }}
-            px={{ xs: 2, lg: 3 }}>
-            <Flex
-              justifyContent='center'
-              width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}>
-              <Space pb={4}>
-                <ConditionalWrap
-                  condition={!isAwaitingData}
-                  wrap={() => (
-                    <Touchable
-                      disabled={isAwaitingData}
-                      effect='opacity'
-                      onClick={checkWatchDetails(id)}
-                      width={1}>
-                      <ProductCard
-                        id={id}
-                        imgSrc={imgSrc}
-                        isAwaitingData={isAwaitingData}
-                        price={`$${price}`}
-                        description={description}
-                      />
-                    </Touchable>
-                  )}>
-                  <ProductCard
-                    id={id}
-                    imgSrc={imgSrc}
-                    isAwaitingData={isAwaitingData}
-                    price={`$${price}`}
-                    description={description}
-                  />
-                </ConditionalWrap>
-              </Space>
-            </Flex>
-          </Space>
-        ))}
-      </Flex>
-    </Space>
-  )
-}
+import { ProductCard } from '.'
+
+const ProductList = ({ watches, isFetching }) => (
+  <>
+    {isFetching ? (
+      <Space mx='auto' mt={{ xs: 3, md: 6, lg: 4 }}>
+        <ActivityIndicator
+          colors={{ background: 'white', primary: 'gunmetal' }}
+          size='32px'
+        />
+      </Space>
+    ) : (
+      <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
+        <Flex width={1} flexWrap='wrap'>
+          {watches.map(({ id, imgSrc, price, description }) => (
+            <Space
+              key={`watch-${id}`}
+              pb={{ xs: 4, lg: 6 }}
+              px={{ xs: 2, lg: 3 }}
+            >
+              <Flex
+                width={{ xs: 1, md: 1 / 2, lg: 1 / 3 }}
+                justifyContent='center'
+              >
+                <ProductCard
+                  imgSrc={imgSrc}
+                  price={`$${price}`}
+                  description={description}
+                />
+              </Flex>
+            </Space>
+          ))}
+        </Flex>
+      </Space>
+    )}
+  </>
+)
 
 ProductList.propTypes = {
   watches: PropTypes.array,
-  isAwaitingData: PropTypes.bool
+  isFetching: PropTypes.bool
 }
 
 ProductList.defaultProps = {

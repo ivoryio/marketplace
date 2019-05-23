@@ -1,78 +1,41 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
-import { Hub } from '@aws-amplify/core'
-import { themeGet } from 'styled-system'
+import PropTypes from 'prop-types'
 
+import { themeGet } from 'styled-system'
 import Touchable from '@ivoryio/kogaio/Touchable'
 import IconButton from '@ivoryio/kogaio/IconButton'
 import Typography from '@ivoryio/kogaio/Typography'
 import { Flex, Hide, Space } from '@ivoryio/kogaio/Responsive'
 
-const NavMenu = ({
-  currScreen,
-  ...props
-}) => {
-  const [activeCategory, setActiveCategory] = useState('')
-  const categories = [
-    { name: 'New Arrivals', sortRule: 'Newest' },
-    { name: 'Mens Watches', searchTerm: 'men' },
-    { name: 'Ladies Watches', searchTerm: 'women'},
-    { name: 'Spotlight', filter: 'spotlight' }
-  ]
-  const _requestTransitionToCategory = category => {
-    const { filter = '', searchTerm = '', sortRule = '' } = category
-    Hub.dispatch(
-      'TransitionChannel',
-      {
-        event: 'transition',
-        data: { destination: 'search-results', filter, searchTerm, sortRule },
-        message: `Request to transition to SearchResults`
-      },
-      'NavMenu'
-    )
-  }
-  const handleCategoryClick = category => () => {
-    setActiveCategory(category.name)
-    _requestTransitionToCategory(category)
-  }
-  useEffect(() => {
-    if (currScreen !== 'search-results')
-      setActiveCategory('')
-  }, [currScreen, setActiveCategory])
-  return (
-    <Space px={{ xs: 0, md: '7.5%' }}>
-      <NavContainer
-        id='landing-nav-menu'
-        justifyContent='space-between'
-        width={1}
-        {...props}>
-        <NavArrow
-          direction='right'
-          id='nav-arrow-left'
-          name='arrow_left'
-          htmlFor='landing-nav-menu'
-          textAlign='left'
-        />
-        {categories.map(category => (
-          <Category
-            isActive={activeCategory === category.name}
-            key={category.name}
-            name={category.name}
-            onClick={handleCategoryClick(category)}
-          />
-        ))}
-        <NavArrow
-          direction='left'
-          id='nav-arrow-right'
-          name='arrow_right'
-          htmlFor='landing-nav-menu'
-          textAlign='right'
-        />
-      </NavContainer>
-    </Space>
-  )
-}
+const categories = ['New Arrivals', 'Mens Watches', 'Ladies Watches', 'Sale']
+const NavMenu = props => (
+  <Space px={{ xs: 0, sm: '5%', md: '7.5%' }}>
+    <NavContainer
+      id='landing-nav-menu'
+      justifyContent='space-between'
+      width={1}
+      {...props}>
+      <NavArrow
+        direction='right'
+        id='nav-arrow-left'
+        name='arrow_left'
+        htmlFor='landing-nav-menu'
+        textAlign='left'
+      />
+      {categories.map(category => (
+        <Category key={category} name={category} onClick={() => {}} />
+      ))}
+      <NavArrow
+        direction='left'
+        id='nav-arrow-right'
+        name='arrow_right'
+        htmlFor='landing-nav-menu'
+        textAlign='right'
+      />
+    </NavContainer>
+  </Space>
+)
 
 const NavArrow = ({ direction, name, htmlFor, scrollValue, ...rest }) => {
   const _scroll = () => {
@@ -98,14 +61,15 @@ const NavArrow = ({ direction, name, htmlFor, scrollValue, ...rest }) => {
   )
 }
 
-const Category = ({ isActive, name, onClick }) => (
-  <CategoryContainer
-    isActive={isActive}
+const Category = ({ name, onClick }) => (
+  <Flex
+    alignItems='center'
+    justifyContent='center'
     minWidth={{ xs: '33.3333%', lg: '15%' }}>
     <Touchable effect='opacity' onClick={onClick} width={1}>
       <Typography variant='list'>{name}</Typography>
     </Touchable>
-  </CategoryContainer>
+  </Flex>
 )
 
 const NavContainer = styled(Flex)`
@@ -132,22 +96,8 @@ const ArrowContainer = styled(Flex)`
   z-index: 2;
 `
 
-const isActive = style => ({ isActive }) => (isActive ? style : null)
-const CategoryContainer = styled(Flex)`
-  align-items: center;
-  justify-content: center;
-  border-bottom: ${props =>
-    isActive(
-      `${themeGet('borders.1')(props)} ${themeGet('colors.gunmetal')(props)}`
-    )};
-`
-NavMenu.propTypes = {
-  currScreen: PropTypes.string
-}
-
 Category.propTypes = {
   name: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
   onClick: PropTypes.func.isRequired
 }
 
