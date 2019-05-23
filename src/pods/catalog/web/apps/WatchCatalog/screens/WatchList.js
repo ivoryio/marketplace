@@ -165,30 +165,33 @@ const WatchList = () => {
                 }}
                 flexWrap='wrap'>
                 <Space mt={{ xs: 6, md: 0 }}>
-                  <PaginationDescription color='pastel-blue' fontSize={1}>
-                    Showing
+                  {
+                    maxPages === 0 ? <Typography color='pastel-blue' fontSize={1}>No results found</Typography>
+                      : <PaginationDescription color='pastel-blue' fontSize={1}>
+                        Showing
                     <Space px={1}>
-                      <Typography
-                        color='pastel-blue'
-                        fontSize={1}
-                        fontWeight={2}>
-                        {(currentPage - 1) * resultsPerPage + 1}-
+                          <Typography
+                            color='pastel-blue'
+                            fontSize={1}
+                            fontWeight={2}>
+                            {(currentPage - 1) * resultsPerPage + 1}-
                         {currentPage === maxPages
-                          ? itemsCount
-                          : currentPage * resultsPerPage}
-                      </Typography>
-                    </Space>
-                    of
+                              ? itemsCount
+                              : currentPage * resultsPerPage}
+                          </Typography>
+                        </Space>
+                        of
                     <Space px={1}>
-                      <Typography
-                        color='pastel-blue'
-                        fontSize={1}
-                        fontWeight={2}>
-                        {itemsCount}
-                      </Typography>
-                    </Space>
-                    results
+                          <Typography
+                            color='pastel-blue'
+                            fontSize={1}
+                            fontWeight={2}>
+                            {itemsCount}
+                          </Typography>
+                        </Space>
+                        results
                   </PaginationDescription>
+                  }
                 </Space>
                 <Space mt={{ xs: 3, md: 0 }} ml={{ lg: 6 }}>
                   <PaginationWrapper
@@ -196,7 +199,7 @@ const WatchList = () => {
                     width={{ xs: 1, md: 'auto' }}>
                     <Pagination
                       currentPage={currentPage}
-                      maxPages={maxPages}
+                      maxPages={maxPages !== 0 ? maxPages : 1}
                       setCurrentPage={setCurrentPage}
                     />
                   </PaginationWrapper>
