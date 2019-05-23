@@ -9,17 +9,16 @@ const SpotlightCategories = () => (
     alignItems='center'
     bg='ghost-white'
     flexDirection='column'
-    pb={{xs: 17, md: 10}}
-    pt={16}
-  >
+    pb={{ xs: 17, md: 10 }}
+    pt={16}>
     <Space px={4}>
       <Typography color='gunmetal' textAlign='center' variant='h5'>
-        Spotlight Categories Section
+        Spotlight Categories
       </Typography>
     </Space>
     <Space mt={1} px={4}>
       <Typography color='manatee' textAlign='center' variant='h5'>
-        Subtitle With A Call To Action Goes Here
+        Trending and frequently visited categories
       </Typography>
     </Space>
     <Space mt={4} px={{ xs: 2, sm: 5, md: 12, lg: 38 }}>

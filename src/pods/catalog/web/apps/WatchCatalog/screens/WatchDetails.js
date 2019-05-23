@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
 import { Region } from 'frint-react'
 import { Box, Flex, Hide, themeGet, Space } from '@ivoryio/kogaio'
@@ -16,12 +17,14 @@ import {
   ProductSpecificationsMobile,
   ProductSpecificationsWeb
 } from '../components'
+import { usePrevious } from '../services/hooks'
 
 const WatchDetails = () => {
-  const { clearSelectedWatch, selectedWatch } = useContext(RootContext)
+  const { clearSelectedWatch, isPeeking, selectedWatch } = useContext(
+    RootContext
+  )
   const {
     clearDetails,
-    details,
     imgList,
     isFetching: isAwaitingData,
     storeDetails,
@@ -32,9 +35,13 @@ const WatchDetails = () => {
     scrollToTop()
   }, [])
 
+  const prevSelected = usePrevious(selectedWatch)
   useEffect(() => {
-    const hasNoDetails = !Object.keys(details).length
-    if (selectedWatch && hasNoDetails) fetchDetails(selectedWatch)
+    if (!prevSelected) fetchDetails(selectedWatch)
+    else if (prevSelected !== selectedWatch) {
+      fetchDetails(selectedWatch)
+      scrollToTop()
+    }
 
     async function fetchDetails (watchId) {
       try {
@@ -48,9 +55,19 @@ const WatchDetails = () => {
         storeDetailsError(err)
       }
     }
-  }, [details, selectedWatch, storeDetails, storeDetailsError])
+  }, [prevSelected, selectedWatch, storeDetails, storeDetailsError])
 
   const goBack = () => {
+    if (isPeeking) {
+      return Hub.dispatch(
+        'TransitionChannel',
+        {
+          event: 'escape',
+          message: `Request to go to landing`
+        },
+        'WatchList'
+      )
+    }
     clearSelectedWatch()
     clearDetails()
   }

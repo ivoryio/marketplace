@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Hub } from '@aws-amplify/core'
 import styled from 'styled-components'
 import Carousel from '@brainhubeu/react-carousel'
 import { Box, Flex, Hide, Space, Typography } from '@ivoryio/kogaio'
@@ -19,8 +20,21 @@ const groupCards = arr => {
   return newArr
 }
 
-const mapGroupsToSlides = arr =>
-  arr.map(([first, second, third], index) => (
+const mapGroupsToSlides = arr => {
+  const _selectWatch = targetWatch => () =>
+    Hub.dispatch(
+      'TransitionChannel',
+      {
+        event: 'transition',
+        data: {
+          destination: 'watch-details',
+          targetWatch
+        },
+        message: `Request to transition to WatchDetails`
+      },
+      'SpotlightWatches'
+    )
+  return arr.map(([first, second, third], index) => (
     <Flex
       alignItems='center'
       flexWrap='wrap'
@@ -37,9 +51,9 @@ const mapGroupsToSlides = arr =>
             descriptionPadding={{ xs: 8, md: 10 }}
             imgHeight='250px'
             imgSrc={first.imgSrc}
-            onClick={() => {}}
+            onClick={_selectWatch(first.id)}
             buttonAlignment='left'
-            buttonLabel='Button Label'
+            buttonLabel='View'
             width={1}
           />
         </Box>
@@ -51,8 +65,8 @@ const mapGroupsToSlides = arr =>
             description={second.description}
             imgHeight='250px'
             imgSrc={second.imgSrc}
-            onClick={() => {}}
-            buttonLabel='Button Label'
+            onClick={_selectWatch(second.id)}
+            buttonLabel='View'
             buttonAlignment='center'
             width={1}
           />
@@ -66,8 +80,8 @@ const mapGroupsToSlides = arr =>
               description={third.description}
               imgHeight='250px'
               imgSrc={third.imgSrc}
-              onClick={() => {}}
-              buttonLabel='Button Label'
+              onClick={_selectWatch(third.id)}
+              buttonLabel='View'
               buttonAlignment='center'
               width={1}
             />
@@ -76,7 +90,7 @@ const mapGroupsToSlides = arr =>
       </Hide>
     </Flex>
   ))
-
+}
 const SpotlightWatches = () => {
   const [activeElement, setActiveElement] = useState(0)
   const [watches, setSpotlightWatches] = useState({
@@ -117,12 +131,12 @@ const SpotlightWatches = () => {
     <Flex width={1} flexDirection='column' alignItems='center'>
       <Space px={4}>
         <Typography color='gunmetal' textAlign='center' variant='h5'>
-          Spotlight Watches Section
+          Spotlight Watches
         </Typography>
       </Space>
       <Space mt={1} px={4}>
         <Typography color='manatee' textAlign='center' variant='h5'>
-          Subtitle with a call to action label goes here
+          Hurry up while they are still available!
         </Typography>
       </Space>
       <Space mt={4} px={8}>
