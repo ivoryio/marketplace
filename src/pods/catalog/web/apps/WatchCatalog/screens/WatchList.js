@@ -58,7 +58,6 @@ const WatchList = () => {
       },
       'WatchList'
     )
-
   return (
     <Flex flexWrap='wrap'>
       <Space mt={{ xs: 4, lg: 10 }} pl={{ xs: 4, lg: 6 }} pr={{ xs: 4, lg: 0 }}>
@@ -124,20 +123,20 @@ const WatchList = () => {
           <Space mt={{ xs: 3, md: 6, lg: 4 }} px={{ xs: 2, lg: 3 }}>
             <ProductList
               watches={slicedWatches[currentPage - 1]}
-              isFetching={isFetching}
+              isAwaitingData={isFetching}
             />
           </Space>
           <Space px={{ md: 4, lg: 6 }} mt={{ xs: 6, md: 4 }}>
             <Flex
-              width={1}
               flexDirection='row'
               alignItems='center'
-              flexWrap='wrap'>
+              flexWrap='wrap'
+              width={1}>
               <Space pl={{ md: 1, lg: 0 }}>
                 <Flex
-                  width={{ xs: 1, md: 1 / 3 }}
                   alignItems='center'
-                  justifyContent={{ xs: 'center', md: 'flex-start' }}>
+                  justifyContent={{ xs: 'center', md: 'flex-start' }}
+                  width={{ xs: 1, md: 1 / 3 }}>
                   <Typography color='gunmetal' fontSize={1}>
                     Results per page
                   </Typography>
@@ -193,8 +192,8 @@ const WatchList = () => {
                 </Space>
                 <Space mt={{ xs: 3, md: 0 }} ml={{ lg: 6 }}>
                   <PaginationWrapper
-                    width={{ xs: 1, md: 'auto' }}
-                    justifyContent={{ xs: 'center', md: 'flex-end' }}>
+                    justifyContent={{ xs: 'center', md: 'flex-end' }}
+                    width={{ xs: 1, md: 'auto' }}>
                     <Pagination
                       currentPage={currentPage}
                       maxPages={maxPages}
@@ -212,9 +211,9 @@ const WatchList = () => {
 }
 
 const PaginationDescription = styled(Typography)`
+  align-self: center;
   display: flex;
-  flexdirection: row;
-  alignself: center;
+  flex-direction: row;
 `
 
 const PaginationWrapper = styled(Flex)`
