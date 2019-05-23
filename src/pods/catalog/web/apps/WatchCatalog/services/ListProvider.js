@@ -27,8 +27,7 @@ const ListProvider = ({
     itemsPerPageOptions[0].name
   )
   const [results, setResults] = useState({
-    ...initialSearchResults,
-    isFetching: true
+    ...initialSearchResults
   })
 
   useEffect(() => {
@@ -86,8 +85,6 @@ const ListProvider = ({
           }
         } catch (err) {
           _storeError(err)
-        } finally {
-          _setIsFetching(false)
         }
       }
     },
@@ -113,8 +110,6 @@ const ListProvider = ({
         }
       } catch (err) {
         _storeError(err)
-      } finally {
-        _setIsFetching(false)
       }
     }
   }, [_storeWatches, activeFilters, filter, searchTerm, sortRule])
