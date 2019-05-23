@@ -41,8 +41,8 @@ export const initialActiveFilters = {
 
 export const initialSearchResults = {
   data: {
-    items: [],
-    itemsCount: null
+    items: Array(25).fill(''),
+    itemsCount: 25
   },
   isFetching: false,
   error: null
